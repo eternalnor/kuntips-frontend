@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { TipWidget } from '../components/TipWidget.jsx';
+
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -44,7 +46,7 @@ export default function CreatorPage() {
 
   if (loading) {
     return (
-      <main style={{ padding: '2rem' }}>
+      <main className="card status-block">
         <p>Loading profile…</p>
       </main>
     );
@@ -52,62 +54,54 @@ export default function CreatorPage() {
 
   if (notFound) {
     return (
-      <main style={{ padding: '2rem' }}>
+      <main className="card status-block">
         <h1>Creator not found</h1>
-        <p>No active creator with username <strong>{username}</strong> was found.</p>
+        <p>
+          No active creator with username <strong>{username}</strong> was found.
+        </p>
       </main>
     );
   }
 
   if (error) {
     return (
-      <main style={{ padding: '2rem' }}>
+      <main className="card status-block">
         <h1>Something went wrong</h1>
-        <p>{error}</p>
+        <p className="text-muted">{error}</p>
       </main>
     );
   }
 
   // If we get here, we have a creator
   return (
-    <main style={{ padding: '2rem', maxWidth: '600px', margin: '0 auto' }}>
-      <section
-        style={{
-          display: 'flex',
-          gap: '1.5rem',
-          alignItems: 'center',
-          marginBottom: '2rem',
-        }}
-      >
-        <div
-          style={{
-            width: '96px',
-            height: '96px',
-            borderRadius: '50%',
-            backgroundColor: '#eee',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '2rem',
-            fontWeight: 'bold',
-          }}
-        >
-          {/* Placeholder avatar: first letter */}
-          {creator.display_name?.charAt(0)?.toUpperCase() || '?'}
-        </div>
+    <main className="card">
+      <div className="creator-page">
+        <header className="creator-header">
+          <div className="creator-avatar">
+            {creator.display_name?.charAt(0)?.toUpperCase() || '?'}
+          </div>
 
-        <div>
-          <h1 style={{ margin: 0 }}>{creator.display_name}</h1>
-          <p style={{ margin: '0.25rem 0', color: '#666' }}>
-            @{creator.username}
+          <div className="creator-meta">
+            <h1>{creator.display_name}</h1>
+
+            <p className="creator-meta-username">@{creator.username}</p>
+          </div>
+        </header>
+
+        <section className="creator-section">
+          <h2 className="creator-section-title">About</h2>
+          <p className="text-muted">
+            {creator.bio || 'This creator has not written a bio yet.'}
           </p>
-        </div>
-      </section>
-
-      <section>
-        <h2>About</h2>
-        <p>{creator.bio || 'This creator has not written a bio yet.'}</p>
-      </section>
+        </section>
+        {/* New: Tip widget section */}
+        <section className="creator-section">
+          <TipWidget
+            creatorUsername={creator.username}
+            creatorDisplayName={creator.display_name}
+          />
+        </section>
+      </div>
     </main>
   );
 }

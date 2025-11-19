@@ -1,9 +1,14 @@
 export default function HomePage() {
   return (
-    <main style={{ padding: '2rem' }}>
+    <main className="card">
       <h1>KunTips</h1>
-      <p>This will be the main landing page.</p>
-      <p>Try visiting <code>/u/mia</code> to see a creator profile.</p>
+      <p className="text-muted">
+        Støtt favorittene dine – trygt, enkelt og diskret.
+      </p>
+      <p>
+        Denne siden blir landingssiden vår senere. Akkurat nå kan du teste en
+        eksempelprofil ved å gå til <code>/u/TestCreator</code>.
+      </p>
     </main>
   );
 }
