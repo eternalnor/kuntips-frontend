@@ -16,8 +16,9 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
 
   const safeTip = useMemo(() => {
     if (Number.isNaN(tipAmount)) return MIN_TIP;
-    return Math.min(Math.max(tipAmount, MIN_TIP), MAX_TIP);
+    return tipAmount;
   }, [tipAmount]);
+
 
   const breakdown = useMemo(() => {
     const T = safeTip;
@@ -133,7 +134,6 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
       <div className="tip-card__presets">
         {presetAmounts.map((amount) => {
           const isActive = safeTip === amount;
-          const isRecommended = amount === 0;
 
           return (
             <button
@@ -160,7 +160,7 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
           <label htmlFor="custom-amount" className="tip-card__label-row">
             <span>Custom amount</span>
             <span>
-              Min ${MIN_TIP} · Max ${MAX_TIP}
+              Min ${MIN_TIP} · Max ${MAX_TIP} - USD Only
             </span>
           </label>
 
