@@ -134,6 +134,7 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
       <div className="tip-card__presets">
         {presetAmounts.map((amount) => {
           const isActive = safeTip === amount;
+          const isRecommended = amount === 0;
 
           return (
             <button
