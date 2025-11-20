@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react';
 const MIN_TIP = 10;
 const MAX_TIP = 200;
 const PROCESSOR_FEE_RATE = 0.12; // 12% (processor)
-const CREATOR_SHARE = 0.925;       // 95% to creator
+const CREATOR_SHARE = 0.95;       // 95% to creator
 
 const presetAmounts = [10, 25, 50, 100, 200];
 
@@ -25,14 +25,17 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
     const totalCharged = T / (1 - PROCESSOR_FEE_RATE);
     const processorFee = totalCharged - T;
     const creatorReceives = T * CREATOR_SHARE;
+    const creatorPercentage = 100 * CREATOR_SHARE;
 
     const format = (value) => value.toFixed(2);
+    const format2 = (value) => value.toFixed(0);
 
     return {
       tip: format(T),
       processorFee: format(processorFee),
       totalCharged: format(totalCharged),
       creatorReceives: format(creatorReceives),
+      creatorPercentage: format2(creatorPercentage),
     };
   }, [safeTip]);
 
@@ -199,15 +202,15 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
           <div className="tip-card__divider" />
 
           <div className="tip-card__row">
-            <span className="tip-card__label-muted">Creator receives</span>
+            <span className="tip-card__label-muted">Creator receives {breakdown.creatorPercentage}%</span>
             <span className="tip-card__value tip-card__value--success">
               ${breakdown.creatorReceives}
             </span>
           </div>
 
           <p className="tip-card__footnote">
-            Fans cover the processing fee. KunTips takes a flat 5% from the
-            tip before payout. Creators receive the green amount above.
+            Fans cover the processing fee. KunTips takes 5%-10% from the
+            tip before payout depending on the Creator's tier. Creators receive the green amount above.
           </p>
         </div>
 

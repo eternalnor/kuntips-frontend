@@ -396,6 +396,480 @@ p {
   color: #9ca3af;
 }
 
+/* ========================
+   Footer
+   ======================== */
+
+.site-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 2rem;
+  padding: 1rem 1.25rem 1.5rem;
+  background: #0a0f1f;
+}
+
+.site-footer-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+.site-footer-brand {
+  margin: 0;
+}
+
+.site-footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.site-footer-nav a {
+  color: #9ca3af;
+  text-decoration: none;
+  font-size: 0.78rem;
+}
+
+.site-footer-nav a:hover {
+  color: #f9fafb;
+  text-decoration: underline;
+}
+
+/* ========================
+   Legal pages
+   ======================== */
+
+.page-legal {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 2rem;
+}
+
+.page-title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.page-body {
+  font-size: 0.9rem;
+  color: #e5e7eb;
+}
+
+.page-body h2 {
+  margin-top: 1.2rem;
+  margin-bottom: 0.35rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.page-body p {
+  margin-bottom: 0.5rem;
+}
+
+.page-body ul {
+  padding-left: 1.2rem;
+  margin-bottom: 0.7rem;
+}
+
+/* ========================
+   Age gate
+   ======================== */
+
+.agegate-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top, #111827 0, #020617 55%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.agegate-modal {
+  max-width: 420px;
+  width: 100%;
+  margin: 1.5rem;
+  padding: 1.5rem 1.75rem;
+  border-radius: 1.25rem;
+  background: #020617;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
+  text-align: left;
+}
+
+.agegate-modal h1 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.agegate-modal p {
+  font-size: 0.9rem;
+  color: #e5e7eb;
+  margin-bottom: 1rem;
+}
+
+.agegate-button {
+  width: 100%;
+  border-radius: 999px;
+  padding: 0.6rem 1rem;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #6366f1;
+  color: #f9fafb;
+}
+
+/* ========================
+   Home page layout
+   ======================== */
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* HERO */
+.home-hero {
+  padding: 1.5rem 1.5rem 1.75rem;
+  background: radial-gradient(circle at top, #111827 0, #020617 52%);
+  margin-top: 0;
+  border-radius: 0 0 1.5rem 1.5rem;
+  margin-bottom: 1rem; /* NEW */
+}
+
+
+.home-hero-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr);
+  gap: 1.75rem;
+}
+
+.home-hero-text h1 {
+  font-size: 1.7rem;
+  line-height: 1.2;
+  margin: 0.4rem 0 0.6rem;
+}
+
+.home-hero-sub {
+  font-size: 0.95rem;
+  color: #e5e7eb;
+  margin-bottom: 0.9rem;
+  max-width: 36rem; /* NEW */
+}
+
+.home-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.home-hero-note {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  max-width: 32rem;
+}
+
+.home-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #e5e7eb;
+}
+
+/* HERO visual card */
+.home-hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-hero-card {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 1.25rem;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.home-hero-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.home-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #6366f1, #38bdf8);
+}
+
+.home-hero-card-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.home-hero-card-hint {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.home-hero-card-body {
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.home-hero-card-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.home-hero-card-muted span {
+  color: #9ca3af;
+}
+
+.home-hero-card-footer {
+  margin-top: 0.25rem;
+}
+
+.home-hero-card-button {
+  width: 100%;
+  border-radius: 999px;
+  padding: 0.45rem 0.75rem;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: default;
+  background: #6366f1;
+  color: #f9fafb;
+  opacity: 0.9;
+}
+
+/* Sections & grid */
+.home-section {
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.home-section h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.home-grid-two {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.home-tile {
+  border-radius: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: radial-gradient(circle at top left, rgba(99, 102, 241, 0.06), rgba(15, 23, 42, 0.8));
+  padding: 0.9rem 0.95rem;
+  font-size: 0.9rem;
+}
+
+.home-tile h3 {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.home-tile p {
+  font-size: 0.85rem;
+  color: #e5e7eb;
+}
+
+.home-tile-cta {
+  margin-top: 0.6rem;
+}
+
+/* Buttons (use your palette) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: #6366f1;
+  color: #f9fafb;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: rgba(148, 163, 184, 0.5);
+  color: #e5e7eb;
+}
+
+.btn-ghost:hover {
+  border-color: rgba(148, 163, 184, 0.9);
+}
+
+/* Last section spacing */
+.home-section-last {
+  text-align: left;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .home-hero-main {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.2fr);
+    align-items: center;
+  }
+
+  .home-section {
+    padding: 1.5rem 1.75rem 1.75rem;
+  }
+
+  .home-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .home-grid-two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ========================
+   Global header / navbar
+   ======================== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  backdrop-filter: blur(8px);
+  background: radial-gradient(
+    circle at top left,
+    rgba(15, 23, 42, 0.9),
+    rgba(2, 6, 23, 0.98)
+  );
+  border-bottom: 1px solid rgba(15, 23, 42, 0.95);
+  box-shadow: 0 10px 25px rgba(2, 6, 23, 0.9);
+}
+
+
+
+.site-header-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0.5rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  text-decoration: none;
+}
+
+.site-logo-mark {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #38bdf8, #6366f1);
+  box-shadow: 0 0 18px rgba(99, 102, 241, 0.6);
+}
+
+.site-logo-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #f9fafb;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.site-nav-link {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  text-decoration: none;
+  padding: 0.2rem 0.35rem;
+  border-radius: 0.75rem;
+  border: 1px solid transparent;
+}
+
+.site-nav-link:hover {
+  color: #e5e7eb;
+}
+
+.site-nav-link-active {
+  color: #f9fafb;
+  border-color: rgba(99, 102, 241, 0.7);
+  background: rgba(15, 23, 42, 0.7);
+}
+
+
+/* Small screens: stack logo & nav a bit more tightly */
+@media (max-width: 480px) {
+  .site-header-inner {
+    padding-inline: 1rem;
+  }
+
+  .site-nav {
+    gap: 0.5rem;
+  }
+
+  .site-nav-link {
+    font-size: 0.78rem;
+    padding-inline: 0.45rem;
+  }
+}
+
+/* Make header a bit taller on larger screens */
+@media (min-width: 1024px) {
+  .site-header-inner {
+    padding-block: 0.9rem; /* was ~0.5rem */
+  }
+}
+
+@media (min-width: 1280px) {
+  .site-header-inner {
+    padding-block: 1rem;
+  }
+}
+
 /* Simple “status” messages */
 .status-block {
   text-align: center;
