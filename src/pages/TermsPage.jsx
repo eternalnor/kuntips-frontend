@@ -7,8 +7,8 @@ export default function TermsPage() {
 
         <p>
           Welcome to KunTips. These Terms of Service (“Terms”) govern your use
-          of the KunTips website and platform (the “Service”). By accessing or
-          using KunTips, you agree to these Terms.
+          of the KunTips website and platform (“Service”). By accessing or using
+          KunTips, you agree to these Terms.
         </p>
 
         <p>
@@ -21,51 +21,48 @@ export default function TermsPage() {
         <p>
           Because KunTips is a financial tipping service, you must be at least
           18 years old and have the legal capacity to enter into a binding
-          agreement to access or use KunTips. Creators must be 18+ and legally
-          able to receive income in their jurisdiction.
+          agreement. Creators must also be legally able to receive income in
+          their jurisdiction.
         </p>
-
 
         <h2>2. Nature of Service</h2>
         <p>
           KunTips facilitates voluntary monetary tips from fans to creators.
           Tips are not payments for goods, services, or guaranteed access to
-          any specific content or interaction. KunTips does not host, sell, or
-          provide access to creator content, and may not be used as a paywall
-          for explicit or adult material. Tips are final and non-refundable
-          except where required by law or by our payment processor&apos;s
-          policies and applicable law.
+          any content or interaction. KunTips does not host, sell, or provide
+          access to creator content of any kind and may not be used as a
+          storefront or paywall. Tips are final and non-refundable except where
+          required by law or by our payment processor’s policies.
         </p>
-
 
         <h2>3. Creator Payouts</h2>
         <p>
           Creators receive a percentage of each tip after KunTips’ platform fee
           and payment processor deductions. The exact percentage varies based on
-          creator tier and activity level. KunTips does not guarantee any
-          earnings. Creators are responsible for declaring and paying any
-          applicable taxes and complying with local laws.
+          creator tier and activity level. KunTips does not guarantee earnings.
+          Creators are responsible for declaring and paying applicable taxes and
+          complying with local laws.
         </p>
 
-        <h2>4. Prohibited Use</h2>
+        <h2>4. Prohibited Uses</h2>
         <p>
-          Creators may not use KunTips in connection with content involving
-          minors, non-consensual material, illegal activities, copyright
-          infringement, fraud, or harmful conduct. KunTips does not host or
-          sell explicit or adult content, and you may not use KunTips to sell
-          access to such content or advertise illegal or age-restricted
-          services. Violations may result in suspension or permanent removal.
+          You may not use KunTips for any illegal, harmful, misleading, or
+          high-risk activities, including activities prohibited under Stripe’s
+          Restricted Businesses list. This includes, without limitation:
+          activities involving minors; non-consensual material; unlawful or
+          regulated content; abusive or fraudulent practices; or any
+          age-restricted or adult-oriented services.
+          KunTips is a tipping-only platform and may not be used to sell,
+          deliver, or provide access to goods, services, or digital content.
         </p>
-
 
         <h2>5. Payments & Refunds</h2>
         <p>
           Payments are processed securely by Stripe, our third-party payment
-          processor. KunTips does not store or access credit card details. Tips
-          are generally non-refundable. Refunds, if issued, follow Stripe&apos;s
-          rules and the applicable card network regulations.
+          provider. KunTips does not store or access credit card details. Tips
+          are generally non-refundable. Refunds, if issued, follow Stripe’s
+          policies and card-network rules.
         </p>
-
 
         <h2>6. Service Availability</h2>
         <p>
@@ -83,16 +80,16 @@ export default function TermsPage() {
         <h2>8. Privacy</h2>
         <p>
           Please review our Privacy Policy to understand how we handle data.
-          KunTips collects minimal personal data and never stores card
+          KunTips collects minimal personal data and never stores payment card
           information.
         </p>
 
         <h2>9. Liability</h2>
         <p>
-          KunTips and Eternal AS are not responsible for creator behavior or
-          content, losses resulting from misuse, or payments declined or
-          disputed by banks. Our liability, to the extent permitted by law, is
-          limited to the amount you paid through KunTips in the past 6 months.
+          KunTips and Eternal AS are not responsible for creator behavior,
+          misuse of the platform, or payments declined or disputed by banks. To
+          the extent permitted by law, our liability is limited to the total
+          amount you paid through KunTips in the past 6 months.
         </p>
 
         <h2>10. Changes to These Terms</h2>
@@ -103,10 +100,9 @@ export default function TermsPage() {
 
         <h2>11. Contact</h2>
         <p>
-          Support email: <a href="mailto:support@kuntips.no">support@kuntips.no</a>
+          Support email:{" "}
+          <a href="mailto:support@kuntips.no">support@kuntips.no</a>
         </p>
-
-
       </div>
     </main>
   );

@@ -26,16 +26,19 @@ export default function CreatorAgreementPage() {
           taxes.
         </p>
 
-        <h2>3. Content Restrictions</h2>
+        <h2>3. Prohibited Uses</h2>
         <p>
-          You may not use KunTips in connection with content involving minors,
-          non-consensual activity, illegal content, copyright infringement,
-          fraud, or harmful conduct. KunTips does not host or sell explicit or
-          adult content, and you may not use KunTips to sell access to such
-          content or to promote illegal or age-restricted services. Violations
-          may lead to suspension or permanent account closure.
+          KunTips is a tipping-only service. You may not use KunTips to sell,
+          deliver, or provide access to goods, services, or digital content of
+          any kind. You may not use KunTips in connection with any illegal,
+          harmful, misleading, or high-risk activities, including activities
+          prohibited under Stripe’s Restricted Businesses list. This includes,
+          without limitation: activities involving minors; non-consensual
+          material; unlawful content; fraudulent practices; or any
+          age-restricted or regulated services.
+          KunTips does not host any creator content and may not be used as a
+          storefront or paywall.
         </p>
-
 
         <h2>4. Compliance</h2>
         <p>
@@ -44,7 +47,6 @@ export default function CreatorAgreementPage() {
           regulations.
         </p>
 
-
         <h2>5. Liability</h2>
         <p>
           KunTips and Eternal AS are not responsible for your actions, loss of
@@ -52,7 +54,6 @@ export default function CreatorAgreementPage() {
           between you and fans. Chargebacks and disputes are handled according
           to Stripe&apos;s policies and the applicable card network rules.
         </p>
-
 
         <h2>6. Termination</h2>
         <p>
@@ -65,7 +66,6 @@ export default function CreatorAgreementPage() {
         <p>
           Email: <a href="mailto:support@kuntips.no">support@kuntips.no</a>
         </p>
-
       </div>
     </main>
   );
