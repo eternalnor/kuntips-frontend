@@ -7,28 +7,18 @@ import CookiesPage from './pages/CookiesPage.jsx';
 import CreatorAgreementPage from './pages/CreatorAgreementPage.jsx';
 import SupportPage from './pages/SupportPage.jsx';
 import Footer from './components/Footer.jsx';
-import AgeGate from './components/AgeGate.jsx';
-
-// NEW IMPORT ↓↓↓
 import SiteHeader from './components/SiteHeader.jsx';
 
 function App() {
   return (
-    <AgeGate>
-      <div className="app-root">
-        <div className="app-shell">
+    <div className="app-root">
+      <div className="app-shell">
+        <SiteHeader />
 
-          {/* NEW HEADER COMPONENT ↓↓↓ */}
-          <SiteHeader />
-
+        <div className="app-main">
           <Routes>
-            {/* Landing page */}
             <Route path="/" element={<HomePage />} />
-
-            {/* Creator public page: /u/:username */}
             <Route path="/u/:username" element={<CreatorPage />} />
-
-            {/* Legal & support pages */}
             <Route path="/legal/terms" element={<TermsPage />} />
             <Route path="/legal/privacy" element={<PrivacyPage />} />
             <Route path="/legal/cookies" element={<CookiesPage />} />
@@ -37,13 +27,11 @@ function App() {
               element={<CreatorAgreementPage />}
             />
             <Route path="/support" element={<SupportPage />} />
-
-            {/* Fallback / 404 */}
             <Route
               path="*"
               element={
-                <main className="card status-block">
-                  <h1>Page not found</h1>
+                <main className="page page-legal">
+                  <h1 className="page-title">Page not found</h1>
                   <p>The page you’re looking for doesn’t exist.</p>
                 </main>
               }
@@ -53,7 +41,7 @@ function App() {
           <Footer />
         </div>
       </div>
-    </AgeGate>
+    </div>
   );
 }
 

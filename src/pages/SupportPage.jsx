@@ -17,7 +17,7 @@ export default function SupportPage() {
 
         <p>We aim to respond within 48 hours.</p>
 
-        <p>KunTips is a service operated by Eternal AS, Norway.</p>
+
       </div>
     </main>
   );

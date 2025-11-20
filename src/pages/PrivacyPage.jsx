@@ -15,9 +15,10 @@ export default function PrivacyPage() {
         <p>We collect the minimum data necessary:</p>
         <ul>
           <li>
-            <strong>Fans:</strong> transaction metadata from CCBill
-            (timestamp, amount, non-identifying payment info), browser/device
-            info, IP address for security and fraud prevention.
+            <strong>Fans:</strong> transaction metadata from our payment
+            processor (Stripe) (timestamp, amount, non-identifying payment
+            info), browser/device info, IP address for security and fraud
+            prevention.
           </li>
           <li>
             <strong>Creators:</strong> email address, display name and profile
@@ -26,13 +27,13 @@ export default function PrivacyPage() {
         </ul>
         <p>
           KunTips does not collect or store credit card information. All payment
-          data is processed by CCBill.
+          data is processed by Stripe.
         </p>
 
         <h2>2. How We Use Data</h2>
         <p>
           We use your data to operate the tipping platform, process payments via
-          CCBill, prevent fraud and abuse, maintain security, and provide
+          Stripe, prevent fraud and abuse, maintain security, and provide
           support. We do not sell personal data.
         </p>
 
@@ -58,7 +59,7 @@ export default function PrivacyPage() {
 
         <h2>6. Third-Party Processing</h2>
         <p>
-          Payments are processed exclusively by CCBill, who acts as a separate
+          Payments are processed exclusively by Stripe, who acts as a separate
           data controller for payment information. KunTips never stores credit
           card numbers, bank details, or full billing details.
         </p>
@@ -80,7 +81,7 @@ export default function PrivacyPage() {
         <p>
           Email: <a href="mailto:support@kuntips.no">support@kuntips.no</a>
         </p>
-        <p>KunTips is operated by Eternal AS, Norway.</p>
+
       </div>
     </main>
   );

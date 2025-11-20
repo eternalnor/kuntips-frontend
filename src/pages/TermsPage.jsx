@@ -19,17 +19,24 @@ export default function TermsPage() {
 
         <h2>1. Eligibility</h2>
         <p>
-          You must be at least 18 years old to access or use KunTips. Creators
-          must be 18+ and legally able to receive income in their jurisdiction.
+          Because KunTips is a financial tipping service, you must be at least
+          18 years old and have the legal capacity to enter into a binding
+          agreement to access or use KunTips. Creators must be 18+ and legally
+          able to receive income in their jurisdiction.
         </p>
+
 
         <h2>2. Nature of Service</h2>
         <p>
-          KunTips facilitates voluntary tips from fans to creators. Tips are not
-          payments for goods, services, or guaranteed access to content. Tips
-          are final and non-refundable except where required by law or by
-          CCBill’s policies.
+          KunTips facilitates voluntary monetary tips from fans to creators.
+          Tips are not payments for goods, services, or guaranteed access to
+          any specific content or interaction. KunTips does not host, sell, or
+          provide access to creator content, and may not be used as a paywall
+          for explicit or adult material. Tips are final and non-refundable
+          except where required by law or by our payment processor&apos;s
+          policies and applicable law.
         </p>
+
 
         <h2>3. Creator Payouts</h2>
         <p>
@@ -40,21 +47,25 @@ export default function TermsPage() {
           applicable taxes and complying with local laws.
         </p>
 
-        <h2>4. Prohibited Content</h2>
+        <h2>4. Prohibited Use</h2>
         <p>
-          Creators may not use KunTips for content involving minors,
-          non-consensual material, illegal activities, copyright infringement,
-          fraud, or harmful conduct. Violations may result in suspension or
-          permanent removal.
+          Creators may not use KunTips in connection with content involving
+          minors, non-consensual material, illegal activities, copyright
+          infringement, fraud, or harmful conduct. KunTips does not host or
+          sell explicit or adult content, and you may not use KunTips to sell
+          access to such content or advertise illegal or age-restricted
+          services. Violations may result in suspension or permanent removal.
         </p>
+
 
         <h2>5. Payments & Refunds</h2>
         <p>
-          Payments are processed securely by CCBill, our third-party payment
+          Payments are processed securely by Stripe, our third-party payment
           processor. KunTips does not store or access credit card details. Tips
-          are generally non-refundable. Refunds, if issued, follow CCBill’s
-          rules.
+          are generally non-refundable. Refunds, if issued, follow Stripe&apos;s
+          rules and the applicable card network regulations.
         </p>
+
 
         <h2>6. Service Availability</h2>
         <p>
@@ -95,7 +106,7 @@ export default function TermsPage() {
           Support email: <a href="mailto:support@kuntips.no">support@kuntips.no</a>
         </p>
 
-        <p>KunTips is a service operated by Eternal AS, Norway.</p>
+
       </div>
     </main>
   );

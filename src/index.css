@@ -407,6 +407,11 @@ p {
   background: #0a0f1f;
 }
 
+.site-footer p {
+  max-width: 40rem;
+  margin: 0.35rem auto 0.85rem;
+}
+
 .site-footer-inner {
   max-width: 960px;
   margin: 0 auto;
@@ -415,6 +420,10 @@ p {
   gap: 0.5rem;
   font-size: 0.78rem;
   color: #9ca3af;
+
+  /* NEW: center everything */
+  text-align: center;
+  align-items: center;
 }
 
 .site-footer-brand {
@@ -425,6 +434,9 @@ p {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
+
+  /* NEW: center link group */
+  justify-content: center;
 }
 
 .site-footer-nav a {
@@ -674,6 +686,26 @@ p {
   margin-bottom: 0.75rem;
 }
 
+/* Centered “explainer” section */
+.home-section-center {
+  text-align: center;
+}
+
+.home-section-center p {
+  max-width: 40rem;
+  margin: 0.35rem auto 0.85rem;
+}
+
+
+/* Last section spacing */
+.home-section-last {
+  text-align: center;
+}
+
+.home-section-last p {
+  max-width: 40rem;
+  margin: 0.35rem auto 0.85rem;
+}
 .home-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -738,10 +770,6 @@ p {
   border-color: rgba(148, 163, 184, 0.9);
 }
 
-/* Last section spacing */
-.home-section-last {
-  text-align: left;
-}
 
 /* Responsive */
 @media (min-width: 768px) {

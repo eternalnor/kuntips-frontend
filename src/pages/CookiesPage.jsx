@@ -14,8 +14,10 @@ export default function CookiesPage() {
         <p>
           These cookies are required for security, session management, fraud
           prevention, load balancing, and saving minimal preferences (such as
-          your 18+ confirmation). They cannot be disabled via the site.
+          dismissing info banners or remembering basic site settings). They
+          cannot be disabled via the site.
         </p>
+
 
         <h2>Analytics</h2>
         <p>
@@ -34,7 +36,7 @@ export default function CookiesPage() {
         <p>
           Email: <a href="mailto:support@kuntips.no">support@kuntips.no</a>
         </p>
-        <p>KunTips is operated by Eternal AS, Norway.</p>
+
       </div>
     </main>
   );

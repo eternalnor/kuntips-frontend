@@ -1,16 +1,18 @@
 // src/components/TipWidget.jsx
 import { useState, useMemo } from 'react';
 
-const MIN_TIP = 10;
-const MAX_TIP = 200;
-const PROCESSOR_FEE_RATE = 0.12; // 12% (processor)
+const MIN_TIP = 100;
+const MAX_TIP = 2000;
+const KUNTIPS_FEE_RATE = 0.05; // 5% KunTips service fee
+const PROCESSOR_FEE_RATE = 0.015; // 1.5% Stripe processor fee
+const STRIPE_FIXED_FEE = 1.8; // 1.80NOK Stripe fixed fee
 const CREATOR_SHARE = 0.95;       // 95% to creator
 
-const presetAmounts = [10, 25, 50, 100, 200];
+const presetAmounts = [100, 250, 500, 1000, 2000];
 
 export function TipWidget({ creatorUsername, creatorDisplayName }) {
-  const [tipAmount, setTipAmount] = useState(50);
-  const [inputValue, setInputValue] = useState('50');
+  const [tipAmount, setTipAmount] = useState(MIN_TIP);
+  const [inputValue, setInputValue] = useState(String(MIN_TIP));
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -23,7 +25,7 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
   const breakdown = useMemo(() => {
     const T = safeTip;
 
-    const totalCharged = T / (1 - PROCESSOR_FEE_RATE);
+    const totalCharged = T / (1 - (PROCESSOR_FEE_RATE + KUNTIPS_FEE_RATE)) + STRIPE_FIXED_FEE;
     const processorFee = totalCharged - T;
     const creatorReceives = T * CREATOR_SHARE;
     const creatorPercentage = 100 * CREATOR_SHARE;
@@ -62,10 +64,10 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
       return 'Please enter a valid number.';
     }
     if (amount < MIN_TIP) {
-      return `Minimum tip is $${MIN_TIP}.`;
+      return `Minimum tip is NOK${MIN_TIP}.`;
     }
     if (amount > MAX_TIP) {
-      return `Maximum tip is $${MAX_TIP}.`;
+      return `Maximum tip is NOK${MAX_TIP}.`;
     }
     return null;
   };
@@ -94,7 +96,7 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
         body: JSON.stringify({
           creatorUsername,
           tipAmount: numeric,
-          currency: 'USD',
+          currency: 'NOK',
         }),
       });
 
@@ -108,7 +110,7 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
         throw new Error('Missing redirect URL from server.');
       }
 
-      // Redirect to CCBill / checkout
+      // Redirect to Stripe Checkout / checkout
       window.location.href = data.redirectUrl;
     } catch (err) {
       console.error(err);
@@ -134,7 +136,6 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
       <div className="tip-card__presets">
         {presetAmounts.map((amount) => {
           const isActive = safeTip === amount;
-          const isRecommended = amount === 0;
 
           return (
             <button
@@ -146,10 +147,8 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
                 (isActive ? ' tip-card__preset--active' : '')
               }
             >
-              <span>${amount}</span>
-              {isRecommended && (
-                <span className="tip-card__preset-badge">Recommended</span>
-              )}
+              <span>NOK {amount}</span>
+
             </button>
           );
         })}
@@ -161,12 +160,12 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
           <label htmlFor="custom-amount" className="tip-card__label-row">
             <span>Custom amount</span>
             <span>
-              Min ${MIN_TIP} · Max ${MAX_TIP} - USD Only
+              Min kr {MIN_TIP} · Max kr {MAX_TIP} - NOK Only
             </span>
           </label>
 
           <div className="tip-card__amount-input-wrap">
-            <span className="tip-card__amount-prefix">$</span>
+            <span className="tip-card__amount-prefix">kr</span>
             <input
               id="custom-amount"
               type="number"
@@ -187,31 +186,32 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
         <div className="tip-card__breakdown">
           <div className="tip-card__row">
             <span>Tip</span>
-            <span className="tip-card__value">${breakdown.tip}</span>
+            <span className="tip-card__value">kr {breakdown.tip}</span>
           </div>
           <div className="tip-card__row">
-            <span>Processor fee (~12%)</span>
-            <span>${breakdown.processorFee}</span>
+            <span>Service fee (processing + KunTips, ~8%)</span>
+            <span>kr {breakdown.processorFee}</span>
           </div>
           <div className="tip-card__row">
             <span>Total charged</span>
             <span className="tip-card__value tip-card__value--strong">
-              ${breakdown.totalCharged}
+              kr {breakdown.totalCharged}
             </span>
           </div>
 
           <div className="tip-card__divider" />
 
           <div className="tip-card__row">
-            <span className="tip-card__label-muted">Creator receives {breakdown.creatorPercentage}%</span>
+            <span className="tip-card__label-muted">Creator receives at least {breakdown.creatorPercentage}% of your tip</span>
             <span className="tip-card__value tip-card__value--success">
-              ${breakdown.creatorReceives}
+              kr {breakdown.creatorReceives}
             </span>
           </div>
 
           <p className="tip-card__footnote">
-            Fans cover the processing fee. KunTips takes 5%-10% from the
-            tip before payout depending on the Creator's tier. Creators receive the green amount above.
+            Fans cover Stripe’s processing fee and a 5% KunTips service fee.
+            Creators pay a tier-based commission of 0–5% on the tip amount and
+            receive the green amount shown above.
           </p>
         </div>
 
@@ -225,7 +225,7 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
         </button>
 
         <p className="tip-card__secure-note">
-          Payments are processed securely by CCBill. KunTips never stores your
+          Payments are processed securely by Stripe. KunTips never stores your
           card details.
         </p>
       </form>

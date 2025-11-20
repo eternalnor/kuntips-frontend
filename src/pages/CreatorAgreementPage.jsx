@@ -30,23 +30,29 @@ export default function CreatorAgreementPage() {
         <p>
           You may not use KunTips in connection with content involving minors,
           non-consensual activity, illegal content, copyright infringement,
-          fraud, or harmful conduct. Violations may lead to suspension or
-          permanent account closure.
+          fraud, or harmful conduct. KunTips does not host or sell explicit or
+          adult content, and you may not use KunTips to sell access to such
+          content or to promote illegal or age-restricted services. Violations
+          may lead to suspension or permanent account closure.
         </p>
+
 
         <h2>4. Compliance</h2>
         <p>
-          You agree to follow KunTips’ Terms of Service, CCBill’s acceptable use
-          standards, and all applicable local laws and regulations.
+          You agree to follow KunTips&apos; Terms of Service, Stripe&apos;s
+          acceptable use standards, and all applicable local laws and
+          regulations.
         </p>
+
 
         <h2>5. Liability</h2>
         <p>
           KunTips and Eternal AS are not responsible for your actions, loss of
           income due to account suspension or technical issues, or disputes
           between you and fans. Chargebacks and disputes are handled according
-          to CCBill’s policies.
+          to Stripe&apos;s policies and the applicable card network rules.
         </p>
+
 
         <h2>6. Termination</h2>
         <p>
@@ -59,7 +65,7 @@ export default function CreatorAgreementPage() {
         <p>
           Email: <a href="mailto:support@kuntips.no">support@kuntips.no</a>
         </p>
-        <p>KunTips is operated by Eternal AS, Norway.</p>
+
       </div>
     </main>
   );
