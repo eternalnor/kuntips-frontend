@@ -310,11 +310,10 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
         </p>
       </form>
 
-            {clientSecret && (
+      {clientSecret && (
         <div className="tip-card__payment">
           {tipCompleted ? (
             <div className="tip-card__success">
-
               {/* FUN MESSAGE FIRST */}
               {funMessage && (
                 <p className="tip-card__success-text tip-card__success-text--fun">
@@ -347,9 +346,6 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
               </button>
             </div>
           ) : (
-            // (StripePaymentForm keeps the same)
-          )}
-
             <Elements stripe={stripePromise} options={{ clientSecret }}>
               <StripePaymentForm
                 onSuccess={(randomMessage) => {
@@ -361,6 +357,7 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
           )}
         </div>
       )}
+
 
     </section>
   );
