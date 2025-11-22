@@ -27,6 +27,9 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [clientSecret, setClientSecret] = useState(null);
 
+    // NEW: track when a tip was completed + fun message
+  const [tipCompleted, setTipCompleted] = useState(false);
+  const [funMessage, setFunMessage] = useState('');
 
   const safeTip = useMemo(() => {
     if (Number.isNaN(tipAmount)) return MIN_TIP;
@@ -95,6 +98,10 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
       setErrorMessage(validationError);
       return;
     }
+
+    // NEW: reset completion state for a fresh payment
+    setTipCompleted(false);
+    setFunMessage('');
 
     setIsSubmitting(true);
 
@@ -303,18 +310,55 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
         </p>
       </form>
 
-      {clientSecret && (
+            {clientSecret && (
         <div className="tip-card__payment">
-          <Elements stripe={stripePromise} options={{ clientSecret }}>
-            <StripePaymentForm />
-          </Elements>
+          {tipCompleted ? (
+            <div className="tip-card__success">
+              <p className="tip-card__success-title">
+                Thank you! Your tip was sent successfully.
+              </p>
+              <p className="tip-card__success-text">
+                If you entered an email address at checkout, Stripe has sent you a
+                receipt for this tip.
+              </p>
+              {funMessage && (
+                <p className="tip-card__success-text tip-card__success-text--fun">
+                  {funMessage}
+                </p>
+              )}
+
+              <button
+                type="button"
+                className="tip-card__cta tip-card__cta--secondary"
+                onClick={() => {
+                  // Clear the current PaymentIntent so they can start a new tip
+                  setClientSecret(null);
+                  setTipCompleted(false);
+                  setFunMessage('');
+                }}
+              >
+                Send another tip
+              </button>
+            </div>
+          ) : (
+            <Elements stripe={stripePromise} options={{ clientSecret }}>
+              <StripePaymentForm
+                onSuccess={(randomMessage) => {
+                  setTipCompleted(true);
+                  setFunMessage(randomMessage || '');
+                }}
+              />
+            </Elements>
+          )}
         </div>
       )}
+
     </section>
   );
 }
 
-function StripePaymentForm() {
+function StripePaymentForm({ onSuccess }) {
+
   const stripe = useStripe();
   const elements = useElements();
   const [submitting, setSubmitting] = useState(false);
@@ -341,6 +385,22 @@ function StripePaymentForm() {
       result.paymentIntent &&
       result.paymentIntent.status === 'succeeded'
     ) {
+      // NEW: pick a fun positive message
+      const funMessages = [
+        'Thank you! May your beard grow long and strong, and your hair never fall out.',
+        'You just made someone’s day a little better. ♥',
+        'Great things happen to generous people. Just saying.',
+        'Legend move. The universe owes you one.'
+      ];
+      const random =
+        funMessages[Math.floor(Math.random() * funMessages.length)];
+
+      if (onSuccess) {
+        onSuccess(random);
+      }
+
+      // We won’t show this for long because the parent swaps to the success block,
+      // but keep it as a fallback.
       setMessage('Thank you! Your tip was sent successfully.');
     } else if (result.paymentIntent) {
       setMessage(
