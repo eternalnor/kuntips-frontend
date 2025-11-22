@@ -314,24 +314,30 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
         <div className="tip-card__payment">
           {tipCompleted ? (
             <div className="tip-card__success">
-              <p className="tip-card__success-title">
-                Thank you! Your tip was sent successfully.
-              </p>
-              <p className="tip-card__success-text">
-                If you entered an email address at checkout, Stripe has sent you a
-                receipt for this tip.
-              </p>
+
+              {/* FUN MESSAGE FIRST */}
               {funMessage && (
                 <p className="tip-card__success-text tip-card__success-text--fun">
                   {funMessage}
                 </p>
               )}
 
+              {/* MAIN SUCCESS TITLE */}
+              <p className="tip-card__success-title">
+                Thank you! Your tip was sent successfully.
+              </p>
+
+              {/* RECEIPT INFO */}
+              <p className="tip-card__success-text">
+                If you entered an email address at checkout, Stripe has sent you a
+                receipt for this tip.
+              </p>
+
+              {/* SEND ANOTHER TIP */}
               <button
                 type="button"
                 className="tip-card__cta tip-card__cta--secondary"
                 onClick={() => {
-                  // Clear the current PaymentIntent so they can start a new tip
                   setClientSecret(null);
                   setTipCompleted(false);
                   setFunMessage('');
@@ -341,6 +347,9 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
               </button>
             </div>
           ) : (
+            // (StripePaymentForm keeps the same)
+          )}
+
             <Elements stripe={stripePromise} options={{ clientSecret }}>
               <StripePaymentForm
                 onSuccess={(randomMessage) => {
