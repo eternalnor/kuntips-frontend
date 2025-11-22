@@ -1,5 +1,12 @@
 // src/components/TipWidget.jsx
 import { useState, useMemo } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
+import {
+  Elements,
+  PaymentElement,
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js';
 
 const MIN_TIP = 100;
 const MAX_TIP = 2000;
@@ -10,11 +17,16 @@ const CREATOR_SHARE = 0.95;       // 95% to creator
 
 const presetAmounts = [100, 250, 500, 1000, 2000];
 
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
+
 export function TipWidget({ creatorUsername, creatorDisplayName }) {
   const [tipAmount, setTipAmount] = useState(MIN_TIP);
   const [inputValue, setInputValue] = useState(String(MIN_TIP));
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [clientSecret, setClientSecret] = useState(null);
+
 
   const safeTip = useMemo(() => {
     if (Number.isNaN(tipAmount)) return MIN_TIP;
@@ -72,7 +84,7 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
     return null;
   };
 
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage(null);
 
@@ -88,38 +100,99 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
 
     try {
       const apiBase = import.meta.env.VITE_API_BASE_URL;
+
+      if (!apiBase) {
+        console.error('VITE_API_BASE_URL is not set');
+        setErrorMessage(
+          'Configuration error: payment backend is not available. Please try again later.'
+        );
+        setIsSubmitting(false);
+        return;
+      }
+
       const response = await fetch(`${apiBase}/tips/session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          // backend accepts creatorUsername OR username
           creatorUsername,
           tipAmount: numeric,
           currency: 'NOK',
         }),
       });
 
+      let data = null;
+      try {
+        data = await response.json();
+      } catch {
+        // if backend ever responds with plain text, we still handle it
+      }
+
       if (!response.ok) {
-        const text = await response.text().catch(() => '');
-        throw new Error(text || 'Failed to create tip session.');
+        console.error('Tip session failed', {
+          status: response.status,
+          body: data,
+        });
+
+        const code = data?.error;
+
+        if (code === 'invalid_tip_amount') {
+          setErrorMessage(
+            `Tip must be between NOK ${MIN_TIP} and NOK ${MAX_TIP}.`
+          );
+        } else if (code === 'creator_not_found') {
+          setErrorMessage(
+            'This creator could not be found or is not active right now.'
+          );
+        } else if (code === 'creator_not_connected') {
+          setErrorMessage(
+            'This creator has not finished setting up payouts yet. Please try again later.'
+          );
+        } else {
+          setErrorMessage(
+            'Something went wrong starting the payment. Please try again in a moment.'
+          );
+        }
+
+        setIsSubmitting(false);
+        return;
       }
 
-      const data = await response.json();
-      if (!data || !data.redirectUrl) {
-        throw new Error('Missing redirect URL from server.');
+      if (!data || !data.clientSecret) {
+        console.error('Tip session response missing clientSecret', data);
+        setErrorMessage(
+          'We could not start the payment session. Please try again in a moment.'
+        );
+        setIsSubmitting(false);
+        return;
       }
 
-      // Redirect to Stripe Checkout / checkout
-      window.location.href = data.redirectUrl;
+      console.log('Tip session created OK:', data);
+
+      // Store clientSecret so we can render Stripe Payment Element
+      setClientSecret(data.clientSecret);
+      setErrorMessage(null);
+      setIsSubmitting(false);
+
+
+      // ❗ For now we only create the session on the server.
+      // Actual Stripe card collection / confirmation will be wired up next.
+      console.log('Tip session created OK:', data);
+      setErrorMessage(
+        'Tip session created successfully (test mode). Stripe payment UI is the next step.'
+      );
+      setIsSubmitting(false);
     } catch (err) {
-      console.error(err);
+      console.error('Unexpected error creating tip session', err);
       setErrorMessage(
         'Something went wrong starting the payment. Please try again in a moment.'
       );
       setIsSubmitting(false);
     }
   };
+
 
   const displayName = creatorDisplayName || creatorUsername;
 
@@ -216,7 +289,7 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
         </div>
 
         {/* CTA */}
-        <button
+                <button
           type="submit"
           disabled={isSubmitting}
           className="tip-card__cta"
@@ -229,6 +302,72 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
           card details.
         </p>
       </form>
+
+      {clientSecret && (
+        <div className="tip-card__payment">
+          <Elements stripe={stripePromise} options={{ clientSecret }}>
+            <StripePaymentForm />
+          </Elements>
+        </div>
+      )}
     </section>
+  );
+}
+
+function StripePaymentForm() {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [submitting, setSubmitting] = useState(false);
+  const [message, setMessage] = useState(null);
+
+  const handlePayment = async (e) => {
+    e.preventDefault();
+    if (!stripe || !elements) {
+      return;
+    }
+
+    setSubmitting(true);
+    setMessage(null);
+
+    const result = await stripe.confirmPayment({
+      elements,
+      redirect: 'if_required',
+    });
+
+    if (result.error) {
+      console.error('Stripe payment error:', result.error);
+      setMessage(result.error.message || 'Payment failed. Please try again.');
+    } else if (
+      result.paymentIntent &&
+      result.paymentIntent.status === 'succeeded'
+    ) {
+      setMessage('Thank you! Your tip was sent successfully.');
+    } else if (result.paymentIntent) {
+      setMessage(
+        `Payment status: ${result.paymentIntent.status}. Please check your bank or try again.`
+      );
+    } else {
+      setMessage('Unexpected payment result. Please try again.');
+    }
+
+    setSubmitting(false);
+  };
+
+  return (
+    <form onSubmit={handlePayment} className="tip-card__payment-form">
+      <div className="tip-card__payment-element">
+        <PaymentElement />
+      </div>
+
+      {message && <p className="tip-card__error">{message}</p>}
+
+      <button
+        type="submit"
+        disabled={!stripe || submitting}
+        className="tip-card__cta tip-card__cta--secondary"
+      >
+        {submitting ? 'Processing…' : 'Pay securely'}
+      </button>
+    </form>
   );
 }

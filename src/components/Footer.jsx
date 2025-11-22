@@ -12,7 +12,7 @@ export default function Footer() {
                 <a href="/support">Support</a>
             </nav>
             <p className="site-footer-brand">
-                © 2025 KunTips — A service operated by Eternal AS, Norway.
+                © 2025 KunTips — A service operated from Norway.
             </p>
         </div>
     </footer>
