@@ -321,11 +321,6 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
                 </p>
               )}
 
-              {/* MAIN SUCCESS TITLE */}
-              <p className="tip-card__success-title">
-                Thank you! Your tip was sent successfully.
-              </p>
-
               {/* RECEIPT INFO */}
               <p className="tip-card__success-text">
                 If you entered an email address at checkout, Stripe has sent you a
@@ -393,10 +388,10 @@ function StripePaymentForm({ onSuccess }) {
     ) {
       // NEW: pick a fun positive message
       const funMessages = [
-        'Thank you! May your beard grow long and strong, and your hair never fall out.',
-        'You just made someone’s day a little better. ♥',
-        'Great things happen to generous people. Just saying.',
-        'Legend move. The universe owes you one.'
+        'Thank you! Your tip was sent successfully. May your beard grow long and strong, and your hair never fall out.',
+        'Thank you! Your tip was sent successfully. You just made someone’s day a little better. ♥',
+        'Thank you! Your tip was sent successfully. Great things happen to generous people. Just saying.',
+        'Thank you! Your tip was sent successfully. Legend move. The universe owes you one.'
       ];
       const random =
         funMessages[Math.floor(Math.random() * funMessages.length)];

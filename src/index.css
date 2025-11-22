@@ -463,8 +463,8 @@ p {
 }
 
 .tip-card__success-text--fun {
-  color: #a5b4fc;
-  font-style: italic;
+  font-weight: 600;
+  color: #bbf7d0;
 }
 
 
