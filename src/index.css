@@ -366,9 +366,9 @@ p {
   gap: 0.4rem;
   margin-top: 0.35rem;
   transition:
-    opacity 0.22s ease-out,
-    max-height 0.22s ease-out,
-    margin-top 0.22s ease-out;
+    opacity 1s ease-out,
+    max-height 1s ease-out,
+    margin-top 1s ease-out;
   max-height: 120px; /* fits button + a bit of spacing */
 }
 
@@ -392,9 +392,9 @@ p {
   color: #fff;
   box-shadow: 0 16px 40px rgba(99, 102, 241, 0.45);
   transition:
-    background 0.16s ease-out,
-    box-shadow 0.16s ease-out,
-    transform 0.08s ease-out;
+    background 0.88s ease-out,
+    box-shadow 0.88s ease-out,
+    transform 0.44s ease-out;
 }
 
 .tip-card__cta:hover:not(:disabled) {
@@ -434,13 +434,13 @@ p {
    =========================== */
 
 .tip-card__payment {
-  margin-top: 0.75rem;
-  padding-top: 0.9rem;
+  margin-top: 0.1rem;
+  padding-top: 0.15rem;
 
   /* Smooth fade/slide-in when it appears */
   opacity: 0;
   transform: translateY(4px);
-  animation: tip-card-payment-in 0.99s ease-out forwards;
+  animation: tip-card-payment-in 0.22s ease-out forwards;
 }
 
 .tip-card__payment-form {

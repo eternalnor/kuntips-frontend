@@ -285,25 +285,29 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
 
         {/* CTA BLOCK – button + (no text here anymore) */}
         <div
-          className={`tip-card__cta-block ${
-            isSubmitting || clientSecret ? 'tip-card__cta-block--hidden' : ''
-          }`}
+            className={`tip-card__cta-block ${
+                isSubmitting || clientSecret ? 'tip-card__cta-block--hidden' : ''
+            }`}
         >
           <button
-            type="submit"
-            disabled={isSubmitting || !!clientSecret}
-            className="tip-card__cta"
+              type="submit"
+              disabled={isSubmitting || !!clientSecret}
+              className="tip-card__cta"
           >
             {isSubmitting ? 'Starting secure payment…' : 'Tip anonymously now'}
           </button>
+          <p className="tip-card__secure-note">
+            Payments are processed securely by Stripe. KunTips never stores your
+            card details.
+          </p>
         </div>
       </form>
 
       {/* Stripe payment step */}
       {clientSecret && (
-        <div className="tip-card__payment">
-          {tipCompleted ? (
-            <div className="tip-card__success">
+          <div className="tip-card__payment">
+            {tipCompleted ? (
+                <div className="tip-card__success">
               {/* FUN MESSAGE FIRST */}
               {funMessage && (
                 <p className="tip-card__success-text tip-card__success-text--fun">
