@@ -296,10 +296,16 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
         </div>
 
         {/* CTA */}
-                <button
+        {/*
+          We keep the button in the DOM but fade it out + disable it
+          when we're submitting OR once the Stripe payment step is visible.
+        */}
+        <button
           type="submit"
-          disabled={isSubmitting}
-          className="tip-card__cta"
+          disabled={isSubmitting || !!clientSecret}
+          className={`tip-card__cta ${
+            isSubmitting || clientSecret ? 'tip-card__cta--hidden' : ''
+          }`}
         >
           {isSubmitting ? 'Starting secure payment…' : 'Tip anonymously now'}
         </button>
@@ -391,7 +397,7 @@ function StripePaymentForm({ onSuccess }) {
         'Thank you! Your tip was sent successfully. May your beard grow long and strong, and your hair never fall out.',
         'Thank you! Your tip was sent successfully. You just made someone’s day a little better. ♥',
         'Thank you! Your tip was sent successfully. Great things happen to generous people. Just saying.',
-        'Thank you! Your tip was sent successfully. Legend move. The universe owes you one.'
+        'Thank you! Your tip was sent successfully. That was a legend move. The universe owes you one.'
       ];
       const random =
         funMessages[Math.floor(Math.random() * funMessages.length)];
