@@ -187,7 +187,7 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
       // ❗ For now we only create the session on the server.
       // Actual Stripe card collection / confirmation will be wired up next.
       console.log('Tip session created OK:', data);
-      
+
       setIsSubmitting(false);
     } catch (err) {
       console.error('Unexpected error creating tip session', err);
@@ -299,28 +299,32 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
           when we're submitting OR once the Stripe payment step is visible.
         */}
         <button
-          type="submit"
-          disabled={isSubmitting || !!clientSecret}
-          className={`tip-card__cta ${
-            isSubmitting || clientSecret ? 'tip-card__cta--hidden' : ''
-          }`}
+            type="submit"
+            disabled={isSubmitting || !!clientSecret}
+            className={`tip-card__cta ${
+                isSubmitting || clientSecret ? 'tip-card__cta--hidden' : ''
+            }`}
         >
           {isSubmitting ? 'Starting secure payment…' : 'Tip anonymously now'}
         </button>
 
-        <p className="tip-card__secure-note">
+        <p
+            className={`tip-card__secure-note ${
+                clientSecret ? 'tip-card__secure-note--hidden' : ''
+            }`}
+        >
           Payments are processed securely by Stripe. KunTips never stores your
           card details.
         </p>
       </form>
 
       {clientSecret && (
-        <div className="tip-card__payment">
-          {tipCompleted ? (
-            <div className="tip-card__success">
-              {/* FUN MESSAGE FIRST */}
-              {funMessage && (
-                <p className="tip-card__success-text tip-card__success-text--fun">
+          <div className="tip-card__payment">
+            {tipCompleted ? (
+                <div className="tip-card__success">
+                  {/* FUN MESSAGE FIRST */}
+                  {funMessage && (
+                      <p className="tip-card__success-text tip-card__success-text--fun">
                   {funMessage}
                 </p>
               )}

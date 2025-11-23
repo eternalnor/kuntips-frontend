@@ -405,6 +405,21 @@ p {
   text-align: center;
   font-size: 0.7rem;
   color: #9ca3af;
+
+  /* Smooth fade/slide-out to make room for Stripe */
+  transition:
+    opacity 0.22s ease-out,
+    max-height 0.22s ease-out,
+    margin-top 0.22s ease-out;
+  max-height: 40px; /* fits one line of text */
+}
+
+/* Hidden state when Stripe payment section is shown */
+.tip-card__secure-note--hidden {
+  opacity: 0;
+  max-height: 0;
+  margin-top: 0;
+  pointer-events: none;
 }
 
 /* ===========================
@@ -412,9 +427,14 @@ p {
    =========================== */
 
 .tip-card__payment {
-  margin-top: 1rem;
-  padding-top: 1rem;
+  margin-top: 0.75rem;
+  padding-top: 0.9rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  /* Smooth fade/slide-in when it appears */
+  opacity: 0;
+  transform: translateY(4px);
+  animation: tip-card-payment-in 0.22s ease-out forwards;
 }
 
 .tip-card__payment-form {
@@ -441,6 +461,17 @@ p {
 .tip-card__cta--secondary:hover:not(:disabled) {
   background: #111827;
   border-color: #6366f1;
+}
+
+@keyframes tip-card-payment-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ===========================
