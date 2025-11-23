@@ -436,12 +436,11 @@ p {
 .tip-card__payment {
   margin-top: 0.75rem;
   padding-top: 0.9rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
 
   /* Smooth fade/slide-in when it appears */
   opacity: 0;
   transform: translateY(4px);
-  animation: tip-card-payment-in 0.22s ease-out forwards;
+  animation: tip-card-payment-in 0.99s ease-out forwards;
 }
 
 .tip-card__payment-form {
