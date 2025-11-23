@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function SupportPage() {
   return (
     <main className="page page-legal">

@@ -48,6 +48,19 @@ function CreatorsStart() {
             This button is disabled while we keep everything in test mode. We&apos;ll
             hook it up to the real Stripe Connect flow in a later step.
           </p>
+          {import.meta.env.DEV && (
+            <p className="creators-dev-note">
+              Dev only:{" "}
+              <a
+                href="https://kuntips-backend.eternalnor.workers.dev/connect/create-account-link"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Open Stripe Connect onboarding (test mode)
+              </a>
+            </p>
+          )}
+
         </div>
 
         <p className="creators-backlink">
