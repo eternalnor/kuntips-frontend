@@ -187,9 +187,7 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
       // ❗ For now we only create the session on the server.
       // Actual Stripe card collection / confirmation will be wired up next.
       console.log('Tip session created OK:', data);
-      setErrorMessage(
-        'Tip session created successfully (test mode). Stripe payment UI is the next step.'
-      );
+      
       setIsSubmitting(false);
     } catch (err) {
       console.error('Unexpected error creating tip session', err);
