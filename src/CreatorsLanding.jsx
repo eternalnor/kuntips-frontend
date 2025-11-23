@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function CreatorsLanding()() {
+function CreatorsLanding() {
   return (
     <div className="creators-page">
       {/* HERO */}
