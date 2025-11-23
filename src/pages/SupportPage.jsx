@@ -9,6 +9,13 @@ export default function SupportPage() {
         </p>
 
         <p>
+          For creator onboarding, click the link below.
+        </p>
+        <Link to="/creators/start" className="btn btn-primary">
+          Start creator onboarding
+        </Link>
+
+        <p>
           📧{' '}
           <a href="mailto:support@kuntips.no">
             support@kuntips.no

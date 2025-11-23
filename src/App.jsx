@@ -8,6 +8,9 @@ import CreatorAgreementPage from './pages/CreatorAgreementPage.jsx';
 import SupportPage from './pages/SupportPage.jsx';
 import Footer from './components/Footer.jsx';
 import SiteHeader from './components/SiteHeader.jsx';
+import CreatorsLanding from "./CreatorsLanding";
+import CreatorsStart from "./CreatorsStart";
+
 
 function App() {
   return (
@@ -22,20 +25,16 @@ function App() {
             <Route path="/legal/terms" element={<TermsPage />} />
             <Route path="/legal/privacy" element={<PrivacyPage />} />
             <Route path="/legal/cookies" element={<CookiesPage />} />
-            <Route
-              path="/legal/creator-agreement"
-              element={<CreatorAgreementPage />}
-            />
+            <Route path="/legal/creator-agreement" element={<CreatorAgreementPage />} />
             <Route path="/support" element={<SupportPage />} />
-            <Route
-              path="*"
-              element={
+            <Route path="*" element={
                 <main className="page page-legal">
                   <h1 className="page-title">Page not found</h1>
                   <p>The page you’re looking for doesn’t exist.</p>
                 </main>
-              }
-            />
+              } />
+            <Route path="/creators" element={<CreatorsLanding />} />
+            <Route path="/creators/start" element={<CreatorsStart />} />
           </Routes>
 
           <Footer />

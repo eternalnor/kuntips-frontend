@@ -29,12 +29,12 @@ export default function SiteHeader() {
           </NavLink>
 
           <NavLink
-            to="/support"
+            to="/creators/start"
             className={({ isActive }) =>
               'site-nav-link' + (isActive ? ' site-nav-link-active' : '')
             }
           >
-            For creators
+            Creator Onboarding
           </NavLink>
         </nav>
       </div>

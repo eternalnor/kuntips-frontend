@@ -22,10 +22,10 @@ export default function HomePage() {
             </p>
 
             <div className="home-hero-actions">
-              <Link to="/support" className="btn btn-primary">
-                Creator onboarding (coming soon)
+              <Link to="/creators/start" className="btn btn-primary">
+                Start creator onboarding
               </Link>
-              <Link to="/u/testcreator" className="btn btn-ghost">
+              <Link to="/u/testcreator1" className="btn btn-ghost">
                 View example tip page
               </Link>
             </div>
