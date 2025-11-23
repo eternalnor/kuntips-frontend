@@ -20,7 +20,7 @@ export default function SiteHeader() {
           </NavLink>
 
           <NavLink
-            to="/u/testcreator"
+            to="/u/testcreator1"
             className={({ isActive }) =>
               'site-nav-link' + (isActive ? ' site-nav-link-active' : '')
             }

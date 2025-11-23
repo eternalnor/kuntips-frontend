@@ -114,7 +114,7 @@ export default function HomePage() {
               no follow-up messages — just support when you feel like it.
             </p>
             <p className="home-tile-cta">
-              <Link to="/u/testcreator" className="btn btn-ghost">
+              <Link to="/u/testcreator1" className="btn btn-ghost">
                 Open example tip page
               </Link>
             </p>
@@ -194,7 +194,7 @@ export default function HomePage() {
           pay.
         </p>
         <p>
-          <Link to="/u/testcreator" className="btn btn-primary">
+          <Link to="/u/testcreator1" className="btn btn-primary">
             Open example tip page
           </Link>
         </p>
