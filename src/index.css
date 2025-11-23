@@ -1201,3 +1201,90 @@ p {
     flex: 1;
   }
 }
+
+/* Creator dashboard ------------------------------------------------------ */
+
+.creators-dashboard-header h1 {
+  font-size: 1.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.creators-dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.creators-dashboard-tile {
+  padding: 1rem 1rem 0.9rem;
+  border-radius: 0.9rem;
+  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.08), transparent),
+              rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+}
+
+.creators-stat-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+}
+
+.creators-stat-value {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.creators-stat-sub {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Recent tips table */
+
+.creators-dashboard-activity-header h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
+}
+
+.creators-dashboard-table-wrapper {
+  margin-top: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  overflow: hidden;
+}
+
+.creators-dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.creators-dashboard-table thead {
+  background: rgba(15, 23, 42, 0.95);
+}
+
+.creators-dashboard-table th,
+.creators-dashboard-table td {
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+}
+
+.creators-dashboard-table th {
+  font-weight: 500;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.creators-dashboard-table tbody tr:nth-child(even) {
+  background: rgba(15, 23, 42, 0.7);
+}
+
+/* Responsive layout */
+
+@media (min-width: 768px) {
+  .creators-dashboard-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
