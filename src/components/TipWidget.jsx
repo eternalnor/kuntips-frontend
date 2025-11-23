@@ -13,12 +13,11 @@ const MAX_TIP = 2000;
 const KUNTIPS_FEE_RATE = 0.05; // 5% KunTips service fee
 const PROCESSOR_FEE_RATE = 0.015; // 1.5% Stripe processor fee
 const STRIPE_FIXED_FEE = 1.8; // 1.80NOK Stripe fixed fee
-const CREATOR_SHARE = 0.95;       // 95% to creator
+const CREATOR_SHARE = 0.95; // 95% to creator
 
 const presetAmounts = [100, 250, 500, 1000, 2000];
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
-
 
 export function TipWidget({ creatorUsername, creatorDisplayName }) {
   const [tipAmount, setTipAmount] = useState(MIN_TIP);
@@ -27,7 +26,7 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [clientSecret, setClientSecret] = useState(null);
 
-    // NEW: track when a tip was completed + fun message
+  // Track completed payments + fun message
   const [tipCompleted, setTipCompleted] = useState(false);
   const [funMessage, setFunMessage] = useState('');
 
@@ -36,24 +35,24 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
     return tipAmount;
   }, [tipAmount]);
 
-
   const breakdown = useMemo(() => {
     const T = safeTip;
 
-    const totalCharged = T / (1 - (PROCESSOR_FEE_RATE + KUNTIPS_FEE_RATE)) + STRIPE_FIXED_FEE;
+    const totalCharged =
+      T / (1 - (PROCESSOR_FEE_RATE + KUNTIPS_FEE_RATE)) + STRIPE_FIXED_FEE;
     const processorFee = totalCharged - T;
     const creatorReceives = T * CREATOR_SHARE;
     const creatorPercentage = 100 * CREATOR_SHARE;
 
     const format = (value) => value.toFixed(2);
-    const format2 = (value) => value.toFixed(0);
+    const format0 = (value) => value.toFixed(0);
 
     return {
       tip: format(T),
       processorFee: format(processorFee),
       totalCharged: format(totalCharged),
       creatorReceives: format(creatorReceives),
-      creatorPercentage: format2(creatorPercentage),
+      creatorPercentage: format0(creatorPercentage),
     };
   }, [safeTip]);
 
@@ -87,7 +86,7 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
     return null;
   };
 
-    const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage(null);
 
@@ -99,7 +98,7 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
       return;
     }
 
-    // NEW: reset completion state for a fresh payment
+    // Reset completion state for a fresh payment
     setTipCompleted(false);
     setFunMessage('');
 
@@ -176,18 +175,9 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
         return;
       }
 
-      console.log('Tip session created OK:', data);
-
       // Store clientSecret so we can render Stripe Payment Element
       setClientSecret(data.clientSecret);
       setErrorMessage(null);
-      setIsSubmitting(false);
-
-
-      // ❗ For now we only create the session on the server.
-      // Actual Stripe card collection / confirmation will be wired up next.
-      console.log('Tip session created OK:', data);
-
       setIsSubmitting(false);
     } catch (err) {
       console.error('Unexpected error creating tip session', err);
@@ -197,7 +187,6 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
       setIsSubmitting(false);
     }
   };
-
 
   const displayName = creatorDisplayName || creatorUsername;
 
@@ -226,7 +215,6 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
               }
             >
               <span>NOK {amount}</span>
-
             </button>
           );
         })}
@@ -280,7 +268,9 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
           <div className="tip-card__divider" />
 
           <div className="tip-card__row">
-            <span className="tip-card__label-muted">Creator receives at least {breakdown.creatorPercentage}% of your tip</span>
+            <span className="tip-card__label-muted">
+              Creator receives at least {breakdown.creatorPercentage}% of your tip
+            </span>
             <span className="tip-card__value tip-card__value--success">
               kr {breakdown.creatorReceives}
             </span>
@@ -293,46 +283,38 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
           </p>
         </div>
 
-        {/* CTA */}
-        {/*
-          We keep the button in the DOM but fade it out + disable it
-          when we're submitting OR once the Stripe payment step is visible.
-        */}
-        <button
+        {/* CTA BLOCK – button + (no text here anymore) */}
+        <div
+          className={`tip-card__cta-block ${
+            isSubmitting || clientSecret ? 'tip-card__cta-block--hidden' : ''
+          }`}
+        >
+          <button
             type="submit"
             disabled={isSubmitting || !!clientSecret}
-            className={`tip-card__cta ${
-                isSubmitting || clientSecret ? 'tip-card__cta--hidden' : ''
-            }`}
-        >
-          {isSubmitting ? 'Starting secure payment…' : 'Tip anonymously now'}
-        </button>
-
-        <p
-            className={`tip-card__secure-note ${
-                clientSecret ? 'tip-card__secure-note--hidden' : ''
-            }`}
-        >
-          Payments are processed securely by Stripe. KunTips never stores your
-          card details.
-        </p>
+            className="tip-card__cta"
+          >
+            {isSubmitting ? 'Starting secure payment…' : 'Tip anonymously now'}
+          </button>
+        </div>
       </form>
 
+      {/* Stripe payment step */}
       {clientSecret && (
-          <div className="tip-card__payment">
-            {tipCompleted ? (
-                <div className="tip-card__success">
-                  {/* FUN MESSAGE FIRST */}
-                  {funMessage && (
-                      <p className="tip-card__success-text tip-card__success-text--fun">
+        <div className="tip-card__payment">
+          {tipCompleted ? (
+            <div className="tip-card__success">
+              {/* FUN MESSAGE FIRST */}
+              {funMessage && (
+                <p className="tip-card__success-text tip-card__success-text--fun">
                   {funMessage}
                 </p>
               )}
 
               {/* RECEIPT INFO */}
               <p className="tip-card__success-text">
-                If you entered an email address at checkout, Stripe has sent you a
-                receipt for this tip.
+                If you entered an email address at checkout, Stripe has sent you
+                a receipt for this tip.
               </p>
 
               {/* SEND ANOTHER TIP */}
@@ -360,14 +342,11 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
           )}
         </div>
       )}
-
-
     </section>
   );
 }
 
 function StripePaymentForm({ onSuccess }) {
-
   const stripe = useStripe();
   const elements = useElements();
   const [submitting, setSubmitting] = useState(false);
@@ -394,12 +373,11 @@ function StripePaymentForm({ onSuccess }) {
       result.paymentIntent &&
       result.paymentIntent.status === 'succeeded'
     ) {
-      // NEW: pick a fun positive message
       const funMessages = [
         'Thank you! Your tip was sent successfully. May your beard grow long and strong, and your hair never fall out.',
         'Thank you! Your tip was sent successfully. You just made someone’s day a little better. ♥',
         'Thank you! Your tip was sent successfully. Great things happen to generous people. Just saying.',
-        'Thank you! Your tip was sent successfully. That was a legend move. The universe owes you one.'
+        'Thank you! Your tip was sent successfully. That was a legend move. The universe owes you one.',
       ];
       const random =
         funMessages[Math.floor(Math.random() * funMessages.length)];
@@ -408,8 +386,6 @@ function StripePaymentForm({ onSuccess }) {
         onSuccess(random);
       }
 
-      // We won’t show this for long because the parent swaps to the success block,
-      // but keep it as a fallback.
       setMessage('Thank you! Your tip was sent successfully.');
     } else if (result.paymentIntent) {
       setMessage(
@@ -437,6 +413,12 @@ function StripePaymentForm({ onSuccess }) {
       >
         {submitting ? 'Processing…' : 'Pay securely'}
       </button>
+
+      {/* Secure-payment note now lives directly under the Pay button */}
+      <p className="tip-card__secure-note">
+        Payments are processed securely by Stripe. KunTips never stores your
+        card details.
+      </p>
     </form>
   );
 }
