@@ -1202,6 +1202,13 @@ p {
   }
 }
 
+.creators-error {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #fca5a5; /* soft red */
+}
+
+
 /* Creator dashboard ------------------------------------------------------ */
 
 .creators-dashboard-header h1 {
