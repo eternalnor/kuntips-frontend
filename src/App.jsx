@@ -11,6 +11,8 @@ import SiteHeader from './components/SiteHeader.jsx';
 import CreatorsLanding from "./CreatorsLanding";
 import CreatorsStart from "./CreatorsStart";
 import CreatorsDashboard from "./CreatorsDashboard";
+import CreatorOnboardingSuccess from "./CreatorOnboardingSuccess";
+import CreatorOnboardingError from "./CreatorOnboardingError";   // ← add this
 
 
 function App() {
@@ -31,6 +33,9 @@ function App() {
             <Route path="/creators" element={<CreatorsLanding />} />
             <Route path="/creators/start" element={<CreatorsStart />} />
             <Route path="/creators/dashboard" element={<CreatorsDashboard />} />
+            <Route path="/creator-onboarding/success" element={<CreatorOnboardingSuccess />} />
+            <Route path="/creator-onboarding/error" element={<CreatorOnboardingError />} />
+
             <Route path="*" element={
                 <main className="page page-legal">
                   <h1 className="page-title">Page not found</h1>
