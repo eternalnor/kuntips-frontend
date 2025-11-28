@@ -1,3 +1,4 @@
+// src/CreatorsStart.jsx
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -13,6 +14,28 @@ function CreatorsStart() {
     setIsStarting(true);
     setError(null);
 
+    // TEMP: hard-coded test creator while we’re in dev.
+    // Later this will come from a logged-in creator.
+    const username = "testcreator1";
+    const displayName = "Test Creator 1";
+
+    // Remember the last creator locally so we can
+    // link them straight to their dashboard on success.
+    try {
+      if (typeof window !== "undefined" && window.localStorage) {
+        window.localStorage.setItem(
+          "kuntips_last_creator_username",
+          username,
+        );
+        window.localStorage.setItem(
+          "kuntips_last_creator_display_name",
+          displayName,
+        );
+      }
+    } catch {
+      // If localStorage fails (very rare), we just ignore it.
+    }
+
     try {
       const response = await fetch(
         `${API_BASE_URL}/connect/create-account-link`,
@@ -22,10 +45,8 @@ function CreatorsStart() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            // TEMP: hard-coded test creator while we’re in dev.
-            // Later this will come from a logged-in creator.
-            username: "testcreator1",
-            displayName: "Test Creator 1",
+            username,
+            displayName,
           }),
         },
       );
