@@ -53,3 +53,20 @@ export function fetchCreatorDashboard(username) {
     method: "GET",
   });
 }
+
+export function updateCreatorProfile(username, { displayName, bio }) {
+  if (!username) {
+    return Promise.reject(new Error("Creator username is required"));
+  }
+
+  const encoded = encodeURIComponent(username.trim().toLowerCase());
+
+  return fetchJson(`/creators/${encoded}/profile`, {
+    method: "PUT",
+    body: JSON.stringify({
+      displayName,
+      bio,
+    }),
+  });
+}
+

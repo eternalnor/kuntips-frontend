@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function CreatorOnboardingSuccess() {
-  let lastUsername: string | null = null;
+  let lastUsername = null;
 
   try {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -11,7 +11,7 @@ export default function CreatorOnboardingSuccess() {
         "kuntips_last_creator_username",
       );
     }
-  } catch {
+  } catch (e) {
     lastUsername = null;
   }
 
@@ -41,8 +41,8 @@ export default function CreatorOnboardingSuccess() {
           <p className="page-body-small">
             We couldn&apos;t detect your creator username automatically. On the
             dashboard, make sure to add{" "}
-            <code>?username=&lt;your-creator-username&gt;</code> to the URL,
-            for example:{" "}
+            <code>?username=&lt;your-creator-username&gt;</code> to the URL, for
+            example:{" "}
             <code>/creators/dashboard?username=testcreator1</code>.
           </p>
         )}
