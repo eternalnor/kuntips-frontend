@@ -1370,3 +1370,37 @@ p {
 .creators-profile-note {
   margin-top: 0.9rem;
 }
+
+/* Stripe status card on creator dashboard -------------------------------- */
+
+.creators-stripe-card {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.creators-stripe-actions {
+  margin-top: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.creators-stripe-note {
+  max-width: 32rem;
+}
+
+/* Inline status messages */
+
+.creators-error-inline {
+  font-size: 0.85rem;
+  color: #fca5a5;
+  margin-top: 0.3rem;
+}
+
+.creators-success-inline {
+  font-size: 0.85rem;
+  color: #bbf7d0;
+  margin-top: 0.3rem;
+}

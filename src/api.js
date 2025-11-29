@@ -1,11 +1,11 @@
-//  api.js
+// src/api.js
 const RAW_API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
-
 
 // Normalize base URL (remove trailing slashes)
 const API_BASE_URL = RAW_API_BASE_URL.replace(/\/+$/, "");
 
-async function fetchJson(path, options = {}) {
+// Exported so other modules (like CreatorsDashboard) can reuse it
+export async function fetchJson(path, options = {}) {
   const url =
     path.startsWith("http://") || path.startsWith("https://")
       ? path
@@ -69,4 +69,3 @@ export function updateCreatorProfile(username, { displayName, bio }) {
     }),
   });
 }
-

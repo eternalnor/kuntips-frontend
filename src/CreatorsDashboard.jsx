@@ -1,7 +1,11 @@
 // CreatorsDashboard.jsx
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { fetchCreatorDashboard, updateCreatorProfile } from "./api";
+import {
+  fetchCreatorDashboard,
+  updateCreatorProfile,
+  fetchJson,
+} from "./api";
 
 function useQuery() {
   const location = useLocation();
@@ -26,6 +30,10 @@ function CreatorsDashboard() {
   const [profileSaving, setProfileSaving] = useState(false);
   const [profileError, setProfileError] = useState(null);
   const [profileSaved, setProfileSaved] = useState(false);
+
+  // Stripe manage-link state
+  const [stripeLoading, setStripeLoading] = useState(false);
+  const [stripeError, setStripeError] = useState(null);
 
   useEffect(() => {
     if (!usernameQuery) {
@@ -131,6 +139,42 @@ function CreatorsDashboard() {
     }
   }
 
+  async function handleManageStripeClick() {
+    if (!creatorUsername || stripeLoading) return;
+
+    setStripeLoading(true);
+    setStripeError(null);
+
+    try {
+      const data = await fetchJson("/connect/create-account-link", {
+        method: "POST",
+        body: JSON.stringify({
+          username: creatorUsername,
+          // When Stripe sends them back, we want them on this dashboard again
+          returnUrlPath: `/creators/dashboard?username=${encodeURIComponent(
+            creatorUsername,
+          )}`,
+        }),
+      });
+
+      const redirectUrl = data.accountLinkUrl || data.url;
+      if (!redirectUrl) {
+        throw new Error("Backend did not return an account link URL.");
+      }
+
+      // Full page redirect into Stripe Connect
+      window.location.href = redirectUrl;
+    } catch (err) {
+      console.error("Failed to create Stripe account link:", err);
+      setStripeError(
+        err.data?.message ||
+          err.message ||
+          "Could not open Stripe. Please try again.",
+      );
+      setStripeLoading(false);
+    }
+  }
+
   return (
     <div className="creators-page">
       {/* HEADER */}
@@ -197,6 +241,43 @@ function CreatorsDashboard() {
           {/* TAB CONTENT */}
           {activeTab === "overview" && (
             <>
+              {/* STRIPE / PAYOUT STATUS */}
+              <section className="card creators-stripe-card">
+                <div className="creators-stripe-main">
+                  <h2>Stripe payouts</h2>
+                  <p className="creators-dashboard-sub">
+                    KunTips uses Stripe to handle all payouts. You keep about{" "}
+                    {keptPercentLabel || "95%"} of each tip; fans cover Stripe
+                    fees and the KunTips platform fee.
+                  </p>
+                  <p className="creators-dashboard-sub">
+                    Use this button to review or update your payout details
+                    (bank account, tax info, etc.) directly in Stripe.
+                  </p>
+                </div>
+
+                {stripeError && (
+                  <p className="creators-error-inline creators-stripe-error">
+                    {stripeError}
+                  </p>
+                )}
+
+                <div className="creators-stripe-actions">
+                  <button
+                    type="button"
+                    className="btn-primary"
+                    disabled={!creatorUsername || stripeLoading}
+                    onClick={handleManageStripeClick}
+                  >
+                    {stripeLoading ? "Opening Stripe…" : "Manage Stripe account"}
+                  </button>
+                  <p className="creators-small creators-stripe-note">
+                    This opens Stripe in a new session. When you’re done, come
+                    back here to see your updated stats.
+                  </p>
+                </div>
+              </section>
+
               {/* STATS GRID */}
               <section className="card creators-dashboard-grid">
                 <div className="creators-dashboard-tile">
