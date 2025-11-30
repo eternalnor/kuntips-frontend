@@ -321,8 +321,8 @@ function CreatorsDashboard() {
                         Tier {tier.currentTier}
                       </p>
                       <p className="creators-dashboard-sub">
-                        You currently keep about {keptPercentLabel} of each tip
-                        before Stripe’s own card processing fees.
+                        You currently keep {keptPercentLabel} of each tip.
+                        Stripe only charges kr2.75 every time you choose to pay out.
                       </p>
                       <p className="creators-dashboard-sub">
                         Last 30 days volume: {tier.volume30dNok} NOK.
