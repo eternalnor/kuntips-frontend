@@ -12,8 +12,8 @@ import CreatorsLanding from "./CreatorsLanding";
 import CreatorsStart from "./CreatorsStart";
 import CreatorsDashboard from "./CreatorsDashboard";
 import CreatorOnboardingSuccess from "./CreatorOnboardingSuccess";
-import CreatorOnboardingError from "./CreatorOnboardingError";   // ← add this
-
+import CreatorOnboardingError from "./CreatorOnboardingError";
+import CreatorLogin from "./CreatorLogin";
 
 function App() {
   return (
@@ -32,16 +32,20 @@ function App() {
             <Route path="/support" element={<SupportPage />} />
             <Route path="/creators" element={<CreatorsLanding />} />
             <Route path="/creators/start" element={<CreatorsStart />} />
+            <Route path="/creators/login" element={<CreatorLogin />} />
             <Route path="/creators/dashboard" element={<CreatorsDashboard />} />
             <Route path="/creator-onboarding/success" element={<CreatorOnboardingSuccess />} />
             <Route path="/creator-onboarding/error" element={<CreatorOnboardingError />} />
 
-            <Route path="*" element={
+            <Route
+              path="*"
+              element={
                 <main className="page page-legal">
                   <h1 className="page-title">Page not found</h1>
                   <p>The page you’re looking for doesn’t exist.</p>
                 </main>
-              } />
+              }
+            />
           </Routes>
 
           <Footer />

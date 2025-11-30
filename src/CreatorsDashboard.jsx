@@ -5,6 +5,7 @@ import {
   fetchCreatorDashboard,
   updateCreatorProfile,
   fetchJson,
+  authHeaders,
 } from "./api";
 
 function useQuery() {
@@ -39,6 +40,27 @@ function CreatorsDashboard() {
     if (!usernameQuery) {
       setLoading(false);
       setError("No creator username provided in the URL.");
+      setPayload(null);
+      return;
+    }
+
+    // Require a session token on the frontend
+    let sessionToken = null;
+    if (typeof window !== "undefined") {
+      try {
+        sessionToken = window.localStorage.getItem(
+          "kuntips_creator_session",
+        );
+      } catch {
+        // ignore
+      }
+    }
+
+    if (!sessionToken) {
+      setLoading(false);
+      setError(
+        "You need to log in to view your creator dashboard. Please go to the Creator login page and sign in with your email and password.",
+      );
       setPayload(null);
       return;
     }
@@ -148,6 +170,9 @@ function CreatorsDashboard() {
     try {
       const data = await fetchJson("/connect/create-account-link", {
         method: "POST",
+        headers: {
+          ...authHeaders(),
+        },
         body: JSON.stringify({
           username: creatorUsername,
           // When Stripe sends them back, we want them on this dashboard again
@@ -204,8 +229,9 @@ function CreatorsDashboard() {
         <section className="card creators-status creators-status-error">
           <p>{error}</p>
           <p className="creators-small">
-            Make sure your creator account is active and that the username in
-            the URL matches your KunTips creator username.
+            If you believe this is a mistake, make sure you’re logged in with
+            the correct creator email and that the username in the URL matches
+            your KunTips creator username.
           </p>
         </section>
       )}
@@ -246,7 +272,7 @@ function CreatorsDashboard() {
                 <div className="creators-stripe-main">
                   <h2>Stripe payouts</h2>
                   <p className="creators-dashboard-sub">
-                    KunTips uses Stripe to handle all payouts. You keep about{" "}
+                    KunTips uses Stripe to handle all payouts. You keep{" "}
                     {keptPercentLabel || "95%"} of each tip; fans cover Stripe
                     fees and the KunTips platform fee.
                   </p>
@@ -321,8 +347,10 @@ function CreatorsDashboard() {
                         Tier {tier.currentTier}
                       </p>
                       <p className="creators-dashboard-sub">
-                        You currently keep {keptPercentLabel} of each tip.
-                        Stripe only charges kr2.75 every time you choose to pay out.
+                        You currently keep {keptPercentLabel} of each tip. Fans
+                        cover payment fees. Stripe only charges a small fixed
+                        payout fee (2.75 NOK) each time you transfer your
+                        balance to your bank.
                       </p>
                       <p className="creators-dashboard-sub">
                         Last 30 days volume: {tier.volume30dNok} NOK.
