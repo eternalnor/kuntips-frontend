@@ -6,8 +6,6 @@ import {
   updateCreatorProfile,
   changePassword,
   logoutCreator,
-  fetchJson,
-  authHeaders,
 } from "./api";
 
 function useQuery() {
