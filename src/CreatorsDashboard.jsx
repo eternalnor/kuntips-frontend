@@ -1,9 +1,11 @@
 // CreatorsDashboard.jsx
 import { useEffect, useMemo, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import {
   fetchCreatorDashboard,
   updateCreatorProfile,
+  changePassword,
+  logoutCreator,
   fetchJson,
   authHeaders,
 } from "./api";
@@ -19,6 +21,8 @@ function useQuery() {
 function CreatorsDashboard() {
   const query = useQuery();
   const usernameQuery = (query.get("username") || "").trim();
+  const navigate = useNavigate();
+
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -31,6 +35,16 @@ function CreatorsDashboard() {
   const [profileSaving, setProfileSaving] = useState(false);
   const [profileError, setProfileError] = useState(null);
   const [profileSaved, setProfileSaved] = useState(false);
+
+  // Password stuff
+
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [securitySaving, setSecuritySaving] = useState(false);
+  const [securityError, setSecurityError] = useState(null);
+  const [securitySuccess, setSecuritySuccess] = useState("");
+
 
   // Stripe manage-link state
   const [stripeLoading, setStripeLoading] = useState(false);
@@ -200,6 +214,52 @@ function CreatorsDashboard() {
     }
   }
 
+    async function handlePasswordChange(e) {
+    e.preventDefault();
+
+    setSecurityError(null);
+    setSecuritySuccess("");
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      setSecurityError("Please fill in all password fields.");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setSecurityError("New password and confirmation do not match.");
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      setSecurityError("New password must be at least 8 characters.");
+      return;
+    }
+
+    setSecuritySaving(true);
+    try {
+      await changePassword(currentPassword, newPassword);
+      setSecuritySuccess("Password updated successfully.");
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (err) {
+      console.error("Failed to change password:", err);
+      setSecurityError(
+        err.data?.message ||
+          err.message ||
+          "Could not update password. Please try again.",
+      );
+    } finally {
+      setSecuritySaving(false);
+    }
+  }
+
+  function handleLogoutClick() {
+    logoutCreator();
+    navigate("/creators");
+  }
+
+
   return (
     <div className="creators-page">
       {/* HEADER */}
@@ -241,37 +301,50 @@ function CreatorsDashboard() {
           {/* TABS */}
           <div className="creators-tabs">
             <button
-              type="button"
-              className={
-                activeTab === "overview"
-                  ? "creators-tab-button is-active"
-                  : "creators-tab-button"
-              }
-              onClick={() => setActiveTab("overview")}
+                type="button"
+                className={
+                  activeTab === "overview"
+                      ? "creators-tab-button is-active"
+                      : "creators-tab-button"
+                }
+                onClick={() => setActiveTab("overview")}
             >
               Overview
             </button>
             <button
-              type="button"
-              className={
-                activeTab === "profile"
-                  ? "creators-tab-button is-active"
-                  : "creators-tab-button"
-              }
-              onClick={() => setActiveTab("profile")}
+                type="button"
+                className={
+                  activeTab === "profile"
+                      ? "creators-tab-button is-active"
+                      : "creators-tab-button"
+                }
+                onClick={() => setActiveTab("profile")}
             >
               Profile &amp; settings
             </button>
+
+            <button
+                type="button"
+                className={
+                  activeTab === "security"
+                      ? "creators-tab-button is-active"
+                      : "creators-tab-button"
+                }
+                onClick={() => setActiveTab("security")}
+            >
+              Security
+            </button>
+
           </div>
 
           {/* TAB CONTENT */}
           {activeTab === "overview" && (
-            <>
-              {/* STRIPE / PAYOUT STATUS */}
-              <section className="card creators-stripe-card">
-                <div className="creators-stripe-main">
-                  <h2>Stripe payouts</h2>
-                  <p className="creators-dashboard-sub">
+              <>
+                {/* STRIPE / PAYOUT STATUS */}
+                <section className="card creators-stripe-card">
+                  <div className="creators-stripe-main">
+                    <h2>Stripe payouts</h2>
+                    <p className="creators-dashboard-sub">
                     KunTips uses Stripe to handle all payouts. You keep{" "}
                     {keptPercentLabel || "95%"} of each tip; fans cover Stripe
                     fees and the KunTips platform fee.
@@ -519,6 +592,90 @@ function CreatorsDashboard() {
               </p>
             </section>
           )}
+
+                    {activeTab === "security" && (
+            <section className="card creators-security-card">
+              <h2>Account security</h2>
+              <p className="creators-dashboard-sub">
+                Change your password and log out of this browser.
+              </p>
+
+              <form
+                className="creators-profile-form creators-security-form"
+                onSubmit={handlePasswordChange}
+              >
+                <div className="creators-form-group">
+                  <label className="creators-label" htmlFor="currentPassword">
+                    Current password
+                  </label>
+                  <input
+                    id="currentPassword"
+                    type="password"
+                    className="creators-input"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                  />
+                </div>
+
+                <div className="creators-form-group">
+                  <label className="creators-label" htmlFor="newPassword">
+                    New password
+                  </label>
+                  <input
+                    id="newPassword"
+                    type="password"
+                    className="creators-input"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                  />
+                  <p className="creators-small">
+                    Use at least 8 characters, and avoid reusing passwords from
+                    other services.
+                  </p>
+                </div>
+
+                <div className="creators-form-group">
+                  <label className="creators-label" htmlFor="confirmPassword">
+                    Confirm new password
+                  </label>
+                  <input
+                    id="confirmPassword"
+                    type="password"
+                    className="creators-input"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                </div>
+
+                {securityError && (
+                  <p className="creators-error-inline">{securityError}</p>
+                )}
+                {securitySuccess && !securityError && (
+                  <p className="creators-success-inline">
+                    {securitySuccess}
+                  </p>
+                )}
+
+                <div className="creators-profile-actions creators-security-actions">
+                  <button
+                    type="submit"
+                    className="btn-primary"
+                    disabled={securitySaving}
+                  >
+                    {securitySaving ? "Updating…" : "Update password"}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-secondary"
+                    onClick={handleLogoutClick}
+                  >
+                    Log out of this browser
+                  </button>
+                </div>
+              </form>
+            </section>
+          )}
+
         </>
       )}
 

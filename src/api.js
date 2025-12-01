@@ -1,74 +1,138 @@
 // src/api.js
-const RAW_API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
-// Normalize base URL (remove trailing slashes)
+const RAW_API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 const API_BASE_URL = RAW_API_BASE_URL.replace(/\/+$/, "");
 
-// --- Auth helpers (frontend only) ---
+const SESSION_KEY = "kuntips_creator_session";
 
-function getSessionToken() {
-  if (typeof window === "undefined") return null;
-  try {
-    return window.localStorage.getItem("kuntips_creator_session");
-  } catch {
-    return null;
-  }
-}
-
-export function authHeaders() {
-  const token = getSessionToken();
-  return token ? { Authorization: `Bearer ${token}` } : {};
-}
-
-// --- Core JSON fetch ---
-
-export async function fetchJson(path, options = {}) {
+/**
+ * Low-level helper to talk to the KunTips backend.
+ */
+async function fetchJson(path, options = {}) {
   const url =
     path.startsWith("http://") || path.startsWith("https://")
       ? path
       : `${API_BASE_URL}${path}`;
 
+  const baseHeaders = {
+    "Content-Type": "application/json",
+  };
+
+  const mergedHeaders = {
+    ...baseHeaders,
+    ...(options.headers || {}),
+  };
+
   const response = await fetch(url, {
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.headers || {}),
-    },
     ...options,
+    headers: mergedHeaders,
   });
 
-  const text = await response.text();
-  let data = null;
+  const contentType = response.headers.get("Content-Type") || "";
+  const isJson = contentType.includes("application/json");
 
-  if (text) {
-    try {
-      data = JSON.parse(text);
-    } catch {
-      // If backend ever sends non-JSON, we don't blow up parsing
-      data = text;
-    }
-  }
+  const body = isJson ? await response.json().catch(() => null) : null;
 
   if (!response.ok) {
-    const error = new Error(
-      (data && data.message) || `Request failed with status ${response.status}`,
-    );
+    const error = new Error(body?.message || `Request failed: ${response.status}`);
     error.status = response.status;
-    error.data = data;
+    error.data = body;
     throw error;
+  }
+
+  return body;
+}
+
+/**
+ * Session token utilities
+ */
+
+export function getSessionToken() {
+  if (typeof window === "undefined") return null;
+  try {
+    return window.localStorage.getItem(SESSION_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function setSessionToken(token) {
+  if (typeof window === "undefined") return;
+  try {
+    if (token) {
+      window.localStorage.setItem(SESSION_KEY, token);
+    } else {
+      window.localStorage.removeItem(SESSION_KEY);
+    }
+  } catch {
+    // ignore
+  }
+}
+
+export function clearSessionToken() {
+  setSessionToken(null);
+}
+
+export function authHeaders() {
+  const token = getSessionToken();
+  if (!token) return {};
+  return {
+    Authorization: `Bearer ${token}`,
+  };
+}
+
+/**
+ * Auth-related API helpers
+ */
+
+// Login: returns { token/sessionToken, creator }
+export async function loginCreator(email, password) {
+  const data = await fetchJson("/auth/login", {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+  });
+
+  const token = data?.sessionToken || data?.token;
+  if (token) {
+    setSessionToken(token);
   }
 
   return data;
 }
 
-// --- Creator dashboard / profile ---
+// Fetch current creator from token
+export function fetchCurrentCreator() {
+  return fetchJson("/auth/me", {
+    method: "GET",
+    headers: {
+      ...authHeaders(),
+    },
+  });
+}
+
+// Change password (requires valid session token)
+export function changePassword(currentPassword, newPassword) {
+  return fetchJson("/auth/change-password", {
+    method: "POST",
+    headers: {
+      ...authHeaders(),
+    },
+    body: JSON.stringify({ currentPassword, newPassword }),
+  });
+}
+
+// Clear local session only – backend token will simply expire
+export function logoutCreator() {
+  clearSessionToken();
+}
+
+/**
+ * Creator dashboard + profile
+ */
 
 export function fetchCreatorDashboard(username) {
-  if (!username) {
-    return Promise.reject(new Error("Creator username is required"));
-  }
-
-  const encoded = encodeURIComponent(username.trim().toLowerCase());
-  return fetchJson(`/creators/${encoded}/dashboard`, {
+  const safeUsername = encodeURIComponent(username);
+  return fetchJson(`/creators/${safeUsername}/dashboard`, {
     method: "GET",
     headers: {
       ...authHeaders(),
@@ -77,38 +141,12 @@ export function fetchCreatorDashboard(username) {
 }
 
 export function updateCreatorProfile(username, { displayName, bio }) {
-  if (!username) {
-    return Promise.reject(new Error("Creator username is required"));
-  }
-
-  const encoded = encodeURIComponent(username.trim().toLowerCase());
-
-  return fetchJson(`/creators/${encoded}/profile`, {
+  const safeUsername = encodeURIComponent(username);
+  return fetchJson(`/creators/${safeUsername}/profile`, {
     method: "PUT",
     headers: {
       ...authHeaders(),
     },
-    body: JSON.stringify({
-      displayName,
-      bio,
-    }),
-  });
-}
-
-// --- Auth API ---
-
-export function loginCreator(email, password) {
-  return fetchJson(`/auth/login`, {
-    method: "POST",
-    body: JSON.stringify({ email, password }),
-  });
-}
-
-export function fetchCurrentCreator() {
-  return fetchJson(`/auth/me`, {
-    method: "GET",
-    headers: {
-      ...authHeaders(),
-    },
+    body: JSON.stringify({ displayName, bio }),
   });
 }

@@ -1404,3 +1404,24 @@ p {
   color: #bbf7d0;
   margin-top: 0.3rem;
 }
+
+/* Security tab ----------------------------------------------------------- */
+
+.creators-security-card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.35rem;
+}
+
+.creators-security-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .creators-security-actions {
+    flex-direction: row;
+    align-items: center;
+  }
+}
