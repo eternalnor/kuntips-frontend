@@ -14,6 +14,8 @@ import CreatorsDashboard from "./CreatorsDashboard";
 import CreatorOnboardingSuccess from "./CreatorOnboardingSuccess";
 import CreatorOnboardingError from "./CreatorOnboardingError";
 import CreatorLogin from "./CreatorLogin";
+import CreatorsRegister from "./CreatorsRegister";
+
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
             <Route path="/support" element={<SupportPage />} />
             <Route path="/creators" element={<CreatorsLanding />} />
             <Route path="/creators/start" element={<CreatorsStart />} />
+            <Route path="/creators/register" element={<CreatorsRegister />} />
             <Route path="/creators/login" element={<CreatorLogin />} />
             <Route path="/creators/dashboard" element={<CreatorsDashboard />} />
             <Route path="/creator-onboarding/success" element={<CreatorOnboardingSuccess />} />

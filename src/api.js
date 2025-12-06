@@ -100,6 +100,31 @@ export async function loginCreator(email, password) {
   return data;
 }
 
+// Register: returns { sessionToken, creator } and stores session token
+export async function registerCreator(payload) {
+  const body = {
+    email: payload.email,
+    username: payload.username,
+    displayName: payload.displayName,
+    password: payload.password,
+    // backend ignores extra fields, but we can pass them if you want:
+    // confirmPassword: payload.confirmPassword,
+    // agreeTerms: payload.agreeTerms,
+  };
+
+  const data = await fetchJson("/auth/register", {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+
+  const token = data?.sessionToken || data?.token;
+  if (token) {
+    setSessionToken(token);
+  }
+
+  return data;
+}
+
 // Fetch current creator from token
 export function fetchCurrentCreator() {
   return fetchJson("/auth/me", {
