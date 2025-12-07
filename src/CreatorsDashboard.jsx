@@ -322,12 +322,7 @@ function CreatorsDashboard() {
           )}
         </section>
       )}
-
-      {!loading && !error && payload && (
-        <>
-          {/* TABS */}
-
-
+      
       {!loading && !error && payload && (
         <>
           {/* TABS */}
