@@ -125,6 +125,12 @@ function CreatorsDashboard() {
   const tier = payload?.tier;
   const recentTips = payload?.recentTips || [];
 
+  const status = payload?.status;
+  const isActive = status?.isActive ?? true;
+  const stripeConnected = status?.stripeConnected ?? false;
+  const canReceiveTips =
+    status?.canReceiveTips ?? (isActive && stripeConnected);
+
   const keptPercentLabel = tier
     ? `${Math.round(tier.keptPercent * 10) / 10}%`
     : null;
@@ -288,6 +294,39 @@ function CreatorsDashboard() {
           </p>
         </section>
       )}
+
+      {!loading && !error && payload && (
+        <section className="card creators-status">
+          {canReceiveTips ? (
+            <>
+              <p>Your KunTips page is live and ready to receive tips.</p>
+              <p className="creators-small">
+                Fans can support you at <code>/u/{creatorUsername}</code>.
+              </p>
+            </>
+          ) : stripeConnected ? (
+            <>
+              <p>Your Stripe account is connected, but your page is not ready to receive tips yet.</p>
+              <p className="creators-small">
+                This can happen if your account is under review or not fully activated.
+                If this persists, please contact support.
+              </p>
+            </>
+          ) : (
+            <>
+              <p>You need to finish setting up Stripe payouts before you can receive tips.</p>
+              <p className="creators-small">
+                Click <strong>“Manage Stripe payouts”</strong> below to connect or complete your Stripe account.
+              </p>
+            </>
+          )}
+        </section>
+      )}
+
+      {!loading && !error && payload && (
+        <>
+          {/* TABS */}
+
 
       {!loading && !error && payload && (
         <>
