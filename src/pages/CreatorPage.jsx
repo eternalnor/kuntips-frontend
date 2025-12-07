@@ -72,6 +72,9 @@ export default function CreatorPage() {
     );
   }
 
+  const canReceiveTips = creator?.can_receive_tips ?? true;
+  const stripeConnected = creator?.stripe_connected ?? false;
+
   // If we get here, we have a creator
   return (
     <main className="card">
@@ -94,14 +97,33 @@ export default function CreatorPage() {
             {creator.bio || 'This creator has not written a bio yet.'}
           </p>
         </section>
-        {/* New: Tip widget section */}
+        {/* Tip widget / status */}
         <section className="creator-section">
-          <TipWidget
-            creatorUsername={creator.username}
-            creatorDisplayName={creator.display_name}
-          />
+          {canReceiveTips ? (
+            <TipWidget
+              creatorUsername={creator.username}
+              creatorDisplayName={creator.display_name}
+            />
+          ) : stripeConnected ? (
+            <>
+              <h2>Tips are temporarily unavailable</h2>
+              <p className="text-muted">
+                This creator is currently not able to receive tips. Please try
+                again later.
+              </p>
+            </>
+          ) : (
+            <>
+              <h2>Tips are not available yet</h2>
+              <p className="text-muted">
+                This creator hasn’t finished setting up payouts yet. Please try
+                again later.
+              </p>
+            </>
+          )}
         </section>
       </div>
     </main>
   );
 }
+
