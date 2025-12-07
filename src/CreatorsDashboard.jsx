@@ -6,6 +6,7 @@ import {
   updateCreatorProfile,
   changePassword,
   logoutCreator,
+  createStripeAccountLink,
 } from "./api";
 
 function useQuery() {
@@ -174,43 +175,37 @@ function CreatorsDashboard() {
   }
 
   async function handleManageStripeClick() {
-    if (!creatorUsername || stripeLoading) return;
+  if (!creatorUsername || stripeLoading) return;
 
-    setStripeLoading(true);
-    setStripeError(null);
+  setStripeLoading(true);
+  setStripeError(null);
 
-    try {
-      const data = await fetchJson("/connect/create-account-link", {
-        method: "POST",
-        headers: {
-          ...authHeaders(),
-        },
-        body: JSON.stringify({
-          username: creatorUsername,
-          // When Stripe sends them back, we want them on this dashboard again
-          returnUrlPath: `/creators/dashboard?username=${encodeURIComponent(
-            creatorUsername,
-          )}`,
-        }),
-      });
+  try {
+    const returnUrlPath = `/creators/dashboard?username=${encodeURIComponent(
+      creatorUsername,
+    )}`;
 
-      const redirectUrl = data.accountLinkUrl || data.url;
-      if (!redirectUrl) {
-        throw new Error("Backend did not return an account link URL.");
-      }
+    const data = await createStripeAccountLink(returnUrlPath);
 
-      // Full page redirect into Stripe Connect
-      window.location.href = redirectUrl;
-    } catch (err) {
-      console.error("Failed to create Stripe account link:", err);
-      setStripeError(
-        err.data?.message ||
-          err.message ||
-          "Could not open Stripe. Please try again.",
-      );
-      setStripeLoading(false);
+    const redirectUrl = data.accountLinkUrl || data.url;
+    if (!redirectUrl) {
+      throw new Error("Backend did not return an account link URL.");
     }
+
+    // Full page redirect into Stripe Connect
+    window.location.href = redirectUrl;
+  } catch (err) {
+    console.error("Failed to create Stripe account link:", err);
+    setStripeError(
+      err.data?.message ||
+        err.message ||
+        "Could not open Stripe. Please try again.",
+    );
+  } finally {
+    setStripeLoading(false);
   }
+}
+
 
     async function handlePasswordChange(e) {
     e.preventDefault();

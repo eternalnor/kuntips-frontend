@@ -175,3 +175,15 @@ export function updateCreatorProfile(username, { displayName, bio }) {
     body: JSON.stringify({ displayName, bio }),
   });
 }
+
+export function createStripeAccountLink(returnUrlPath) {
+  const body = returnUrlPath ? { returnUrlPath } : {};
+  return fetchJson("/connect/create-account-link", {
+    method: "POST",
+    headers: {
+      ...authHeaders(),
+    },
+    body: JSON.stringify(body),
+  });
+}
+
