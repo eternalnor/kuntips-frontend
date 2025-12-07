@@ -131,6 +131,13 @@ function CreatorsDashboard() {
   const canReceiveTips =
     status?.canReceiveTips ?? (isActive && stripeConnected);
 
+  const stripeButtonLabel = stripeLoading
+    ? "Opening Stripe…"
+    : stripeConnected
+    ? "Manage Stripe account"
+    : "Connect Stripe payouts";
+
+
   const keptPercentLabel = tier
     ? `${Math.round(tier.keptPercent * 10) / 10}%`
     : null;
@@ -371,38 +378,58 @@ function CreatorsDashboard() {
                 <section className="card creators-stripe-card">
                   <div className="creators-stripe-main">
                     <h2>Stripe payouts</h2>
-                    <p className="creators-dashboard-sub">
-                    KunTips uses Stripe to handle all payouts. You keep{" "}
-                    {keptPercentLabel || "95%"} of each tip; fans cover Stripe
-                    fees and the KunTips platform fee.
-                  </p>
-                  <p className="creators-dashboard-sub">
-                    Use this button to review or update your payout details
-                    (bank account, tax info, etc.) directly in Stripe.
-                  </p>
-                </div>
 
-                {stripeError && (
-                  <p className="creators-error-inline creators-stripe-error">
-                    {stripeError}
-                  </p>
-                )}
+                    {stripeConnected ? (
+                      <>
+                        <p className="creators-dashboard-sub">
+                          Your Stripe account is connected. KunTips uses Stripe to
+                          handle all payouts. You keep{" "}
+                          {keptPercentLabel || "95%"} of each tip; fans cover
+                          Stripe fees and the KunTips platform fee.
+                        </p>
+                        <p className="creators-dashboard-sub">
+                          Use this button to review or update your payout details
+                          (bank account, tax info, etc.) directly in Stripe.
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="creators-dashboard-sub">
+                          Stripe payouts are not connected yet. You need a Stripe
+                          account to receive tips from fans.
+                        </p>
+                        <p className="creators-dashboard-sub">
+                          When you click the button below, you&apos;ll be taken
+                          to Stripe to either create a new payout account or
+                          connect an existing one. Once finished, you&apos;ll be
+                          redirected back to this dashboard.
+                        </p>
+                      </>
+                    )}
+                  </div>
 
-                <div className="creators-stripe-actions">
-                  <button
-                    type="button"
-                    className="btn-primary"
-                    disabled={!creatorUsername || stripeLoading}
-                    onClick={handleManageStripeClick}
-                  >
-                    {stripeLoading ? "Opening Stripe…" : "Manage Stripe account"}
-                  </button>
-                  <p className="creators-small creators-stripe-note">
-                    This opens Stripe in a new session. When you’re done, come
-                    back here to see your updated stats.
-                  </p>
-                </div>
-              </section>
+                  {stripeError && (
+                    <p className="creators-error-inline creators-stripe-error">
+                      {stripeError}
+                    </p>
+                  )}
+
+                  <div className="creators-stripe-actions">
+                    <button
+                      type="button"
+                      className="btn-primary"
+                      disabled={!creatorUsername || stripeLoading}
+                      onClick={handleManageStripeClick}
+                    >
+                      {stripeButtonLabel}
+                    </button>
+                    <p className="creators-small creators-stripe-note">
+                      This opens Stripe in a new session. When you&apos;re done,
+                      come back here to see your updated stats and tip readiness.
+                    </p>
+                  </div>
+                </section>
+
 
               {/* STATS GRID */}
               <section className="card creators-dashboard-grid">
