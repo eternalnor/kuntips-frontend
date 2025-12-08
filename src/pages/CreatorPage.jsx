@@ -1,4 +1,3 @@
-// src/pages/CreatorPage.jsx
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TipWidget } from '../components/TipWidget.jsx';
@@ -12,10 +11,6 @@ export default function CreatorPage() {
   const [notFound, setNotFound] = useState(false);
   const [error, setError] = useState(null);
 
-  // Works with both old (display_name) and new (displayName) shapes
-  const resolvedDisplayName =
-    creator?.display_name || creator?.displayName || username;
-
   useEffect(() => {
     if (!username) return;
 
@@ -27,18 +22,20 @@ export default function CreatorPage() {
       try {
         const res = await fetch(`${API_BASE_URL}/creators/${username}`);
 
-        if (res.status === 404) {
-          setNotFound(true);
-          setCreator(null);
-        } else if (!res.ok) {
-          const body = await res.json().catch(() => null);
-          throw new Error(body?.message || `Request failed with ${res.status}`);
+        const data = await res.json().catch(() => null);
+
+        if (!res.ok) {
+          if (data?.error === 'creator_not_found') {
+            setNotFound(true);
+            setCreator(null);
+          } else {
+            throw new Error(data?.message || `Request failed with ${res.status}`);
+          }
         } else {
-          const data = await res.json();
           setCreator(data);
         }
       } catch (err) {
-        setError(err.message);
+        setError(err.message || 'Unknown error');
         setCreator(null);
       } finally {
         setLoading(false);
@@ -76,20 +73,25 @@ export default function CreatorPage() {
     );
   }
 
-  // If we get here, we have a creator object
-  const canReceiveTips = creator?.can_receive_tips ?? true;
-  const stripeConnected = creator?.stripe_connected ?? false;
+  if (!creator) {
+    return null;
+  }
+
+  const displayName = creator.display_name || username;
+  const stripeConnected = creator.stripe_connected ?? false;
+  const canReceiveTips = creator.can_receive_tips ?? stripeConnected;
+  const keptPercent = creator.keptPercent ?? 95; // fallback if backend ever omits it
 
   return (
     <main className="card">
       <div className="creator-page">
         <header className="creator-header">
           <div className="creator-avatar">
-            {resolvedDisplayName?.charAt(0)?.toUpperCase() || '?'}
+            {displayName.charAt(0).toUpperCase()}
           </div>
 
           <div className="creator-meta">
-            <h1>{resolvedDisplayName}</h1>
+            <h1>{displayName}</h1>
             <p className="creator-meta-username">@{creator.username}</p>
           </div>
         </header>
@@ -101,28 +103,25 @@ export default function CreatorPage() {
           </p>
         </section>
 
-        {/* Tip widget / status */}
         <section className="creator-section">
           {canReceiveTips ? (
             <TipWidget
               creatorUsername={creator.username}
-              creatorDisplayName={resolvedDisplayName}
-              creatorKeptPercent={creator.keptPercent}
+              creatorDisplayName={displayName}
+              creatorKeptPercent={keptPercent}
             />
           ) : stripeConnected ? (
             <>
               <h2>Tips are temporarily unavailable</h2>
               <p className="text-muted">
-                This creator is currently not able to receive tips. Please try
-                again later.
+                This creator is currently not able to receive tips. Please try again later.
               </p>
             </>
           ) : (
             <>
               <h2>Tips are not available yet</h2>
               <p className="text-muted">
-                This creator hasn’t finished setting up payouts yet. Please try
-                again later.
+                This creator hasn’t finished setting up payouts yet. Please try again later.
               </p>
             </>
           )}
