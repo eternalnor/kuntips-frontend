@@ -323,7 +323,7 @@ function CreatorsDashboard() {
             <>
               <p>You need to finish setting up Stripe payouts before you can receive tips.</p>
               <p className="creators-small">
-                Click <strong>“Manage Stripe payouts”</strong> below to connect or complete your Stripe account.
+                Click <strong>“Connect Stripe payouts”</strong> below to connect or complete your Stripe account.
               </p>
             </>
           )}
