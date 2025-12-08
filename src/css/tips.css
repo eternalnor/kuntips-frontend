@@ -215,9 +215,9 @@
   margin-top: 0.35rem;
   overflow: hidden; /* prevent content clipping during collapse */
   transition:
-    opacity 0.4s ease-out,
-    max-height 0.4s ease-out,
-    margin-top 0.4s ease-out;
+    opacity 2s ease-out,
+    max-height 2s ease-out,
+    margin-top 2s ease-out;
   max-height: 220px; /* comfortably fits button + note on all devices */
 }
 
@@ -287,7 +287,7 @@
      so it comes in just after the CTA starts collapsing */
   opacity: 0;
   transform: translateY(4px);
-  animation: tip-card-payment-in 0.3s ease-out forwards;
+  animation: tip-card-payment-in 1s ease-out forwards;
   animation-delay: 0.12s;
 }
 
