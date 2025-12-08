@@ -26,9 +26,6 @@ export function TipWidget({
   creatorDisplayName,
   creatorKeptPercent = DEFAULT_CREATOR_KEPT_PERCENT,
 }) {
-
-
-export function TipWidget({ creatorUsername, creatorDisplayName }) {
   const [tipAmount, setTipAmount] = useState(MIN_TIP);
   const [inputValue, setInputValue] = useState(String(MIN_TIP));
   const [isSubmitting, setIsSubmitting] = useState(false);
