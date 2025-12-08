@@ -61,6 +61,31 @@ function CreatorLogin() {
         </p>
       </header>
 
+      {typeof window !== "undefined" &&
+        window.localStorage &&
+        window.localStorage.getItem("kuntips_creator_username") && (
+          <section className="card creators-status creators-status-info">
+            <p>
+              You’re already logged in as{" "}
+              <span className="creators-username-tag">
+                {window.localStorage.getItem("kuntips_creator_username")}
+              </span>
+              .
+            </p>
+            <p className="creators-small">
+              Go straight to your{" "}
+              <Link
+                to={`/creators/dashboard?username=${encodeURIComponent(
+                  window.localStorage.getItem("kuntips_creator_username"),
+                )}`}
+              >
+                creator dashboard
+              </Link>
+              .
+            </p>
+          </section>
+        )}
+
       <section className="card creators-profile-card">
         <form className="creators-profile-form" onSubmit={handleSubmit}>
           <div className="creators-form-group">

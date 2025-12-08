@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 
 function CreatorsLanding() {
+  let loggedInUsername = null;
+  if (typeof window !== "undefined" && window.localStorage) {
+    loggedInUsername = window.localStorage.getItem("kuntips_creator_username");
+  }
   return (
     <div className="creators-page">
       {/* HERO */}
@@ -13,12 +17,12 @@ function CreatorsLanding() {
           </p>
 
           <div className="creators-hero-actions">
-            <Link to="/creators/start" className="btn-primary">
-              Start in test mode
+            <Link to="/creators/register" className="btn-primary">
+              Create creator account
             </Link>
-            <span className="creators-hero-note">
-              No NSFW hosting. No subscriptions. Just tips.
-            </span>
+            <Link to="/creators/login" className="btn-secondary">
+              Log in to dashboard
+            </Link>
           </div>
         </div>
 
@@ -28,6 +32,26 @@ function CreatorsLanding() {
           <div className="creators-pill">Norwegian company · Stripe</div>
         </div>
       </section>
+
+      {loggedInUsername && (
+        <section className="card creators-status">
+          <p>
+            You’re logged in as{" "}
+            <span className="creators-username-tag">{loggedInUsername}</span>.
+          </p>
+          <p className="creators-small">
+            Go straight to your{" "}
+            <Link
+              to={`/creators/dashboard?username=${encodeURIComponent(
+                loggedInUsername,
+              )}`}
+            >
+              creator dashboard
+            </Link>
+            .
+          </p>
+        </section>
+      )}
 
       {/* HOW IT WORKS */}
       <section className="creators-grid">
