@@ -41,7 +41,7 @@ export function TipWidget({
     return tipAmount;
   }, [tipAmount]);
 
-    const breakdown = useMemo(() => {
+  const breakdown = useMemo(() => {
     const T = safeTip;
 
     const totalCharged =
@@ -51,7 +51,7 @@ export function TipWidget({
     // Clamp keptPercent to [0, 100] just to be safe
     const clampedKeptPercent = Math.min(
       100,
-      Math.max(0, Number(creatorKeptPercent) || DEFAULT_CREATOR_KEPT_PERCENT)
+      Math.max(0, Number(creatorKeptPercent) || DEFAULT_CREATOR_KEPT_PERCENT),
     );
     const creatorShare = clampedKeptPercent / 100;
 
@@ -69,7 +69,6 @@ export function TipWidget({
       creatorPercentage: format0(creatorPercentage),
     };
   }, [safeTip, creatorKeptPercent]);
-
 
   const handlePresetClick = (amount) => {
     setErrorMessage(null);
@@ -125,7 +124,7 @@ export function TipWidget({
       if (!apiBase) {
         console.error('VITE_API_BASE_URL is not set');
         setErrorMessage(
-          'Configuration error: payment backend is not available. Please try again later.'
+          'Configuration error: payment backend is not available. Please try again later.',
         );
         setIsSubmitting(false);
         return;
@@ -161,19 +160,19 @@ export function TipWidget({
 
         if (code === 'invalid_tip_amount') {
           setErrorMessage(
-            `Tip must be between NOK ${MIN_TIP} and NOK ${MAX_TIP}.`
+            `Tip must be between NOK ${MIN_TIP} and NOK ${MAX_TIP}.`,
           );
         } else if (code === 'creator_not_found') {
           setErrorMessage(
-            'This creator could not be found or is not active right now.'
+            'This creator could not be found or is not active right now.',
           );
         } else if (code === 'creator_not_connected') {
           setErrorMessage(
-            'This creator has not finished setting up payouts yet. Please try again later.'
+            'This creator has not finished setting up payouts yet. Please try again later.',
           );
         } else {
           setErrorMessage(
-            'Something went wrong starting the payment. Please try again in a moment.'
+            'Something went wrong starting the payment. Please try again in a moment.',
           );
         }
 
@@ -184,7 +183,7 @@ export function TipWidget({
       if (!data || !data.clientSecret) {
         console.error('Tip session response missing clientSecret', data);
         setErrorMessage(
-          'We could not start the payment session. Please try again in a moment.'
+          'We could not start the payment session. Please try again in a moment.',
         );
         setIsSubmitting(false);
         return;
@@ -197,7 +196,7 @@ export function TipWidget({
     } catch (err) {
       console.error('Unexpected error creating tip session', err);
       setErrorMessage(
-        'Something went wrong starting the payment. Please try again in a moment.'
+        'Something went wrong starting the payment. Please try again in a moment.',
       );
       setIsSubmitting(false);
     }
@@ -284,7 +283,8 @@ export function TipWidget({
 
           <div className="tip-card__row">
             <span className="tip-card__label-muted">
-              Creator receives at least {breakdown.creatorPercentage}% of your tip
+              Creator receives at least {breakdown.creatorPercentage}% of your
+              tip
             </span>
             <span className="tip-card__value tip-card__value--success">
               kr {breakdown.creatorReceives}
@@ -298,16 +298,16 @@ export function TipWidget({
           </p>
         </div>
 
-        {/* CTA BLOCK – button + (no text here anymore) */}
+        {/* CTA BLOCK – button + note (hidden once Stripe form appears) */}
         <div
-            className={`tip-card__cta-block ${
-                isSubmitting || clientSecret ? 'tip-card__cta-block--hidden' : ''
-            }`}
+          className={`tip-card__cta-block ${
+            isSubmitting || clientSecret ? 'tip-card__cta-block--hidden' : ''
+          }`}
         >
           <button
-              type="submit"
-              disabled={isSubmitting || !!clientSecret}
-              className="tip-card__cta"
+            type="submit"
+            disabled={isSubmitting || !!clientSecret}
+            className="tip-card__cta"
           >
             {isSubmitting ? 'Starting secure payment…' : 'Tip anonymously now'}
           </button>
@@ -320,9 +320,9 @@ export function TipWidget({
 
       {/* Stripe payment step */}
       {clientSecret && (
-          <div className="tip-card__payment">
-            {tipCompleted ? (
-                <div className="tip-card__success">
+        <div className="tip-card__payment">
+          {tipCompleted ? (
+            <div className="tip-card__success">
               {/* FUN MESSAGE FIRST */}
               {funMessage && (
                 <p className="tip-card__success-text tip-card__success-text--fun">
@@ -408,7 +408,7 @@ function StripePaymentForm({ onSuccess }) {
       setMessage('Thank you! Your tip was sent successfully.');
     } else if (result.paymentIntent) {
       setMessage(
-        `Payment status: ${result.paymentIntent.status}. Please check your bank or try again.`
+        `Payment status: ${result.paymentIntent.status}. Please check your bank or try again.`,
       );
     } else {
       setMessage('Unexpected payment result. Please try again.');

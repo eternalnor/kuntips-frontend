@@ -1,7 +1,7 @@
+// src/pages/CreatorPage.jsx
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TipWidget } from '../components/TipWidget.jsx';
-
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -12,10 +12,9 @@ export default function CreatorPage() {
   const [notFound, setNotFound] = useState(false);
   const [error, setError] = useState(null);
 
-  // Resolve a display name that works with both old (display_name) and new (displayName) shapes
+  // Works with both old (display_name) and new (displayName) shapes
   const resolvedDisplayName =
     creator?.display_name || creator?.displayName || username;
-
 
   useEffect(() => {
     if (!username) return;
@@ -77,10 +76,10 @@ export default function CreatorPage() {
     );
   }
 
+  // If we get here, we have a creator object
   const canReceiveTips = creator?.can_receive_tips ?? true;
   const stripeConnected = creator?.stripe_connected ?? false;
 
-  // If we get here, we have a creator
   return (
     <main className="card">
       <div className="creator-page">
@@ -91,7 +90,6 @@ export default function CreatorPage() {
 
           <div className="creator-meta">
             <h1>{resolvedDisplayName}</h1>
-
             <p className="creator-meta-username">@{creator.username}</p>
           </div>
         </header>
@@ -102,20 +100,14 @@ export default function CreatorPage() {
             {creator.bio || 'This creator has not written a bio yet.'}
           </p>
         </section>
-        {/* New: Tip widget section */}
-        <section className="creator-section">
-          <TipWidget
-            creatorUsername={creator.username}
-            creatorDisplayName={resolvedDisplayName}
-            creatorKeptPercent={creator.keptPercent}
-          />
-        </section>
+
         {/* Tip widget / status */}
         <section className="creator-section">
           {canReceiveTips ? (
-              <TipWidget
+            <TipWidget
               creatorUsername={creator.username}
-              creatorDisplayName={creator.display_name}
+              creatorDisplayName={resolvedDisplayName}
+              creatorKeptPercent={creator.keptPercent}
             />
           ) : stripeConnected ? (
             <>
@@ -139,4 +131,3 @@ export default function CreatorPage() {
     </main>
   );
 }
-
