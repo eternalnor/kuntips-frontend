@@ -35,12 +35,13 @@ export function TipWidget({
   // Track completed payments + fun message
   const [tipCompleted, setTipCompleted] = useState(false);
   const [funMessage, setFunMessage] = useState('');
-    // Thank-you overlay state
+
+  // Thank-you overlay state
   const [showThankYouOverlay, setShowThankYouOverlay] = useState(false);
   const [overlayLocked, setOverlayLocked] = useState(false);
+  const [overlayClosing, setOverlayClosing] = useState(false);
   const overlayTimerRef = useRef(null);
   const [lastTipSummary, setLastTipSummary] = useState(null);
-
 
   const safeTip = useMemo(() => {
     if (Number.isNaN(tipAmount)) return MIN_TIP;
@@ -90,6 +91,7 @@ export function TipWidget({
       creatorReceives: breakdown.creatorReceives,
     });
 
+    setOverlayClosing(false);
     setShowThankYouOverlay(true);
     setOverlayLocked(true);
 
@@ -100,6 +102,24 @@ export function TipWidget({
     }, 3000);
   };
 
+  const requestOverlayClose = () => {
+    // Do nothing if it's not visible or still locked
+    if (!showThankYouOverlay || overlayLocked) {
+      return;
+    }
+
+    // Start fade-out animation
+    setOverlayClosing(true);
+
+    // Remove from DOM after animation completes (1s)
+    setTimeout(() => {
+      setShowThankYouOverlay(false);
+      setOverlayClosing(false);
+    }, 1000);
+  };
+
+
+
   // Auto-hide overlay after 3s on scroll or click
   useEffect(() => {
     if (!showThankYouOverlay) {
@@ -108,7 +128,7 @@ export function TipWidget({
 
     const handleDismiss = () => {
       if (overlayLocked) return; // still inside 3s lock
-      setShowThankYouOverlay(false);
+      requestOverlayClose();
     };
 
     window.addEventListener('click', handleDismiss, { passive: true });
@@ -336,8 +356,7 @@ export function TipWidget({
 
           <div className="tip-card__row">
             <span className="tip-card__label-muted">
-              Creator receives at least {breakdown.creatorPercentage}% of your
-              tip
+              Creator receives {breakdown.creatorPercentage}% of your tip
             </span>
             <span className="tip-card__value tip-card__value--success">
               kr {breakdown.creatorReceives}
@@ -418,60 +437,60 @@ export function TipWidget({
 
       {/* Thank-you overlay */}
       {showThankYouOverlay && (
-        <div
-          className="tip-overlay"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Tip completed"
-        >
-          <div className="tip-overlay__card">
-            <h3 className="tip-overlay__title">Thank you for your tip!</h3>
+          <div
+              className={`tip-overlay ${
+                  overlayClosing ? 'tip-overlay--closing' : ''
+              }`}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Tip completed"
+          >
 
-            <p className="tip-overlay__line">
-              You just sent{' '}
-              <span className="tip-overlay__amount">
+            <div className="tip-overlay__card">
+              <h3 className="tip-overlay__title">Thank you for your tip!</h3>
+
+              <p className="tip-overlay__line">
+                You just sent{' '}
+                <span className="tip-overlay__amount">
                 kr {lastTipSummary?.tip ?? breakdown.tip}
               </span>{' '}
-              to <span className="tip-overlay__name">{displayName}</span>.
-            </p>
+                to <span className="tip-overlay__name">{displayName}</span>.
+              </p>
 
-            <p className="tip-overlay__line tip-overlay__line--muted">
-              {displayName} will receive approximately{' '}
-              <span className="tip-overlay__amount-success">
+              <p className="tip-overlay__line tip-overlay__line--muted">
+                {displayName} will receive{' '}
+                <span className="tip-overlay__amount-success">
                 kr{' '}
-                {lastTipSummary?.creatorReceives ??
-                  breakdown.creatorReceives}
+                  {lastTipSummary?.creatorReceives ??
+                      breakdown.creatorReceives}
               </span>{' '}
-              after fees.
-            </p>
+                after fees.
+              </p>
 
-            {funMessage && <p className="tip-overlay__fun">{funMessage}</p>}
+              {funMessage && <p className="tip-overlay__fun">{funMessage}</p>}
 
-            <button
-              type="button"
-              className="tip-overlay__button"
-              onClick={() => {
-                if (!overlayLocked) {
-                  setShowThankYouOverlay(false);
-                }
-              }}
-            >
-              Close and continue
-            </button>
+              <button
+                  type="button"
+                  className="tip-overlay__button"
+                  onClick={requestOverlayClose}
+              >
+                Close and continue
+              </button>
 
-            <p className="tip-overlay__hint">
-              This window will also close if you scroll or click anywhere after
-              a few seconds.
-            </p>
+
+              <p className="tip-overlay__hint">
+                This window will also close if you scroll or click anywhere after
+                a few seconds.
+              </p>
+            </div>
           </div>
-        </div>
       )}
     </section>
   );
 }
 
 
-function StripePaymentForm({ onSuccess }) {
+function StripePaymentForm({onSuccess}) {
   const stripe = useStripe();
   const elements = useElements();
   const [submitting, setSubmitting] = useState(false);
