@@ -35,7 +35,10 @@ export default function CreatorPage() {
           setCreator(data);
         }
       } catch (err) {
-        setError(err.message || 'Unknown error');
+        console.error('Error fetching creator', err);
+        setError(
+          'Something went wrong while loading this creator. Please try again in a moment.',
+        );
         setCreator(null);
       } finally {
         setLoading(false);
