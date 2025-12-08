@@ -1,5 +1,5 @@
 // src/components/TipWidget.jsx
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import {
   Elements,
@@ -35,6 +35,12 @@ export function TipWidget({
   // Track completed payments + fun message
   const [tipCompleted, setTipCompleted] = useState(false);
   const [funMessage, setFunMessage] = useState('');
+    // Thank-you overlay state
+  const [showThankYouOverlay, setShowThankYouOverlay] = useState(false);
+  const [overlayLocked, setOverlayLocked] = useState(false);
+  const overlayTimerRef = useRef(null);
+  const [lastTipSummary, setLastTipSummary] = useState(null);
+
 
   const safeTip = useMemo(() => {
     if (Number.isNaN(tipAmount)) return MIN_TIP;
@@ -69,6 +75,51 @@ export function TipWidget({
       creatorPercentage: format0(creatorPercentage),
     };
   }, [safeTip, creatorKeptPercent]);
+
+  // Show the thank-you overlay when a payment succeeds
+  const triggerThankYouOverlay = () => {
+    // Clear any previous timer
+    if (overlayTimerRef.current) {
+      clearTimeout(overlayTimerRef.current);
+      overlayTimerRef.current = null;
+    }
+
+    // Capture the current breakdown values at the moment of success
+    setLastTipSummary({
+      tip: breakdown.tip,
+      creatorReceives: breakdown.creatorReceives,
+    });
+
+    setShowThankYouOverlay(true);
+    setOverlayLocked(true);
+
+    // Keep the overlay visible for at least 3 seconds
+    overlayTimerRef.current = setTimeout(() => {
+      setOverlayLocked(false);
+      overlayTimerRef.current = null;
+    }, 3000);
+  };
+
+  // Auto-hide overlay after 3s on scroll or click
+  useEffect(() => {
+    if (!showThankYouOverlay) {
+      return;
+    }
+
+    const handleDismiss = () => {
+      if (overlayLocked) return; // still inside 3s lock
+      setShowThankYouOverlay(false);
+    };
+
+    window.addEventListener('click', handleDismiss, { passive: true });
+    window.addEventListener('scroll', handleDismiss, { passive: true });
+
+    return () => {
+      window.removeEventListener('click', handleDismiss);
+      window.removeEventListener('scroll', handleDismiss);
+    };
+  }, [showThankYouOverlay, overlayLocked]);
+
 
   const handlePresetClick = (amount) => {
     setErrorMessage(null);
@@ -203,6 +254,8 @@ export function TipWidget({
   };
 
   const displayName = creatorDisplayName || creatorUsername;
+
+
 
   return (
     <section aria-label="Tip widget" className="tip-card">
@@ -355,15 +408,68 @@ export function TipWidget({
                 onSuccess={(randomMessage) => {
                   setTipCompleted(true);
                   setFunMessage(randomMessage || '');
+                  triggerThankYouOverlay();
                 }}
               />
             </Elements>
           )}
         </div>
       )}
+
+      {/* Thank-you overlay */}
+      {showThankYouOverlay && (
+        <div
+          className="tip-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Tip completed"
+        >
+          <div className="tip-overlay__card">
+            <h3 className="tip-overlay__title">Thank you for your tip!</h3>
+
+            <p className="tip-overlay__line">
+              You just sent{' '}
+              <span className="tip-overlay__amount">
+                kr {lastTipSummary?.tip ?? breakdown.tip}
+              </span>{' '}
+              to <span className="tip-overlay__name">{displayName}</span>.
+            </p>
+
+            <p className="tip-overlay__line tip-overlay__line--muted">
+              {displayName} will receive approximately{' '}
+              <span className="tip-overlay__amount-success">
+                kr{' '}
+                {lastTipSummary?.creatorReceives ??
+                  breakdown.creatorReceives}
+              </span>{' '}
+              after fees.
+            </p>
+
+            {funMessage && <p className="tip-overlay__fun">{funMessage}</p>}
+
+            <button
+              type="button"
+              className="tip-overlay__button"
+              onClick={() => {
+                if (!overlayLocked) {
+                  setShowThankYouOverlay(false);
+                }
+              }}
+            >
+              Close and continue
+            </button>
+
+            <p className="tip-overlay__hint">
+              This window will also close if you scroll or click anywhere after
+              a few seconds.
+            </p>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
+
 
 function StripePaymentForm({ onSuccess }) {
   const stripe = useStripe();

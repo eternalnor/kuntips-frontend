@@ -1,0 +1,394 @@
+/*  ======================== For Creators pages  ========================  */
+
+.creators-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.creators-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.creators-hero-text h1 {
+  font-size: 1.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.creators-hero-text p {
+  color: var(--text-muted);
+}
+
+.creators-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.creators-hero-note {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.creators-hero-side {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.creators-pill {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  color: var(--accent);
+}
+
+.creators-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+.creators-step h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.35rem;
+}
+
+.creators-step p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.creators-details h2 {
+  margin-bottom: 0.75rem;
+}
+
+.creators-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.75rem 0;
+}
+
+.creators-list li {
+  position: relative;
+  padding-left: 1.25rem;
+  margin-bottom: 0.4rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.creators-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0.2rem;
+  top: 0;
+  color: var(--accent);
+}
+
+.creators-small {
+  font-size: 0.85rem;
+  color: var(--text-muted-soft, var(--text-muted));
+}
+
+.creators-details .btn-secondary {
+  margin-top: 0.5rem;
+}
+
+/*  ======================== Start page layout  ========================  */
+
+.creators-start h1 {
+  font-size: 1.7rem;
+  margin-bottom: 0.5rem;
+}
+
+.creators-start > p {
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+}
+
+.creators-columns {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.creators-column h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+}
+
+.creators-cta-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.creators-backlink a {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.creators-backlink a:hover {
+  color: var(--accent);
+}
+
+/*  ======================== Responsive tweaks ========================  */
+
+@media (min-width: 768px) {
+  .creators-hero {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .creators-hero-side {
+    justify-content: flex-end;
+    max-width: 260px;
+  }
+
+  .creators-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .creators-columns {
+    flex-direction: row;
+  }
+
+  .creators-column {
+    flex: 1;
+  }
+}
+
+.creators-error {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #fca5a5; /* soft red */
+}
+
+/*  ======================== Creator dashboard ----------------------------- */
+
+.creators-dashboard-header h1 {
+  font-size: 1.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.creators-dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.creators-dashboard-tile {
+  padding: 1rem 1rem 0.9rem;
+  border-radius: 0.9rem;
+  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.08), transparent),
+              rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+}
+
+.creators-stat-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+}
+
+.creators-stat-value {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.creators-stat-sub {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/*  ======================== Recent tips table ========================  */
+
+.creators-dashboard-activity-header h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
+}
+
+.creators-dashboard-table-wrapper {
+  margin-top: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  overflow: hidden;
+}
+
+.creators-dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.creators-dashboard-table thead {
+  background: rgba(15, 23, 42, 0.95);
+}
+
+.creators-dashboard-table th,
+.creators-dashboard-table td {
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+}
+
+.creators-dashboard-table th {
+  font-weight: 500;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.creators-dashboard-table tbody tr:nth-child(even) {
+  background: rgba(15, 23, 42, 0.7);
+}
+
+/*  ======================== Responsive layout ========================  */
+
+@media (min-width: 768px) {
+  .creators-dashboard-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/*  ======================== Dashboard tabs  ========================  */
+
+.creators-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.creators-tab-button {
+  padding: 0.5rem 0.9rem;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  border-radius: 999px 999px 0 0;
+  cursor: pointer;
+}
+
+.creators-tab-button:hover {
+  color: var(--text-main);
+}
+
+.creators-tab-button.is-active {
+  background: rgba(15, 23, 42, 0.95);
+  color: var(--text-main);
+  border-bottom: 2px solid var(--accent);
+}
+
+/*  ======================== Profile tab  ========================  */
+
+.creators-profile-card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.35rem;
+}
+
+.creators-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0.9rem 0 0.8rem;
+}
+
+.creators-profile-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(37, 99, 235, 0.25);
+  color: #e5e7eb;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.creators-profile-name {
+  font-weight: 600;
+}
+
+.creators-profile-username {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.creators-profile-bio {
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--text-main);
+}
+
+.creators-profile-note {
+  margin-top: 0.9rem;
+}
+
+/* ========================  Stripe status card on creator dashboard  ========================  */
+
+.creators-stripe-card {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.creators-stripe-actions {
+  margin-top: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.creators-stripe-note {
+  max-width: 32rem;
+}
+
+/*  ======================== Inline status messages ========================  */
+
+.creators-error-inline {
+  font-size: 0.85rem;
+  color: #fca5a5;
+  margin-top: 0.3rem;
+}
+
+.creators-success-inline {
+  font-size: 0.85rem;
+  color: #bbf7d0;
+  margin-top: 0.3rem;
+}
+
+/*  ======================== Security tab  ========================  */
+
+.creators-security-card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.35rem;
+}
+
+.creators-security-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .creators-security-actions {
+    flex-direction: row;
+    align-items: center;
+  }
+}

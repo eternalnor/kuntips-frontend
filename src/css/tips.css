@@ -1,0 +1,461 @@
+/* =========================== KunTips – Tip Card =========================== */
+
+.tip-card {
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #111827;
+  padding: 1.25rem;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .tip-card {
+    padding: 1.5rem;
+  }
+}
+
+.tip-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.tip-card__title {
+  font-family: var(--font-main);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #f9fafb;
+}
+
+@media (min-width: 640px) {
+  .tip-card__title {
+    font-size: 1.2rem;
+  }
+}
+
+.tip-card__subtitle {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/*  ======================== Preset buttons ========================  */
+
+.tip-card__presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tip-card__preset {
+  flex: 1 1 4.2rem;
+  min-width: 4.2rem;
+  border-radius: 999px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0a0f1f;
+  color: #e5e7eb;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition:
+    background 0.16s ease-out,
+    border-color 0.16s ease-out,
+    transform 0.08s ease-out,
+    box-shadow 0.16s ease-out;
+}
+
+.tip-card__preset:hover {
+  border-color: #6366f1;
+  background: #111827;
+}
+
+.tip-card__preset--active {
+  background: #6366f1;
+  border-color: #818cf8;
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(99, 102, 241, 0.5);
+  transform: translateY(-1px);
+}
+
+.tip-card__preset-badge {
+  font-size: 0.65rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  color: #f9fafb;
+  border: 1px solid rgba(249, 250, 251, 0.15);
+}
+
+/*  ======================== Form  ======================== */
+
+.tip-card__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.tip-card__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.tip-card__label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.tip-card__amount-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.tip-card__amount-prefix {
+  position: absolute;
+  left: 0.8rem;
+  font-size: 0.85rem;
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.tip-card__amount-input {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0a0f1f;
+  padding: 0.45rem 0.75rem 0.45rem 1.85rem;
+  font-size: 0.9rem;
+  color: #f9fafb;
+  outline: none;
+}
+
+.tip-card__amount-input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.5);
+}
+
+.tip-card__error {
+  font-size: 0.75rem;
+  color: #f97373;
+}
+
+/*  ======================== Breakdown  ======================== */
+
+.tip-card__breakdown {
+  border-radius: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.75rem 0.9rem;
+  font-size: 0.8rem;
+  color: #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+@media (min-width: 640px) {
+  .tip-card__breakdown {
+    padding: 0.9rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+.tip-card__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tip-card__value {
+  font-weight: 600;
+}
+
+.tip-card__value--strong {
+  font-weight: 700;
+}
+
+.tip-card__value--success {
+  color: #22c55e;
+}
+
+.tip-card__label-muted {
+  color: #9ca3af;
+}
+
+.tip-card__divider {
+  margin: 0.35rem 0 0.2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.tip-card__footnote {
+  margin-top: 0.3rem;
+  font-size: 0.7rem;
+  color: #9ca3af;
+}
+
+/*  ======================== CTA – button + secure note container ========================  */
+
+.tip-card__cta-block {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+  transition:
+    opacity 1s ease-out,
+    max-height 1s ease-out,
+    margin-top 1s ease-out;
+  max-height: 120px; /* fits button + a bit of spacing */
+}
+
+.tip-card__cta-block--hidden {
+  opacity: 0;
+  max-height: 0;
+  margin-top: 0;
+  pointer-events: none;
+}
+
+.tip-card__cta {
+  width: 100%;
+  border-radius: 999px;
+  border: none;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: var(--font-main);
+  cursor: pointer;
+  background: #6366f1;
+  color: #fff;
+  box-shadow: 0 16px 40px rgba(99, 102, 241, 0.45);
+  transition:
+    background 0.88s ease-out,
+    box-shadow 0.88s ease-out,
+    transform 0.44s ease-out;
+}
+
+.tip-card__cta:hover:not(:disabled) {
+  background: #818cf8;
+  box-shadow: 0 18px 50px rgba(99, 102, 241, 0.6);
+  transform: translateY(-1px);
+}
+
+.tip-card__cta:disabled {
+  cursor: default;
+  box-shadow: none;
+}
+
+/* Secure payment note (used under Pay button)  ======================== */
+.tip-card__secure-note {
+  text-align: center;
+  font-size: 0.7rem;
+  color: #9ca3af;
+  margin-top: 0.3rem;
+}
+
+/* Secondary CTA (used for Pay button + “Send another tip”) ========================  */
+.tip-card__cta--secondary {
+  background: #0f172a;
+  box-shadow: none;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+}
+
+.tip-card__cta--secondary:hover:not(:disabled) {
+  background: #111827;
+  border-color: #6366f1;
+}
+
+/* =========================== Stripe payment step  =========================== */
+
+.tip-card__payment {
+  margin-top: 0.1rem;
+  padding-top: 0.15rem;
+
+  /*  ======================== Smooth fade/slide-in when it appears  ======================== */
+  opacity: 0;
+  transform: translateY(4px);
+  animation: tip-card-payment-in 0.22s ease-out forwards;
+}
+
+.tip-card__payment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.35rem;
+}
+
+.tip-card__payment-element {
+  padding: 0.75rem 0.9rem;
+  border-radius: 0.9rem;
+  background: #020617;
+  border: 1px solid rgba(148, 163, 184, 0.55);
+}
+
+/* Secondary CTA (used for Pay button + “Send another tip”) ========================  */
+.tip-card__cta--secondary {
+  background: #0f172a;
+  box-shadow: none;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+}
+
+.tip-card__cta--secondary:hover:not(:disabled) {
+  background: #111827;
+  border-color: #6366f1;
+}
+
+@keyframes tip-card-payment-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================== Success state after payment  =========================== */
+
+.tip-card__success {
+  margin-top: 0.75rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(34, 197, 94, 0.5);
+  background: radial-gradient(
+    circle at top left,
+    rgba(34, 197, 94, 0.18),
+    rgba(15, 23, 42, 0.96)
+  );
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.83rem;
+}
+
+.tip-card__success-title {
+  font-weight: 600;
+  color: #bbf7d0;
+}
+
+.tip-card__success-text {
+  color: #d1fae5;
+  font-size: 0.78rem;
+}
+
+.tip-card__success-text--fun {
+  font-weight: 600;
+  color: #bbf7d0;
+}
+
+/* =========================== Thank-you overlay =========================== */
+
+.tip-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50; /* above everything else */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(15, 23, 42, 0.88); /* dimmed backdrop */
+  backdrop-filter: blur(4px);
+}
+
+.tip-overlay__card {
+  width: 100%;
+  max-width: 360px;
+  border-radius: 1.25rem;
+  padding: 1.1rem 1.2rem 1.2rem;
+  background: radial-gradient(
+      circle at top left,
+      rgba(99, 102, 241, 0.18),
+      rgba(15, 23, 42, 0.98)
+    );
+  border: 1px solid rgba(148, 163, 184, 0.65);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.85);
+  font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  animation: tip-overlay-in 0.22s ease-out forwards;
+}
+
+.tip-overlay__title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.tip-overlay__line {
+  color: #e5e7eb;
+}
+
+.tip-overlay__line--muted {
+  color: #9ca3af;
+}
+
+.tip-overlay__amount {
+  font-weight: 600;
+}
+
+.tip-overlay__amount-success {
+  font-weight: 600;
+  color: #22c55e;
+}
+
+.tip-overlay__name {
+  font-weight: 600;
+}
+
+.tip-overlay__fun {
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  color: #bbf7d0;
+}
+
+.tip-overlay__button {
+  margin-top: 0.5rem;
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.85);
+  background: #0f172a;
+  color: #f9fafb;
+  padding: 0.55rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tip-overlay__button:hover {
+  background: #111827;
+  border-color: #6366f1;
+}
+
+.tip-overlay__hint {
+  margin-top: 0.25rem;
+  font-size: 0.72rem;
+  color: #9ca3af;
+  text-align: center;
+}
+
+@keyframes tip-overlay-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
