@@ -13,11 +13,20 @@ const MAX_TIP = 2000;
 const KUNTIPS_FEE_RATE = 0.05; // 5% KunTips service fee
 const PROCESSOR_FEE_RATE = 0.015; // 1.5% Stripe processor fee
 const STRIPE_FIXED_FEE = 1.8; // 1.80NOK Stripe fixed fee
-const CREATOR_SHARE = 0.95; // 95% to creator
+
+// Fallback if backend doesn't send a value yet
+const DEFAULT_CREATOR_KEPT_PERCENT = 95;
 
 const presetAmounts = [100, 250, 500, 1000, 2000];
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
+export function TipWidget({
+  creatorUsername,
+  creatorDisplayName,
+  creatorKeptPercent = DEFAULT_CREATOR_KEPT_PERCENT,
+}) {
+
 
 export function TipWidget({ creatorUsername, creatorDisplayName }) {
   const [tipAmount, setTipAmount] = useState(MIN_TIP);
@@ -35,26 +44,35 @@ export function TipWidget({ creatorUsername, creatorDisplayName }) {
     return tipAmount;
   }, [tipAmount]);
 
-  const breakdown = useMemo(() => {
+    const breakdown = useMemo(() => {
     const T = safeTip;
 
     const totalCharged =
       T / (1 - (PROCESSOR_FEE_RATE + KUNTIPS_FEE_RATE)) + STRIPE_FIXED_FEE;
     const processorFee = totalCharged - T;
-    const creatorReceives = T * CREATOR_SHARE;
-    const creatorPercentage = 100 * CREATOR_SHARE;
+
+    // Clamp keptPercent to [0, 100] just to be safe
+    const clampedKeptPercent = Math.min(
+      100,
+      Math.max(0, Number(creatorKeptPercent) || DEFAULT_CREATOR_KEPT_PERCENT)
+    );
+    const creatorShare = clampedKeptPercent / 100;
+
+    const creatorReceives = T * creatorShare;
+    const creatorPercentage = clampedKeptPercent;
 
     const format = (value) => value.toFixed(2);
     const format0 = (value) => value.toFixed(0);
 
     return {
       tip: format(T),
-      processorFee: format(processorFee),
       totalCharged: format(totalCharged),
+      processorFee: format(processorFee),
       creatorReceives: format(creatorReceives),
       creatorPercentage: format0(creatorPercentage),
     };
-  }, [safeTip]);
+  }, [safeTip, creatorKeptPercent]);
+
 
   const handlePresetClick = (amount) => {
     setErrorMessage(null);

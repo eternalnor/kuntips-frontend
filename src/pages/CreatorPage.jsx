@@ -12,6 +12,11 @@ export default function CreatorPage() {
   const [notFound, setNotFound] = useState(false);
   const [error, setError] = useState(null);
 
+  // Resolve a display name that works with both old (display_name) and new (displayName) shapes
+  const resolvedDisplayName =
+    creator?.display_name || creator?.displayName || username;
+
+
   useEffect(() => {
     if (!username) return;
 
@@ -81,11 +86,11 @@ export default function CreatorPage() {
       <div className="creator-page">
         <header className="creator-header">
           <div className="creator-avatar">
-            {creator.display_name?.charAt(0)?.toUpperCase() || '?'}
+            {resolvedDisplayName?.charAt(0)?.toUpperCase() || '?'}
           </div>
 
           <div className="creator-meta">
-            <h1>{creator.display_name}</h1>
+            <h1>{resolvedDisplayName}</h1>
 
             <p className="creator-meta-username">@{creator.username}</p>
           </div>
@@ -97,10 +102,18 @@ export default function CreatorPage() {
             {creator.bio || 'This creator has not written a bio yet.'}
           </p>
         </section>
+        {/* New: Tip widget section */}
+        <section className="creator-section">
+          <TipWidget
+            creatorUsername={creator.username}
+            creatorDisplayName={resolvedDisplayName}
+            creatorKeptPercent={creator.keptPercent}
+          />
+        </section>
         {/* Tip widget / status */}
         <section className="creator-section">
           {canReceiveTips ? (
-            <TipWidget
+              <TipWidget
               creatorUsername={creator.username}
               creatorDisplayName={creator.display_name}
             />
