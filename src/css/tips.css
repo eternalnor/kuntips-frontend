@@ -217,8 +217,8 @@
   transform: translateY(0);
   overflow: hidden; /* hide content when height collapses */
   transition:
-    opacity 0.28s ease-out,
-    transform 0.28s ease-out;
+    opacity 2s ease-out,
+    transform 2s ease-out;
 }
 
 .tip-card__cta-block--hidden {
