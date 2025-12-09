@@ -213,17 +213,18 @@
   align-items: stretch;
   gap: 0.4rem;
   margin-top: 0.35rem;
-  overflow: hidden; /* prevent content clipping during collapse */
+  opacity: 1;
   transform: translateY(0);
+  overflow: hidden; /* hide content when height collapses */
   transition:
-    opacity 2s ease-out,
-    transform 2s ease-out;
-  max-height: 220px; /* comfortably fits button + note on all devices */
+    opacity 0.28s ease-out,
+    transform 0.28s ease-out;
 }
 
 .tip-card__cta-block--hidden {
   opacity: 0;
-  max-height: 0;
+  transform: translateY(-4px);
+  height: 0;
   margin-top: 0;
   pointer-events: none;
 }
