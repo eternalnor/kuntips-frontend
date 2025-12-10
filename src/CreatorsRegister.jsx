@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { registerCreator } from "./api";
 
 function CreatorsRegister() {
-  const navigate = useNavigate();
+  const location = useLocation();
+
+  const searchParams = new URLSearchParams(location.search);
+  const referralCodeFromUrl = (searchParams.get("ref") || "").trim().toLowerCase();
 
   const [form, setForm] = useState({
     email: "",
@@ -105,9 +108,12 @@ function CreatorsRegister() {
         password: form.password,
         confirmPassword: form.confirmPassword,
         agreeTerms: form.agreeTerms,
+        // NEW: propagate referral code if present in URL
+        referralCode: referralCodeFromUrl || null,
       };
 
       const data = await registerCreator(payload);
+
 
       // Store username/email for later convenience (mirrors CreatorLogin.jsx)
       if (typeof window !== "undefined" && window.localStorage) {

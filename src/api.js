@@ -112,6 +112,11 @@ export async function registerCreator(payload) {
     // agreeTerms: payload.agreeTerms,
   };
 
+  // NEW: optional referral code
+  if (payload.referralCode) {
+    body.referralCode = payload.referralCode;
+  }
+
   const data = await fetchJson("/auth/register", {
     method: "POST",
     body: JSON.stringify(body),
