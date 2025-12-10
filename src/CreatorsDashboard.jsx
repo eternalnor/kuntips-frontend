@@ -136,10 +136,15 @@ function CreatorsDashboard() {
     ? `${Math.round(tier.keptPercent * 10) / 10}%`
     : null;
 
+  const nextTierNumber = tier && tier.nextTier
+    ? Math.min(tier.currentTier + 1, 5)
+    : null;
+
   const nextTierText =
-    tier && tier.nextTier
-      ? `Tip ${tier.nextTier.missingVolumeNok} NOK more in the next 30 days to reach Tier ${tier.nextTier.tier}.`
-      : "You’re at the highest tier right now.";
+    tier && tier.nextTier && nextTierNumber
+      ? `Tip ${tier.nextTier.missingVolumeNok} NOK more in the next 30 days to reach Tier ${nextTierNumber}.`
+      : null;
+
 
   // Build referral URL like: https://kuntips.no/creators/register?ref=testcreator1
   const referralLink =

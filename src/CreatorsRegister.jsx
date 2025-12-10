@@ -6,7 +6,9 @@ function CreatorsRegister() {
   const location = useLocation();
 
   const searchParams = new URLSearchParams(location.search);
-  const referralCodeFromUrl = (searchParams.get("ref") || "").trim().toLowerCase();
+  const referralUsernameFromUrl = (searchParams.get("ref") || "")
+    .trim()
+    .toLowerCase();
 
   const [form, setForm] = useState({
     email: "",
@@ -15,7 +17,11 @@ function CreatorsRegister() {
     password: "",
     confirmPassword: "",
     agreeTerms: false,
+    // Optional: username of the creator who referred this user.
+    // Pre-filled from ?ref= in the URL if present.
+    referralUsername: referralUsernameFromUrl,
   });
+
 
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -108,12 +114,11 @@ function CreatorsRegister() {
         password: form.password,
         confirmPassword: form.confirmPassword,
         agreeTerms: form.agreeTerms,
-        // NEW: propagate referral code if present in URL
-        referralCode: referralCodeFromUrl || null,
+        // Send the optional referrer username to the backend
+        referralCode: form.referralUsername.trim() || null,
       };
 
       const data = await registerCreator(payload);
-
 
       // Store username/email for later convenience (mirrors CreatorLogin.jsx)
       if (typeof window !== "undefined" && window.localStorage) {
@@ -249,6 +254,24 @@ function CreatorsRegister() {
             {errors.email && (
               <p className="creators-error-inline">{errors.email}</p>
             )}
+          </div>
+
+          {/* REFERRAL USERNAME (OPTIONAL) */}
+          <div className="form-field creators-form-group">
+            <label className="creators-label" htmlFor="referralUsername">
+              Referral username (optional)
+            </label>
+            <input
+              id="referralUsername"
+              name="referralUsername"
+              type="text"
+              className="form-input creators-input"
+              value={form.referralUsername}
+              onChange={handleChange}
+            />
+            <p className="creators-small">
+              If another creator sent you here, type their KunTips username so they get referral credit.
+            </p>
           </div>
 
           {/* USERNAME */}
