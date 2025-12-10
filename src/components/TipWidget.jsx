@@ -365,7 +365,7 @@ export function TipWidget({
 
           <p className="tip-card__footnote">
             Fans cover Stripe’s processing fee and a 5% KunTips service fee.
-            Creators pay a tier-based commission of 0–5% on the tip amount and
+            Creators pay a tier-based commission of 1–5% on the tip amount and
             receive the green amount shown above.
           </p>
         </div>

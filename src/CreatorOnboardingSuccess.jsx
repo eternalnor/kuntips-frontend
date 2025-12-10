@@ -32,7 +32,7 @@ export default function CreatorOnboardingSuccess() {
         </p>
 
         <div className="page-actions">
-          <Link to={dashboardPath} className="primary-button">
+          <Link to={dashboardPath} className="btn btn-primary">
             Go to creator dashboard
           </Link>
         </div>

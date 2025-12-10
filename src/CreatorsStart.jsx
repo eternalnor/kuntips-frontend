@@ -47,10 +47,10 @@ function CreatorsStart() {
         </div>
 
         <div className="creators-cta-row">
-          <Link to="/creators/register" className="btn-primary">
+          <Link to="/creators/register" className="btn btn-primary">
             Create creator account
           </Link>
-          <Link to="/creators/login" className="btn-secondary">
+          <Link to="/creators/login" className="btn btn-secondary">
             Log in to dashboard
           </Link>
         </div>

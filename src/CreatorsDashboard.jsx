@@ -417,7 +417,7 @@ function CreatorsDashboard() {
                   <div className="creators-stripe-actions">
                     <button
                       type="button"
-                      className="btn-primary"
+                      className="btn btn-primary"
                       disabled={!creatorUsername || stripeLoading}
                       onClick={handleManageStripeClick}
                     >
@@ -584,14 +584,14 @@ function CreatorsDashboard() {
               </div>
 
               <form className="creators-profile-form" onSubmit={handleProfileSave}>
-                <div className="creators-form-group">
+                <div className="form-field creators-form-group">
                   <label className="creators-label" htmlFor="displayName">
                     Display name
                   </label>
                   <input
                     id="displayName"
                     type="text"
-                    className="creators-input"
+                    className="form-input creators-input"
                     value={displayNameInput}
                     onChange={(e) => setDisplayNameInput(e.target.value)}
                     maxLength={80}
@@ -601,13 +601,13 @@ function CreatorsDashboard() {
                   </p>
                 </div>
 
-                <div className="creators-form-group">
+                <div className="form-field creators-form-group">
                   <label className="creators-label" htmlFor="bio">
                     Bio
                   </label>
                   <textarea
                     id="bio"
-                    className="creators-textarea"
+                    className="form-textarea creators-textarea"
                     rows={4}
                     value={bioInput}
                     onChange={(e) => setBioInput(e.target.value)}
@@ -632,7 +632,7 @@ function CreatorsDashboard() {
                 <div className="creators-profile-actions">
                   <button
                     type="submit"
-                    className="btn-primary"
+                    className="btn btn-primary"
                     disabled={profileSaving || !displayNameInput.trim()}
                   >
                     {profileSaving ? "Saving…" : "Save changes"}
@@ -658,27 +658,27 @@ function CreatorsDashboard() {
                 className="creators-profile-form creators-security-form"
                 onSubmit={handlePasswordChange}
               >
-                <div className="creators-form-group">
+                <div className="form-field creators-form-group">
                   <label className="creators-label" htmlFor="currentPassword">
                     Current password
                   </label>
                   <input
                     id="currentPassword"
                     type="password"
-                    className="creators-input"
+                    className="form-input creators-input"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
                   />
                 </div>
 
-                <div className="creators-form-group">
+                <div className="form-field creators-form-group">
                   <label className="creators-label" htmlFor="newPassword">
                     New password
                   </label>
                   <input
                     id="newPassword"
                     type="password"
-                    className="creators-input"
+                    className="form-input creators-input"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                   />
@@ -688,14 +688,14 @@ function CreatorsDashboard() {
                   </p>
                 </div>
 
-                <div className="creators-form-group">
+                <div className="form-field creators-form-group">
                   <label className="creators-label" htmlFor="confirmPassword">
                     Confirm new password
                   </label>
                   <input
                     id="confirmPassword"
                     type="password"
-                    className="creators-input"
+                    className="form-input creators-input"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                   />
@@ -713,14 +713,14 @@ function CreatorsDashboard() {
                 <div className="creators-profile-actions creators-security-actions">
                   <button
                     type="submit"
-                    className="btn-primary"
+                    className="btn btn-primary"
                     disabled={securitySaving}
                   >
                     {securitySaving ? "Updating…" : "Update password"}
                   </button>
                   <button
                     type="button"
-                    className="btn-secondary"
+                    className="btn btn-secondary"
                     onClick={handleLogoutClick}
                   >
                     Log out of this browser

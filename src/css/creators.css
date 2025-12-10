@@ -392,3 +392,38 @@
     align-items: center;
   }
 }
+
+/*  ======================== Creator forms (use global form styles) ========================  */
+
+.creators-profile-form {
+  max-width: 540px;
+}
+
+.creators-form-group {
+  /* Global .form-field handles layout; this class is here for semantic hooks. */
+}
+
+.creators-form-group--checkbox {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.creators-checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.creators-checkbox-label input[type="checkbox"] {
+  margin-top: 0.15rem;
+}
+
+.creators-checkbox-label a {
+  color: var(--accent);
+}
+
+.creators-checkbox-label a:hover {
+  text-decoration: underline;
+}

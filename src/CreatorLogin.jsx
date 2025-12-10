@@ -88,14 +88,14 @@ function CreatorLogin() {
 
       <section className="card creators-profile-card">
         <form className="creators-profile-form" onSubmit={handleSubmit}>
-          <div className="creators-form-group">
+          <div className="form-field creators-form-group">
             <label className="creators-label" htmlFor="email">
               Email
             </label>
             <input
               id="email"
               type="email"
-              className="creators-input"
+              className="form-input creators-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
@@ -103,14 +103,14 @@ function CreatorLogin() {
             />
           </div>
 
-          <div className="creators-form-group">
+          <div className="form-field creators-form-group">
             <label className="creators-label" htmlFor="password">
               Password
             </label>
             <input
               id="password"
               type="password"
-              className="creators-input"
+              className="form-input creators-input"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
@@ -127,7 +127,7 @@ function CreatorLogin() {
           <div className="creators-profile-actions">
             <button
               type="submit"
-              className="btn-primary"
+              className="btn btn-primary"
               disabled={submitting || !email || !password}
             >
               {submitting ? "Logging in…" : "Log in"}

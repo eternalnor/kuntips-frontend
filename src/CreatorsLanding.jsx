@@ -17,10 +17,10 @@ function CreatorsLanding() {
           </p>
 
           <div className="creators-hero-actions">
-            <Link to="/creators/register" className="btn-primary">
+            <Link to="/creators/register" className="btn btn-primary">
               Create creator account
             </Link>
-            <Link to="/creators/login" className="btn-secondary">
+            <Link to="/creators/login" className="btn btn-secondary">
               Log in to dashboard
             </Link>
           </div>
@@ -100,7 +100,7 @@ function CreatorsLanding() {
           try the full flow before we open for real payouts.
         </p>
 
-        <Link to="/creators/start" className="btn-secondary">
+        <Link to="/creators/start" className="btn btn-secondary">
           See what you need to get started
         </Link>
       </section>

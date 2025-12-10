@@ -227,7 +227,7 @@ function CreatorsRegister() {
 
         <form className="creators-profile-form" onSubmit={handleSubmit}>
           {/* EMAIL */}
-          <div className="creators-form-group">
+          <div className="form-field creators-form-group">
             <label className="creators-label" htmlFor="email">
               Email
             </label>
@@ -235,7 +235,7 @@ function CreatorsRegister() {
               id="email"
               name="email"
               type="email"
-              className="creators-input"
+              className="form-input creators-input"
               value={form.email}
               onChange={handleChange}
               autoComplete="email"
@@ -246,7 +246,7 @@ function CreatorsRegister() {
           </div>
 
           {/* USERNAME */}
-          <div className="creators-form-group">
+          <div className="form-field creators-form-group">
             <label className="creators-label" htmlFor="username">
               Creator username
             </label>
@@ -254,7 +254,7 @@ function CreatorsRegister() {
               id="username"
               name="username"
               type="text"
-              className="creators-input"
+              className="form-input creators-input"
               value={form.username}
               onChange={handleChange}
               autoComplete="username"
@@ -269,7 +269,7 @@ function CreatorsRegister() {
           </div>
 
           {/* DISPLAY NAME */}
-          <div className="creators-form-group">
+          <div className="form-field creators-form-group">
             <label className="creators-label" htmlFor="displayName">
               Display name
             </label>
@@ -277,7 +277,7 @@ function CreatorsRegister() {
               id="displayName"
               name="displayName"
               type="text"
-              className="creators-input"
+              className="form-input creators-input"
               value={form.displayName}
               onChange={handleChange}
               autoComplete="name"
@@ -291,7 +291,7 @@ function CreatorsRegister() {
           </div>
 
           {/* PASSWORD */}
-          <div className="creators-form-group">
+          <div className="form-field creators-form-group">
             <label className="creators-label" htmlFor="password">
               Password
             </label>
@@ -299,7 +299,7 @@ function CreatorsRegister() {
               id="password"
               name="password"
               type="password"
-              className="creators-input"
+              className="form-input creators-input"
               value={form.password}
               onChange={handleChange}
               autoComplete="new-password"
@@ -313,7 +313,7 @@ function CreatorsRegister() {
           </div>
 
           {/* CONFIRM PASSWORD */}
-          <div className="creators-form-group">
+          <div className="form-field creators-form-group">
             <label className="creators-label" htmlFor="confirmPassword">
               Confirm password
             </label>
@@ -321,7 +321,7 @@ function CreatorsRegister() {
               id="confirmPassword"
               name="confirmPassword"
               type="password"
-              className="creators-input"
+              className="form-input creators-input"
               value={form.confirmPassword}
               onChange={handleChange}
               autoComplete="new-password"
@@ -334,7 +334,7 @@ function CreatorsRegister() {
           </div>
 
           {/* TERMS */}
-          <div className="creators-form-group creators-form-group--checkbox">
+          <div className="form-field creators-form-group creators-form-group--checkbox">
             <label className="creators-checkbox-label">
               <input
                 type="checkbox"
@@ -366,7 +366,7 @@ function CreatorsRegister() {
           <div className="creators-profile-actions">
             <button
               type="submit"
-              className="btn-primary"
+              className="btn btn-primary"
               disabled={submitting}
             >
               {submitting ? "Creating account…" : "Create account"}
