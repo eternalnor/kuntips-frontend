@@ -127,16 +127,10 @@ function CreatorsDashboard() {
 
   const status = payload?.status;
   const isActive = status?.isActive ?? true;
-  const stripeConnected = status?.stripeConnected ?? false;
-  const canReceiveTips =
-    status?.canReceiveTips ?? (isActive && stripeConnected);
-
-  const stripeButtonLabel = stripeLoading
-    ? "Opening Stripe…"
-    : stripeConnected
-    ? "Manage Stripe account"
-    : "Connect Stripe payouts";
-
+  const referralBoostTiers = tier?.referralBoostTiers ?? 0;
+  const joinBoostTiers = tier?.joinBoostTiers ?? 0;
+  const temporaryBoostTiers = tier?.temporaryBoostTiers ?? 0;
+  const totalReferralsLast365d = tier?.totalReferralsLast365d ?? 0;
 
   const keptPercentLabel = tier
     ? `${Math.round(tier.keptPercent * 10) / 10}%`
@@ -146,6 +140,24 @@ function CreatorsDashboard() {
     tier && tier.nextTier
       ? `Tip ${tier.nextTier.missingVolumeNok} NOK more in the next 30 days to reach Tier ${tier.nextTier.tier}.`
       : "You’re at the highest tier right now.";
+
+  // Build referral URL like: https://kuntips.no/creators/register?ref=testcreator1
+  const referralLink =
+    creatorUsername && typeof window !== "undefined"
+      ? `${window.location.origin}/creators/register?ref=${creatorUsername}`
+      : creatorUsername
+      ? `/creators/register?ref=${creatorUsername}`
+      : "";
+
+  const stripeConnected = status?.stripeConnected ?? false;
+  const canReceiveTips =
+    status?.canReceiveTips ?? (isActive && stripeConnected);
+
+  const stripeButtonLabel = stripeLoading
+    ? "Opening Stripe…"
+    : stripeConnected
+    ? "Manage Stripe account"
+    : "Connect Stripe payouts";
 
   async function handleProfileSave(e) {
     e.preventDefault();
@@ -487,6 +499,100 @@ function CreatorsDashboard() {
                   ) : (
                     <p className="creators-dashboard-sub">
                       Tier information is not available yet.
+                    </p>
+                  )}
+                </div>
+              </section>
+
+                {/* REFERRAL PROGRAM */}
+              <section className="card creators-dashboard-tier">
+                <div className="creators-dashboard-tier-main">
+                  <h2>Referral program</h2>
+
+                  {creatorUsername ? (
+                    <>
+                      <p className="creators-dashboard-sub">
+                        Share this link with other creators. When they sign up and start
+                        receiving tips, you get a permanent referral bonus on your tier
+                        (up to Tier 5).
+                      </p>
+
+                      {referralLink && (
+                        <div className="creators-referral-link-block">
+                          <label
+                            htmlFor="referral-link"
+                            className="creators-dashboard-sub"
+                          >
+                            Your referral link:
+                          </label>
+                          <input
+                            id="referral-link"
+                            type="text"
+                            value={referralLink}
+                            readOnly
+                            onFocus={(e) => e.target.select()}
+                            className="creators-referral-link-input"
+                          />
+                          <p className="creators-small">
+                            Copy and share this link. New creators who register through it
+                            will count towards your referral boosts.
+                          </p>
+                        </div>
+                      )}
+
+                      <p className="creators-dashboard-sub">
+                        Creators referred in the last 365 days:{" "}
+                        <strong>{totalReferralsLast365d}</strong>
+                      </p>
+
+                      {referralBoostTiers > 0 && (
+                        <p className="creators-dashboard-sub">
+                          Referral boost:{" "}
+                          <strong>
+                            +{referralBoostTiers} tier
+                            {referralBoostTiers > 1 ? "s" : ""}
+                          </strong>{" "}
+                          applied to your effective tier right now.
+                        </p>
+                      )}
+
+                      {joinBoostTiers > 0 && (
+                        <p className="creators-dashboard-sub">
+                          Join boost:{" "}
+                          <strong>
+                            +{joinBoostTiers} tier
+                            {joinBoostTiers > 1 ? "s" : ""}
+                          </strong>{" "}
+                          because you recently joined KunTips. This is temporary but stacked
+                          on top of your base tier.
+                        </p>
+                      )}
+
+                      {temporaryBoostTiers > 0 && (
+                        <p className="creators-dashboard-sub">
+                          Temporary promo boost:{" "}
+                          <strong>
+                            +{temporaryBoostTiers} tier
+                            {temporaryBoostTiers > 1 ? "s" : ""}
+                          </strong>{" "}
+                          currently active. When it ends, you’ll fall back to your base +
+                          referral + join boosts.
+                        </p>
+                      )}
+
+                      {referralBoostTiers === 0 &&
+                        joinBoostTiers === 0 &&
+                        temporaryBoostTiers === 0 && (
+                          <p className="creators-dashboard-sub">
+                            You don’t have any extra boosts yet. Once you reach 10 referred
+                            creators in a 12-month period, you get +1 tier. At 25, +2 tiers;
+                            50 gives +3; and 100 gives +4 tiers – always capped at Tier 5.
+                          </p>
+                        )}
+                    </>
+                  ) : (
+                    <p className="creators-dashboard-sub">
+                      Referral details will appear here when your username is available.
                     </p>
                   )}
                 </div>
