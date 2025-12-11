@@ -405,3 +405,39 @@ p {
   color: #f97373;
 }
 
+/* =========================
+   Page transition (fade out + in)
+   ========================= */
+
+.page-wrapper {
+  /* helps prevent layout jumps during the animation */
+  min-height: 100%;
+}
+
+/* When a page ENTERS */
+.page-enter {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.24s ease-out,
+    transform 0.24s ease-out;
+}
+
+/* When a page EXITS */
+.page-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.20s ease-out,
+    transform 0.20s ease-out;
+}
