@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { registerCreator } from "./api";
 
 function CreatorsRegister() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const searchParams = new URLSearchParams(location.search);
   const referralUsernameFromUrl = (searchParams.get("ref") || "")
@@ -21,6 +22,15 @@ function CreatorsRegister() {
     // Pre-filled from ?ref= in the URL if present.
     referralUsername: referralUsernameFromUrl,
   });
+  // Keep referralUsername in sync with ?ref= in the URL on first load / changes,
+  // but don't overwrite if the user has already typed something else.
+  useEffect(() => {
+    if (!referralUsernameFromUrl) return;
+    setForm((prev) => {
+      if (prev.referralUsername) return prev; // user already filled it
+      return { ...prev, referralUsername: referralUsernameFromUrl };
+    });
+  }, [referralUsernameFromUrl]);
 
 
   const [errors, setErrors] = useState({});

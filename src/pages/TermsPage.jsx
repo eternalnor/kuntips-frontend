@@ -64,6 +64,13 @@ export default function TermsPage() {
           policies and card-network rules.
         </p>
 
+        <p>
+          Refunds and bank disputes may result in deductions from creator
+          balances to cover Stripe&apos;s non-refundable processing costs and
+          dispute fees. KunTips does not charge any platform fee in situations
+          where the creator does not earn money.
+        </p>
+
         <h2>6. Service Availability</h2>
         <p>
           We may modify, suspend, or discontinue any part of KunTips at any

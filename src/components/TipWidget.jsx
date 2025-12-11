@@ -11,8 +11,8 @@ import {
 const MIN_TIP = 100;
 const MAX_TIP = 2000;
 const KUNTIPS_FEE_RATE = 0.05; // 5% KunTips service fee
-const PROCESSOR_FEE_RATE = 0.015; // 1.5% Stripe processor fee
-const STRIPE_FIXED_FEE = 1.8; // 1.80NOK Stripe fixed fee
+const PROCESSOR_FEE_RATE = 0.9675; // 3.25% Stripe processor fee
+const STRIPE_FIXED_FEE = 2; // 1.80NOK Stripe fixed fee
 
 // Fallback if backend doesn't send a value yet
 const DEFAULT_CREATOR_KEPT_PERCENT = 95;
@@ -52,7 +52,7 @@ export function TipWidget({
     const T = safeTip;
 
     const totalCharged =
-      T / (1 - (PROCESSOR_FEE_RATE + KUNTIPS_FEE_RATE)) + STRIPE_FIXED_FEE;
+        (T * (1 + KUNTIPS_FEE_RATE) / (PROCESSOR_FEE_RATE)) + 2;
     const processorFee = totalCharged - T;
 
     // Clamp keptPercent to [0, 100] just to be safe
