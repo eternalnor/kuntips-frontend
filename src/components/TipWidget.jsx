@@ -36,6 +36,11 @@ export function TipWidget({
   const [tipCompleted, setTipCompleted] = useState(false);
   const [funMessage, setFunMessage] = useState('');
 
+  // Lock the tip selection whenever a Stripe session is active.
+  // It stays locked until the user clicks "Send another tip",
+  // which resets clientSecret back to null.
+  const isLocked = !!clientSecret;
+
   // Thank-you overlay state
   const [showThankYouOverlay, setShowThankYouOverlay] = useState(false);
   const [overlayLocked, setOverlayLocked] = useState(false);
@@ -286,109 +291,118 @@ export function TipWidget({
         </p>
       </div>
 
-      {/* Preset buttons */}
-      <div className="tip-card__presets">
-        {presetAmounts.map((amount) => {
-          const isActive = safeTip === amount;
+      {/* Tip selection area (presets + amount + breakdown + CTA) */}
+      <div
+        className={
+          'tip-card__selection' +
+          (isLocked ? ' tip-card__selection--locked' : '')
+        }
+      >
 
-          return (
-            <button
-              key={amount}
-              type="button"
-              onClick={() => handlePresetClick(amount)}
-              className={
-                'tip-card__preset' +
-                (isActive ? ' tip-card__preset--active' : '')
-              }
-            >
-              <span>NOK {amount}</span>
-            </button>
-          );
-        })}
-      </div>
+        {/* Preset buttons */}
+        <div className="tip-card__presets">
+          {presetAmounts.map((amount) => {
+            const isActive = safeTip === amount;
 
-      <form onSubmit={handleSubmit} className="tip-card__form">
-        {/* Custom amount */}
-        <div className="tip-card__field">
-          <label htmlFor="custom-amount" className="tip-card__label-row">
-            <span>Custom amount</span>
-            <span>
-              Min kr {MIN_TIP} · Max kr {MAX_TIP} - NOK Only
-            </span>
-          </label>
-
-          <div className="tip-card__amount-input-wrap">
-            <span className="tip-card__amount-prefix">kr</span>
-            <input
-              id="custom-amount"
-              type="number"
-              min={MIN_TIP}
-              max={MAX_TIP}
-              step="1"
-              inputMode="decimal"
-              value={inputValue}
-              onChange={handleInputChange}
-              className="tip-card__amount-input"
-            />
-          </div>
-
-          {errorMessage && <p className="tip-card__error">{errorMessage}</p>}
+            return (
+              <button
+                key={amount}
+                type="button"
+                onClick={() => handlePresetClick(amount)}
+                className={
+                  'tip-card__preset' +
+                  (isActive ? ' tip-card__preset--active' : '')
+                }
+              >
+                <span>NOK {amount}</span>
+              </button>
+            );
+          })}
         </div>
 
-        {/* Breakdown */}
-        <div className="tip-card__breakdown">
-          <div className="tip-card__row">
-            <span>Tip</span>
-            <span className="tip-card__value">kr {breakdown.tip}</span>
-          </div>
-          <div className="tip-card__row">
-            <span>Service fee (processing + KunTips, ~8%)</span>
-            <span>kr {breakdown.processorFee}</span>
-          </div>
-          <div className="tip-card__row">
-            <span>Total charged</span>
-            <span className="tip-card__value tip-card__value--strong">
-              kr {breakdown.totalCharged}
-            </span>
+        <form onSubmit={handleSubmit} className="tip-card__form">
+          {/* Custom amount */}
+          <div className="tip-card__field">
+            <label htmlFor="custom-amount" className="tip-card__label-row">
+              <span>Custom amount</span>
+              <span>
+                Min kr {MIN_TIP} · Max kr {MAX_TIP} - NOK Only
+              </span>
+            </label>
+
+            <div className="tip-card__amount-input-wrap">
+              <span className="tip-card__amount-prefix">kr</span>
+              <input
+                id="custom-amount"
+                type="number"
+                min={MIN_TIP}
+                max={MAX_TIP}
+                step="1"
+                inputMode="decimal"
+                value={inputValue}
+                onChange={handleInputChange}
+                className="tip-card__amount-input"
+              />
+            </div>
+
+            {errorMessage && <p className="tip-card__error">{errorMessage}</p>}
           </div>
 
-          <div className="tip-card__divider" />
+          {/* Breakdown */}
+          <div className="tip-card__breakdown">
+            <div className="tip-card__row">
+              <span>Tip</span>
+              <span className="tip-card__value">kr {breakdown.tip}</span>
+            </div>
+            <div className="tip-card__row">
+              <span>Service fee (processing + KunTips, ~8%)</span>
+              <span>kr {breakdown.processorFee}</span>
+            </div>
+            <div className="tip-card__row">
+              <span>Total charged</span>
+              <span className="tip-card__value tip-card__value--strong">
+                kr {breakdown.totalCharged}
+              </span>
+            </div>
 
-          <div className="tip-card__row">
-            <span className="tip-card__label-muted">
-              Creator receives {breakdown.creatorPercentage}% of your tip
-            </span>
-            <span className="tip-card__value tip-card__value--success">
-              kr {breakdown.creatorReceives}
-            </span>
+            <div className="tip-card__divider" />
+
+            <div className="tip-card__row">
+              <span className="tip-card__label-muted">
+                Creator receives {breakdown.creatorPercentage}% of your tip
+              </span>
+              <span className="tip-card__value tip-card__value--success">
+                kr {breakdown.creatorReceives}
+              </span>
+            </div>
+
+            <p className="tip-card__footnote">
+              Fans cover Stripe’s processing fee and a 5% KunTips service fee.
+              Creators pay a tier-based commission of 1–5% on the tip amount and
+              receive the green amount shown above.
+            </p>
           </div>
 
-          <p className="tip-card__footnote">
-            Fans cover Stripe’s processing fee and a 5% KunTips service fee.
-            Creators pay a tier-based commission of 1–5% on the tip amount and
-            receive the green amount shown above.
-          </p>
-        </div>
-
-        {/* CTA BLOCK – button + note (hidden once Stripe form appears) */}
-        <div
-          className={`tip-card__cta-block ${
-            isSubmitting || clientSecret ? 'tip-card__cta-block--hidden' : ''
-          }`}
-        >
-          <button
-            type="submit"
-            disabled={isSubmitting || !!clientSecret}
-            className="tip-card__cta"
+          {/* CTA BLOCK – button + note (hidden once Stripe form appears) */}
+          <div
+            className={`tip-card__cta-block ${
+              isSubmitting || clientSecret ? 'tip-card__cta-block--hidden' : ''
+            }`}
           >
-            {isSubmitting ? 'Starting secure payment…' : 'Tip anonymously now'}
-          </button>
-          <p className="tip-card__secure-note">
-            Payments are processed securely by Stripe. KunTips never stores your
-            card details.
-          </p>
-        </div>
-      </form>
+            <button
+              type="submit"
+              disabled={isSubmitting || !!clientSecret}
+              className="tip-card__cta"
+            >
+              {isSubmitting ? 'Starting secure payment…' : 'Tip anonymously now'}
+            </button>
+            <p className="tip-card__secure-note">
+              Payments are processed securely by Stripe. KunTips never stores your
+              card details.
+            </p>
+          </div>
+        </form>
+      </div>
 
       {/* Stripe payment step */}
       {clientSecret && (
