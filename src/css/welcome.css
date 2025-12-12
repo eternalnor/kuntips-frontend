@@ -14,111 +14,6 @@
   overflow: hidden;
 }
 
-/* Parallax container (JS controls --parallax-x / --parallax-y) */
-.welcome-bg {
-  position: absolute;
-  inset: -25%;
-  z-index: 0;
-  pointer-events: none;
-
-  transform: translate3d(
-    calc(var(--auto-x, 0px) + var(--mouse-x, 0px)),
-    calc(var(--auto-y, 0px) + var(--mouse-y, 0px)),
-    0
-  );
-  transition: transform 0.35s ease-out;
-  background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 180px 180px;
-  opacity: 1;
-  animation: welcome-noise-drift 18s linear infinite;
-}
-@keyframes welcome-noise-drift {
-  0%   { background-position: 0 0; }
-  100% { background-position: 240px 140px; }
-}
-/* Drift layer (slow motion gradients) */
-.welcome-bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background:
-  radial-gradient(circle at var(--g1x, 15%) var(--g1y, 25%), rgba(99,102,241,0.22), transparent 45%),
-  radial-gradient(circle at var(--g2x, 85%) var(--g2y, 70%), rgba(56,189,248,0.14), transparent 46%),
-  radial-gradient(circle at 60% 20%, rgba(99,102,241,0.10), transparent 35%),
-  radial-gradient(circle at 50% 60%, rgba(2,6,23,0.65), rgba(2,6,23,1) 70%);
-
-
-  filter: blur(32px);
-  opacity: 0.98;
-  animation: welcome-field-drift 18s linear infinite, welcome-breathe 9s ease-in-out infinite;
-
-
-  transform: translate3d(0, 0, 0);
-  will-change: transform;
-
-}
-
-@keyframes welcome-breathe {
-  0%, 100% { filter: blur(32px) brightness(1); }
-  50%      { filter: blur(32px) brightness(1.06); }
-}
-
-
-
-/* Wide wave sweep (extra wide + smoother + more ambient) */
-.welcome-bg::after {
-  content: "";
-  position: absolute;
-  inset: -18%;
-  pointer-events: none;
-
-  background:
-  /* Wave 1 (existing, wide, neutral) */
-  linear-gradient(
-    110deg,
-    rgba(255,255,255,0.00) 0%,
-    rgba(255,255,255,0.00) 18%,
-    rgba(255,255,255,0.03) 32%,
-    rgba(255,255,255,0.06) 44%,
-    rgba(255,255,255,0.08) 50%,
-    rgba(255,255,255,0.06) 56%,
-    rgba(255,255,255,0.03) 68%,
-    rgba(255,255,255,0.00) 82%,
-    rgba(255,255,255,0.00) 100%
-  ),
-
-  /* Wave 2 (slower-looking because angle differs, gives “water” feel) */
-  linear-gradient(
-    155deg,
-    rgba(56,189,248,0.00) 0%,
-    rgba(56,189,248,0.00) 30%,
-    rgba(56,189,248,0.025) 46%,
-    rgba(56,189,248,0.05) 55%,
-    rgba(56,189,248,0.025) 66%,
-    rgba(56,189,248,0.00) 82%,
-    rgba(56,189,248,0.00) 100%
-  );
-
-
-  /* More blur + slightly lower opacity = “ambient wash” */
-  filter: blur(44px);
-  opacity: 0.48;
-
-  /* slower + gentler */
-  transform: translateX(160%) rotate(8deg) scale(1.02);
-  animation: welcome-wave-sweep 18s linear infinite;
-
-  will-change: transform;
-}
-
-@keyframes welcome-wave-sweep {
-  0%   { transform: translateX(160%) rotate(8deg) scale(1.03); }
-  100% { transform: translateX(-160%) rotate(8deg) scale(1.03); }
-}
-
-
-
 /* Hero text separate from choices (clean, Ko-fi/Throne simple) */
 .welcome-hero {
   position: relative;
@@ -168,24 +63,35 @@
 /* “Card buttons” (big, tall, in-your-face) */
 .welcome-choice-card {
   position: relative;
-  border-radius: 1.5rem;
-  padding: 1.5rem 1.5rem 1.35rem;
-  min-height: 190px;
+  border-radius: 1.35rem;
+  padding: 1.4rem 1.5rem;
+  min-height: 176px;
   text-decoration: none;
   color: var(--text-main);
-  backdrop-filter: blur(1px);
+  animation: welcome-card-float 14s ease-in-out infinite alternate;
 
-  background: radial-gradient(circle at top, rgba(17,24,39,0.92), rgba(2,6,23,0.96));
-  border: 1px solid rgba(255,255,255,0.10);
-  box-shadow: 0 34px 110px rgba(0,0,0,0.55);
+  /* NO box / NO border */
+  background:
+    radial-gradient(
+      circle at 20% 10%,
+      rgba(99,102,241,0.16),
+      rgba(2,6,23,0.55) 55%,
+      rgba(2,6,23,0.75)
+    );
+
+  box-shadow: none;
+  outline: none;
 
   overflow: hidden;
   transform: translateZ(0);
   transition:
-    transform 0.22s ease,
-    border-color 0.22s ease,
-    box-shadow 0.22s ease,
-    filter 0.22s ease;
+    transform 0.35s cubic-bezier(.2,.8,.2,1),
+    filter 0.35s ease;
+}
+
+@keyframes welcome-card-float {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-2px); }
 }
 
 /* subtle inner stroke for “premium” edge */
@@ -203,8 +109,8 @@
   content: "";
   position: absolute;
   inset: -35%;
-  opacity: 0.9;
-  filter: blur(28px);
+  opacity: 1;
+  filter: blur(36px);
   transform: translateZ(0);
   transition: opacity 0.22s ease;
   pointer-events: none;
@@ -219,9 +125,8 @@
 }
 
 .welcome-choice-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255,255,255,0.18);
-  box-shadow: 0 44px 140px rgba(0,0,0,0.72);
+  transform: translateY(-6px);
+  filter: brightness(1.08);
 }
 
 .welcome-choice-card:hover::before {
@@ -278,8 +183,9 @@
   font-size: 0.86rem;
   font-weight: 700;
 
-  background: rgba(2,6,23,0.72);
-  border: 1px solid rgba(148,163,184,0.35);
+  background: rgba(255,255,255,0.08);
+  border: none;
+  backdrop-filter: blur(6px);
   color: rgba(249,250,251,0.95);
 
   transition:
