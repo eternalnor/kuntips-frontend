@@ -1,18 +1,119 @@
+/* ======================== Global animated background ======================== */
+
+.site-bg {
+  position: fixed;
+  inset: -25%;
+  z-index: 0;
+  pointer-events: none;
+
+  transform: translate3d(var(--mouse-x, 0px), var(--mouse-y, 0px), 0);
+  transition: transform 0.35s ease-out;
+
+  /* subtle moving texture */
+  background-image: radial-gradient(rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 180px 180px;
+  animation: site-noise-drift 18s linear infinite;
+}
+
+@keyframes site-noise-drift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 240px 140px; }
+}
+
+.site-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(circle at var(--g1x, 15%) var(--g1y, 25%), rgba(99,102,241,0.22), transparent 45%),
+    radial-gradient(circle at var(--g2x, 85%) var(--g2y, 70%), rgba(56,189,248,0.14), transparent 46%),
+    radial-gradient(circle at 60% 20%, rgba(99,102,241,0.10), transparent 35%),
+    radial-gradient(circle at 50% 60%, rgba(2,6,23,0.65), rgba(2,6,23,1) 70%);
+
+  filter: blur(32px);
+  opacity: 0.98;
+  animation: site-breathe 9s ease-in-out infinite;
+}
+
+@keyframes site-breathe {
+  0%, 100% { filter: blur(32px) brightness(1); }
+  50%      { filter: blur(32px) brightness(1.06); }
+}
+
+.site-bg::after {
+  content: "";
+  position: absolute;
+  inset: -18%;
+  pointer-events: none;
+
+  background:
+    linear-gradient(110deg,
+      rgba(255,255,255,0.00) 0%,
+      rgba(255,255,255,0.00) 18%,
+      rgba(255,255,255,0.03) 32%,
+      rgba(255,255,255,0.06) 44%,
+      rgba(255,255,255,0.08) 50%,
+      rgba(255,255,255,0.06) 56%,
+      rgba(255,255,255,0.03) 68%,
+      rgba(255,255,255,0.00) 82%,
+      rgba(255,255,255,0.00) 100%
+    ),
+    linear-gradient(155deg,
+      rgba(56,189,248,0.00) 0%,
+      rgba(56,189,248,0.00) 30%,
+      rgba(56,189,248,0.025) 46%,
+      rgba(56,189,248,0.05) 55%,
+      rgba(56,189,248,0.025) 66%,
+      rgba(56,189,248,0.00) 82%,
+      rgba(56,189,248,0.00) 100%
+    );
+
+  filter: blur(44px);
+  opacity: 0.48;
+
+  transform: translateX(160%) rotate(8deg) scale(1.03);
+  animation: site-wave-sweep 18s linear infinite;
+}
+
+@keyframes site-wave-sweep {
+  0%   { transform: translateX(160%) rotate(8deg) scale(1.03); }
+  100% { transform: translateX(-160%) rotate(8deg) scale(1.03); }
+}
+
+/* Everything real should sit above the background */
+.app-shell {
+  position: relative;
+  z-index: 1;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .site-bg,
+  .site-bg::before,
+  .site-bg::after {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
 /* ======================== Global header / navbar  ========================  */
 
 .site-header {
   position: sticky;
   top: 0;
   z-index: 40;
-  backdrop-filter: blur(8px);
-  background: radial-gradient(
-    circle at top left,
-    rgba(15, 23, 42, 0.9),
-    rgba(2, 6, 23, 0.98)
-  );
-  border-bottom: 1px solid rgba(15, 23, 42, 0.95);
-  box-shadow: 0 10px 25px rgba(2, 6, 23, 0.9);
+
+  /* keep the premium blur, but stop looking like a boxed card */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: none;
 }
+
 
 .site-header-inner {
   max-width: 960px;
@@ -98,4 +199,64 @@
   .site-header-inner {
     padding-block: 1rem;
   }
+}
+
+/* ======================== Footer  ========================  */
+
+.site-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 2.5rem;
+  padding: 1.25rem 1.25rem 1.75rem;
+
+  /* stop being a “card slab” */
+  background: transparent;
+
+  /* optional: slight blur so text stays readable over motion */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+
+.site-footer p {
+  max-width: 40rem;
+  margin: 0.35rem auto 0.85rem;
+}
+
+.site-footer-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: #9ca3af;
+
+  /*  ======================== NEW: center everything  ======================== */
+
+  text-align: center;
+  align-items: center;
+}
+
+.site-footer-brand {
+  margin: 0;
+}
+
+.site-footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+
+  /* NEW: center link group */
+  justify-content: center;
+}
+
+.site-footer-nav a {
+  color: #9ca3af;
+  text-decoration: none;
+  font-size: 0.78rem;
+}
+
+.site-footer-nav a:hover {
+  color: #f9fafb;
+  text-decoration: underline;
 }
