@@ -17,6 +17,9 @@ import CreatorOnboardingSuccess from "./CreatorOnboardingSuccess";
 import CreatorOnboardingError from "./CreatorOnboardingError";
 import CreatorLogin from "./CreatorLogin";
 import CreatorsRegister from "./CreatorsRegister";
+import WelcomePage from "./pages/WelcomePage.jsx";
+import FansPage from "./pages/FansPage.jsx";
+
 
 function AppRoutes() {
   const location = useLocation();
@@ -51,7 +54,9 @@ function AppRoutes() {
     <div className="app-main">
       <div className={`page-transition page-transition--${transitionStage}`}>
         <Routes location={displayLocation}>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<WelcomePage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/fans" element={<FansPage />} />
           <Route path="/u/:username" element={<CreatorPage />} />
           <Route path="/legal/terms" element={<TermsPage />} />
           <Route path="/legal/privacy" element={<PrivacyPage />} />
