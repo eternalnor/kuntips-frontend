@@ -7,6 +7,8 @@ import {
   changePassword,
   logoutCreator,
   createStripeAccountLink,
+  fetchPayoutPreview,
+  requestPayout,
 } from "./api";
 
 function useQuery() {
@@ -48,6 +50,14 @@ function CreatorsDashboard() {
   // Stripe manage-link state
   const [stripeLoading, setStripeLoading] = useState(false);
   const [stripeError, setStripeError] = useState(null);
+
+  // Payout state
+  const [payoutPreview, setPayoutPreview] = useState(null);
+  const [payoutLoading, setPayoutLoading] = useState(false);
+  const [payoutError, setPayoutError] = useState(null);
+  const [payoutRequesting, setPayoutRequesting] = useState(false);
+  const [payoutRequestSuccess, setPayoutRequestSuccess] = useState(null);
+  const [payoutRequestError, setPayoutRequestError] = useState(null);
 
   useEffect(() => {
     if (!usernameQuery) {
@@ -282,6 +292,46 @@ function CreatorsDashboard() {
     navigate("/creators");
   }
 
+  useEffect(() => {
+    if (activeTab !== "payouts" || !creatorUsername) return;
+
+    let cancelled = false;
+    setPayoutLoading(true);
+    setPayoutError(null);
+
+    fetchPayoutPreview(creatorUsername)
+      .then((data) => {
+        if (cancelled) return;
+        setPayoutPreview(data);
+        setPayoutLoading(false);
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        setPayoutError(err.data?.message || err.message || "Could not load payout info.");
+        setPayoutLoading(false);
+      });
+
+    return () => { cancelled = true; };
+  }, [activeTab, creatorUsername]);
+
+  async function handleRequestPayout() {
+    if (!creatorUsername || payoutRequesting) return;
+
+    setPayoutRequesting(true);
+    setPayoutRequestError(null);
+    setPayoutRequestSuccess(null);
+
+    try {
+      await requestPayout(creatorUsername);
+      setPayoutRequestSuccess("Payout requested successfully. It will be processed by Stripe shortly.");
+      fetchPayoutPreview(creatorUsername).then(setPayoutPreview).catch(() => {});
+    } catch (err) {
+      setPayoutRequestError(err.data?.message || err.message || "Could not request payout. Please try again.");
+    } finally {
+      setPayoutRequesting(false);
+    }
+  }
+
 
   return (
     <div className="creators-page">
@@ -384,6 +434,18 @@ function CreatorsDashboard() {
                 onClick={() => setActiveTab("security")}
             >
               Security
+            </button>
+
+            <button
+                type="button"
+                className={
+                  activeTab === "payouts"
+                      ? "creators-tab-button is-active"
+                      : "creators-tab-button"
+                }
+                onClick={() => setActiveTab("payouts")}
+            >
+              Payouts
             </button>
 
           </div>
@@ -756,6 +818,88 @@ function CreatorsDashboard() {
                     Profile editing currently lets you change your display name and
                     bio. Avatar and additional branding options will be added later.
                   </p>
+                </section>
+            )}
+
+            {activeTab === "payouts" && (
+                <section className="card creators-payouts-card">
+                  <h2>Payouts</h2>
+                  <p className="creators-dashboard-sub">
+                    Tips are held for 7 days before becoming eligible for payout.
+                    When you request a payout, eligible tips are sent to your connected Stripe account.
+                  </p>
+
+                  {payoutLoading && (
+                    <p className="creators-dashboard-sub">Loading payout info…</p>
+                  )}
+
+                  {payoutError && (
+                    <p className="creators-error-inline">{payoutError}</p>
+                  )}
+
+                  {!payoutLoading && payoutPreview && (
+                    <>
+                      <div className="creators-dashboard-grid">
+                        <div className="creators-dashboard-tile">
+                          <h2>Ready to pay out</h2>
+                          <p className="creators-dashboard-number">
+                            {(payoutPreview.eligible_creator_net_minor / 100).toFixed(2)} NOK
+                          </p>
+                          <p className="creators-dashboard-sub">
+                            {payoutPreview.eligible_tip_count} tip(s) eligible
+                          </p>
+                        </div>
+                        <div className="creators-dashboard-tile">
+                          <h2>Pending</h2>
+                          <p className="creators-dashboard-number">
+                            {payoutPreview.pending_tip_count}
+                          </p>
+                          <p className="creators-dashboard-sub">
+                            {payoutPreview.pending_tip_count === 1 ? "tip" : "tips"} in 7-day hold
+                          </p>
+                        </div>
+                      </div>
+
+                      {payoutPreview.pending_tip_count > 0 && payoutPreview.next_tip_becomes_eligible_at && (
+                        <p className="creators-dashboard-sub">
+                          Next pending tip clears on{" "}
+                          {new Date(payoutPreview.next_tip_becomes_eligible_at).toLocaleDateString("no-NO")}.
+                        </p>
+                      )}
+
+                      {payoutPreview.creator_debt_minor > 0 && (
+                        <p className="creators-dashboard-sub">
+                          Note: you have an outstanding platform fee balance of{" "}
+                          <strong>{(payoutPreview.creator_debt_minor / 100).toFixed(2)} NOK</strong>{" "}
+                          that will be deducted from your next payout.
+                        </p>
+                      )}
+
+                      {payoutRequestSuccess && (
+                        <p className="creators-success-inline">{payoutRequestSuccess}</p>
+                      )}
+                      {payoutRequestError && (
+                        <p className="creators-error-inline">{payoutRequestError}</p>
+                      )}
+
+                      <div className="creators-profile-actions">
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          disabled={!payoutPreview.eligible || payoutRequesting}
+                          onClick={handleRequestPayout}
+                        >
+                          {payoutRequesting ? "Requesting…" : "Request payout"}
+                        </button>
+                      </div>
+
+                      {!payoutPreview.eligible && payoutPreview.eligible_tip_count === 0 && (
+                        <p className="creators-small">
+                          No eligible tips yet. Tips become eligible 7 days after the fan&apos;s payment clears.
+                        </p>
+                      )}
+                    </>
+                  )}
                 </section>
             )}
 

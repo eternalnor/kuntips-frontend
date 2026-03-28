@@ -192,3 +192,24 @@ export function createStripeAccountLink(returnUrlPath) {
   });
 }
 
+export function fetchPayoutPreview(username) {
+  const safeUsername = encodeURIComponent(username);
+  return fetchJson(`/creators/${safeUsername}/payouts/preview`, {
+    method: "GET",
+    headers: {
+      ...authHeaders(),
+    },
+  });
+}
+
+export function requestPayout(username) {
+  const safeUsername = encodeURIComponent(username);
+  return fetchJson(`/creators/${safeUsername}/payouts/request`, {
+    method: "POST",
+    headers: {
+      ...authHeaders(),
+    },
+    body: JSON.stringify({}),
+  });
+}
+
