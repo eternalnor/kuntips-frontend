@@ -20,11 +20,17 @@
    100vw — one tile width — so the loop is seamless. Only transform animates,
    meaning each wave SVG is composited as a single GPU texture with zero repaint. */
 
+/* Each SVG is 200vw wide. translateX(-50%) = -100vw = one seamless tile.
+   stroke-width is large so each path becomes a soft band, not a line.
+   filter:blur() is static on the path — rasterised once, GPU-cached.
+   The linearGradient in each SVG creates bright/dim patches along the wave
+   so it reads as a gradient wash, not a uniform stripe. */
+
 .site-wave-svg {
   position: absolute;
   top: 0;
   left: 0;
-  width: 200%;   /* 200vw — one tile off-screen to the right for the loop */
+  width: 200%;
   height: 100%;
   overflow: visible;
 }
@@ -33,51 +39,47 @@
   fill: none;
 }
 
-/* Wave 1 — indigo, medium, 28s */
+/* Wave 1 — indigo, upper screen, 28s */
 .site-wave-svg--1 {
   animation: waves-scroll 28s linear infinite;
   animation-delay: 0s;
 }
 .site-wave-svg--1 path {
-  stroke: rgba(99, 102, 241, 0.22);
-  stroke-width: 1.5;
-  filter: drop-shadow(0 0 4px rgba(99, 102, 241, 0.28));
+  stroke-width: 75;
+  filter: blur(14px);
 }
 
-/* Wave 2 — cyan, slow and majestic, 40s */
+/* Wave 2 — cyan, mid-screen, slowest = most majestic, 42s */
 .site-wave-svg--2 {
-  animation: waves-scroll 40s linear infinite;
+  animation: waves-scroll 42s linear infinite;
   animation-delay: -14s;
 }
 .site-wave-svg--2 path {
-  stroke: rgba(56, 189, 248, 0.16);
-  stroke-width: 2;
-  filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.22));
+  stroke-width: 110;
+  filter: blur(20px);
 }
 
-/* Wave 3 — faint indigo, fast small ripples, 20s */
+/* Wave 3 — indigo, lower screen, fastest = quick ripples, 20s */
 .site-wave-svg--3 {
   animation: waves-scroll 20s linear infinite;
   animation-delay: -7s;
 }
 .site-wave-svg--3 path {
-  stroke: rgba(99, 102, 241, 0.13);
-  stroke-width: 1;
-  filter: drop-shadow(0 0 3px rgba(99, 102, 241, 0.18));
+  stroke-width: 50;
+  filter: blur(10px);
 }
 
-/* Wave 4 — barely-visible white accent, 33s */
+/* Wave 4 — white shimmer, crossing mid-upper, 34s */
 .site-wave-svg--4 {
-  animation: waves-scroll 33s linear infinite;
-  animation-delay: -21s;
+  animation: waves-scroll 34s linear infinite;
+  animation-delay: -22s;
 }
 .site-wave-svg--4 path {
-  stroke: rgba(255, 255, 255, 0.06);
-  stroke-width: 1.5;
-  filter: drop-shadow(0 0 3px rgba(148, 163, 184, 0.12));
+  stroke-width: 60;
+  filter: blur(12px);
 }
 
-/* Seamless scroll: -50% of 200vw = -100vw = exactly one wave tile */
+/* Seamless scroll: -50% of the SVG's own width (200vw) = -100vw */
 @keyframes waves-scroll {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }

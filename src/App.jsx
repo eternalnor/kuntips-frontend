@@ -119,24 +119,70 @@ function App() {
 
   return (
     <div className="app-root">
-      {/* Global animated background — 4 wave SVGs, each 200vw wide for seamless loop */}
+      {/* Global animated background — gradient wave bands sweeping left */}
       <div ref={bgRef} className="site-bg" aria-hidden="true">
-        {/* Wave 1 — indigo, medium amplitude, 3 cycles/viewport */}
+
+        {/* Wave 1 — indigo, upper third, medium swell */}
         <svg className="site-wave-svg site-wave-svg--1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2880 900" preserveAspectRatio="none">
-          <path d="M0,160 C160,95 320,225 480,160 C640,95 800,225 960,160 C1120,95 1280,225 1440,160 C1600,95 1760,225 1920,160 C2080,95 2240,225 2400,160 C2560,95 2720,225 2880,160" />
+          <defs>
+            <linearGradient id="wg1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stopColor="#6366f1" stopOpacity="0"/>
+              <stop offset="10%"  stopColor="#6366f1" stopOpacity="0.28"/>
+              <stop offset="30%"  stopColor="#6366f1" stopOpacity="0.10"/>
+              <stop offset="52%"  stopColor="#6366f1" stopOpacity="0.32"/>
+              <stop offset="72%"  stopColor="#6366f1" stopOpacity="0.08"/>
+              <stop offset="88%"  stopColor="#6366f1" stopOpacity="0.22"/>
+              <stop offset="100%" stopColor="#6366f1" stopOpacity="0"/>
+            </linearGradient>
+          </defs>
+          <path stroke="url(#wg1)" d="M0,160 C160,95 320,225 480,160 C640,95 800,225 960,160 C1120,95 1280,225 1440,160 C1600,95 1760,225 1920,160 C2080,95 2240,225 2400,160 C2560,95 2720,225 2880,160" />
         </svg>
-        {/* Wave 2 — cyan, large amplitude, 2 cycles/viewport */}
+
+        {/* Wave 2 — cyan, mid-screen, large lazy swell */}
         <svg className="site-wave-svg site-wave-svg--2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2880 900" preserveAspectRatio="none">
-          <path d="M0,430 C240,325 480,535 720,430 C960,325 1200,535 1440,430 C1680,325 1920,535 2160,430 C2400,325 2640,535 2880,430" />
+          <defs>
+            <linearGradient id="wg2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stopColor="#38bdf8" stopOpacity="0"/>
+              <stop offset="18%"  stopColor="#38bdf8" stopOpacity="0.20"/>
+              <stop offset="45%"  stopColor="#38bdf8" stopOpacity="0.08"/>
+              <stop offset="65%"  stopColor="#38bdf8" stopOpacity="0.24"/>
+              <stop offset="85%"  stopColor="#38bdf8" stopOpacity="0.10"/>
+              <stop offset="100%" stopColor="#38bdf8" stopOpacity="0"/>
+            </linearGradient>
+          </defs>
+          <path stroke="url(#wg2)" d="M0,430 C240,325 480,535 720,430 C960,325 1200,535 1440,430 C1680,325 1920,535 2160,430 C2400,325 2640,535 2880,430" />
         </svg>
-        {/* Wave 3 — faint indigo, small amplitude, 4 cycles/viewport */}
+
+        {/* Wave 3 — indigo, lower third, quick small ripples */}
         <svg className="site-wave-svg site-wave-svg--3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2880 900" preserveAspectRatio="none">
-          <path d="M0,660 C120,615 240,705 360,660 C480,615 600,705 720,660 C840,615 960,705 1080,660 C1200,615 1320,705 1440,660 C1560,615 1680,705 1800,660 C1920,615 2040,705 2160,660 C2280,615 2400,705 2520,660 C2640,615 2760,705 2880,660" />
+          <defs>
+            <linearGradient id="wg3" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stopColor="#6366f1" stopOpacity="0"/>
+              <stop offset="15%"  stopColor="#6366f1" stopOpacity="0.16"/>
+              <stop offset="40%"  stopColor="#6366f1" stopOpacity="0.06"/>
+              <stop offset="60%"  stopColor="#6366f1" stopOpacity="0.18"/>
+              <stop offset="82%"  stopColor="#6366f1" stopOpacity="0.05"/>
+              <stop offset="100%" stopColor="#6366f1" stopOpacity="0"/>
+            </linearGradient>
+          </defs>
+          <path stroke="url(#wg3)" d="M0,660 C120,615 240,705 360,660 C480,615 600,705 720,660 C840,615 960,705 1080,660 C1200,615 1320,705 1440,660 C1560,615 1680,705 1800,660 C1920,615 2040,705 2160,660 C2280,615 2400,705 2520,660 C2640,615 2760,705 2880,660" />
         </svg>
-        {/* Wave 4 — barely-visible white, crosses mid-screen */}
+
+        {/* Wave 4 — white shimmer, crossing mid-upper area */}
         <svg className="site-wave-svg site-wave-svg--4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2880 900" preserveAspectRatio="none">
-          <path d="M0,300 C160,220 320,380 480,300 C640,220 800,380 960,300 C1120,220 1280,380 1440,300 C1600,220 1760,380 1920,300 C2080,220 2240,380 2400,300 C2560,220 2720,380 2880,300" />
+          <defs>
+            <linearGradient id="wg4" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stopColor="#e0e7ff" stopOpacity="0"/>
+              <stop offset="20%"  stopColor="#e0e7ff" stopOpacity="0.10"/>
+              <stop offset="48%"  stopColor="#e0e7ff" stopOpacity="0.03"/>
+              <stop offset="70%"  stopColor="#e0e7ff" stopOpacity="0.12"/>
+              <stop offset="90%"  stopColor="#e0e7ff" stopOpacity="0.04"/>
+              <stop offset="100%" stopColor="#e0e7ff" stopOpacity="0"/>
+            </linearGradient>
+          </defs>
+          <path stroke="url(#wg4)" d="M0,300 C160,220 320,380 480,300 C640,220 800,380 960,300 C1120,220 1280,380 1440,300 C1600,220 1760,380 1920,300 C2080,220 2240,380 2400,300 C2560,220 2720,380 2880,300" />
         </svg>
+
       </div>
 
       <div className="app-shell">
