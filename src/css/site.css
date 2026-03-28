@@ -16,74 +16,71 @@
   transition: transform 0.45s ease-out;
 }
 
-/* Shared orb base — blur is static, browser rasterises once and caches the texture.
-   No will-change here: the CSS animation already promotes to its own layer,
-   and explicit will-change can trigger the same white-backing-store bug. */
-.site-orb {
+/* Each wave is a 200vw-wide SVG. Animating translateX(-50%) shifts it by exactly
+   100vw — one tile width — so the loop is seamless. Only transform animates,
+   meaning each wave SVG is composited as a single GPU texture with zero repaint. */
+
+.site-wave-svg {
   position: absolute;
-  border-radius: 50%;
+  top: 0;
+  left: 0;
+  width: 200%;   /* 200vw — one tile off-screen to the right for the loop */
+  height: 100%;
+  overflow: visible;
 }
 
-/* Indigo orb — top-left */
-.site-orb--1 {
-  width: 60vw;
-  height: 60vw;
-  top: -15%;
-  left: -15%;
-  background: radial-gradient(circle, rgba(99,102,241,0.45), transparent 68%);
-  filter: blur(80px);
-  opacity: 0.7;
-  animation: orb-wave-1 28s ease-in-out infinite;
+.site-wave-svg path {
+  fill: none;
 }
 
-/* Cyan orb — bottom-right */
-.site-orb--2 {
-  width: 48vw;
-  height: 48vw;
-  bottom: -12%;
-  right: -12%;
-  background: radial-gradient(circle, rgba(56,189,248,0.32), transparent 68%);
-  filter: blur(72px);
-  opacity: 0.6;
-  animation: orb-wave-2 34s ease-in-out infinite;
+/* Wave 1 — indigo, medium, 28s */
+.site-wave-svg--1 {
+  animation: waves-scroll 28s linear infinite;
+  animation-delay: 0s;
+}
+.site-wave-svg--1 path {
+  stroke: rgba(99, 102, 241, 0.22);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 4px rgba(99, 102, 241, 0.28));
 }
 
-/* Faint indigo orb — center */
-.site-orb--3 {
-  width: 38vw;
-  height: 38vw;
-  top: 35%;
-  left: 38%;
-  background: radial-gradient(circle, rgba(99,102,241,0.18), transparent 68%);
-  filter: blur(64px);
-  opacity: 0.55;
-  animation: orb-wave-3 22s ease-in-out infinite;
+/* Wave 2 — cyan, slow and majestic, 40s */
+.site-wave-svg--2 {
+  animation: waves-scroll 40s linear infinite;
+  animation-delay: -14s;
+}
+.site-wave-svg--2 path {
+  stroke: rgba(56, 189, 248, 0.16);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.22));
 }
 
-/* Multi-waypoint loops so each orb traces a slow curved path — wave-like,
-   never snapping back the same way it came. Only transform is animated. */
-@keyframes orb-wave-1 {
-  0%   { transform: translate(0,     0)    scale(1);    }
-  25%  { transform: translate(5vw,  -4vh)  scale(1.04); }
-  50%  { transform: translate(8vw,   4vh)  scale(1.07); }
-  75%  { transform: translate(3vw,   8vh)  scale(1.03); }
-  100% { transform: translate(0,     0)    scale(1);    }
+/* Wave 3 — faint indigo, fast small ripples, 20s */
+.site-wave-svg--3 {
+  animation: waves-scroll 20s linear infinite;
+  animation-delay: -7s;
+}
+.site-wave-svg--3 path {
+  stroke: rgba(99, 102, 241, 0.13);
+  stroke-width: 1;
+  filter: drop-shadow(0 0 3px rgba(99, 102, 241, 0.18));
 }
 
-@keyframes orb-wave-2 {
-  0%   { transform: translate(0,      0)    scale(1);    }
-  25%  { transform: translate(-5vw,   3vh)  scale(0.95); }
-  50%  { transform: translate(-8vw,  -5vh)  scale(0.92); }
-  75%  { transform: translate(-3vw,  -8vh)  scale(0.96); }
-  100% { transform: translate(0,      0)    scale(1);    }
+/* Wave 4 — barely-visible white accent, 33s */
+.site-wave-svg--4 {
+  animation: waves-scroll 33s linear infinite;
+  animation-delay: -21s;
+}
+.site-wave-svg--4 path {
+  stroke: rgba(255, 255, 255, 0.06);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 3px rgba(148, 163, 184, 0.12));
 }
 
-@keyframes orb-wave-3 {
-  0%   { transform: translate(0,     0)    scale(1);    }
-  30%  { transform: translate(-4vw,  5vh)  scale(1.05); }
-  60%  { transform: translate( 4vw,  7vh)  scale(0.97); }
-  80%  { transform: translate( 2vw, -3vh)  scale(1.03); }
-  100% { transform: translate(0,     0)    scale(1);    }
+/* Seamless scroll: -50% of 200vw = -100vw = exactly one wave tile */
+@keyframes waves-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 /* Everything real should sit above the background */
@@ -92,10 +89,10 @@
   z-index: 1;
 }
 
-/* Reduced motion — freeze all orbs in place */
+/* Reduced motion — freeze all waves and disable parallax */
 @media (prefers-reduced-motion: reduce) {
-  .site-bg { transition: none !important; }
-  .site-orb { animation: none !important; }
+  .site-bg        { transition: none !important; }
+  .site-wave-svg  { animation: none !important; }
 }
 
 /* ======================== Global header / navbar  ========================  */
