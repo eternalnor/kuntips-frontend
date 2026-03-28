@@ -1,84 +1,77 @@
-/* ======================== Global animated background ======================== */
+/* ======================== Global animated background ========================
+   Performance strategy: blur is STATIC on each orb so the browser rasterizes
+   it once and caches the GPU texture. Only `transform` is animated, which the
+   compositor handles entirely on the GPU — no repaint, no JS per frame.
+   Mouse parallax uses a CSS variable + transition on the wrapper (also cheap).
+   ========================================================================= */
 
 .site-bg {
   position: fixed;
-  inset: -25%;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
-
+  overflow: hidden;
   transform: translate3d(var(--mouse-x, 0px), var(--mouse-y, 0px), 0);
-  transition: transform 0.35s ease-out;
-
-  /* subtle moving texture */
-  background-image: radial-gradient(rgba(255,255,255,0.015) 1px, transparent 1px);
-  background-size: 180px 180px;
-  animation: site-noise-drift 18s linear infinite;
+  transition: transform 0.45s ease-out;
 }
 
-@keyframes site-noise-drift {
-  0%   { background-position: 0 0; }
-  100% { background-position: 240px 140px; }
-}
-
-.site-bg::before {
-  content: "";
+/* Shared orb base — blur set once, never animated */
+.site-orb {
   position: absolute;
-  inset: 0;
-
-  background:
-    radial-gradient(circle at var(--g1x, 15%) var(--g1y, 25%), rgba(99,102,241,0.22), transparent 45%),
-    radial-gradient(circle at var(--g2x, 85%) var(--g2y, 70%), rgba(56,189,248,0.14), transparent 46%),
-    radial-gradient(circle at 60% 20%, rgba(99,102,241,0.10), transparent 35%),
-    radial-gradient(circle at 50% 60%, rgba(2,6,23,0.65), rgba(2,6,23,1) 70%);
-
-  filter: blur(32px);
-  opacity: 0.98;
-  animation: site-breathe 9s ease-in-out infinite;
+  border-radius: 50%;
+  will-change: transform;
 }
 
-@keyframes site-breathe {
-  0%, 100% { filter: blur(32px) brightness(1); }
-  50%      { filter: blur(32px) brightness(1.06); }
+/* Indigo orb — top-left, large, slow drift */
+.site-orb--1 {
+  width: 60vw;
+  height: 60vw;
+  top: -15%;
+  left: -15%;
+  background: radial-gradient(circle, rgba(99,102,241,0.45), transparent 68%);
+  filter: blur(80px);
+  opacity: 0.7;
+  animation: orb-drift-1 26s ease-in-out infinite alternate;
 }
 
-.site-bg::after {
-  content: "";
-  position: absolute;
-  inset: -18%;
-  pointer-events: none;
-
-  background:
-    linear-gradient(110deg,
-      rgba(255,255,255,0.00) 0%,
-      rgba(255,255,255,0.00) 18%,
-      rgba(255,255,255,0.03) 32%,
-      rgba(255,255,255,0.06) 44%,
-      rgba(255,255,255,0.08) 50%,
-      rgba(255,255,255,0.06) 56%,
-      rgba(255,255,255,0.03) 68%,
-      rgba(255,255,255,0.00) 82%,
-      rgba(255,255,255,0.00) 100%
-    ),
-    linear-gradient(155deg,
-      rgba(56,189,248,0.00) 0%,
-      rgba(56,189,248,0.00) 30%,
-      rgba(56,189,248,0.025) 46%,
-      rgba(56,189,248,0.05) 55%,
-      rgba(56,189,248,0.025) 66%,
-      rgba(56,189,248,0.00) 82%,
-      rgba(56,189,248,0.00) 100%
-    );
-
-  filter: blur(44px);
-  opacity: 0.48;
-
-  transform: translateX(160%) rotate(8deg) scale(1.03);
-  animation: site-wave-sweep 18s linear infinite;
+/* Cyan orb — bottom-right, medium, medium drift */
+.site-orb--2 {
+  width: 48vw;
+  height: 48vw;
+  bottom: -12%;
+  right: -12%;
+  background: radial-gradient(circle, rgba(56,189,248,0.32), transparent 68%);
+  filter: blur(72px);
+  opacity: 0.6;
+  animation: orb-drift-2 32s ease-in-out infinite alternate;
 }
 
-@keyframes site-wave-sweep {
-  0%   { transform: translateX(160%) rotate(8deg) scale(1.03); }
-  100% { transform: translateX(-160%) rotate(8deg) scale(1.03); }
+/* Faint indigo orb — center, subtle depth layer */
+.site-orb--3 {
+  width: 38vw;
+  height: 38vw;
+  top: 35%;
+  left: 38%;
+  background: radial-gradient(circle, rgba(99,102,241,0.18), transparent 68%);
+  filter: blur(64px);
+  opacity: 0.55;
+  animation: orb-drift-3 20s ease-in-out infinite alternate;
+}
+
+/* Only transform is animated — composited on GPU, zero repaint */
+@keyframes orb-drift-1 {
+  0%   { transform: translate(0,    0)    scale(1);    }
+  100% { transform: translate(7vw,  6vh)  scale(1.07); }
+}
+
+@keyframes orb-drift-2 {
+  0%   { transform: translate(0,     0)    scale(1);    }
+  100% { transform: translate(-7vw, -6vh)  scale(0.93); }
+}
+
+@keyframes orb-drift-3 {
+  0%   { transform: translate(0,    0)    scale(1);    }
+  100% { transform: translate(-4vw, 7vh)  scale(1.05); }
 }
 
 /* Everything real should sit above the background */
@@ -87,15 +80,10 @@
   z-index: 1;
 }
 
-/* Reduced motion */
+/* Reduced motion — freeze all orbs in place */
 @media (prefers-reduced-motion: reduce) {
-  .site-bg,
-  .site-bg::before,
-  .site-bg::after {
-    animation: none !important;
-    transition: none !important;
-    transform: none !important;
-  }
+  .site-bg { transition: none !important; }
+  .site-orb { animation: none !important; }
 }
 
 /* ======================== Global header / navbar  ========================  */

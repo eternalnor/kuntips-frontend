@@ -104,60 +104,27 @@ function App() {
     const el = bgRef.current;
     if (!el) return;
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (reduceMotion.matches) return;
-
-    let raf = 0;
-    let t = 0;
-
-    // travel speeds
-    const SPEED_X1 = 0.055;
-    const SPEED_X2 = 0.035;
-
-    // vertical drift speeds
-    const SPEED_Y1 = 0.020;
-    const SPEED_Y2 = 0.017;
-
     const MOUSE_AMPLITUDE = 12;
-
-    const updateAutoFlow = () => {
-      t += 0.9;
-
-      const x1 = (t * SPEED_X1) % 100;
-      const x2 = (20 + t * SPEED_X2) % 100;
-
-      const y1 = 28 + Math.sin(t * SPEED_Y1) * 10;
-      const y2 = 70 + Math.cos(t * SPEED_Y2) * 10;
-
-      el.style.setProperty("--g1x", `${x1}%`);
-      el.style.setProperty("--g1y", `${y1}%`);
-      el.style.setProperty("--g2x", `${x2}%`);
-      el.style.setProperty("--g2y", `${y2}%`);
-
-      raf = requestAnimationFrame(updateAutoFlow);
-    };
 
     const onMove = (e) => {
       const x = e.clientX / window.innerWidth - 0.5;
       const y = e.clientY / window.innerHeight - 0.5;
-
       el.style.setProperty("--mouse-x", `${x * MOUSE_AMPLITUDE}px`);
       el.style.setProperty("--mouse-y", `${y * MOUSE_AMPLITUDE}px`);
     };
 
-    updateAutoFlow();
     window.addEventListener("pointermove", onMove, { passive: true });
-
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("pointermove", onMove);
-    };
+    return () => window.removeEventListener("pointermove", onMove);
   }, []);
 
   return (
     <div className="app-root">
       {/* Global animated background behind the entire site */}
-      <div ref={bgRef} className="site-bg" aria-hidden="true" />
+      <div ref={bgRef} className="site-bg" aria-hidden="true">
+        <div className="site-orb site-orb--1" />
+        <div className="site-orb site-orb--2" />
+        <div className="site-orb site-orb--3" />
+      </div>
 
       <div className="app-shell">
         <SiteHeader />
