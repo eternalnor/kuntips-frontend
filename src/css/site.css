@@ -10,19 +10,21 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  overflow: hidden;
+  /* No overflow:hidden — combining it with filter:blur() on children causes
+     white compositing-layer artifacts in Safari and some Chromium builds */
   transform: translate3d(var(--mouse-x, 0px), var(--mouse-y, 0px), 0);
   transition: transform 0.45s ease-out;
 }
 
-/* Shared orb base — blur set once, never animated */
+/* Shared orb base — blur is static, browser rasterises once and caches the texture.
+   No will-change here: the CSS animation already promotes to its own layer,
+   and explicit will-change can trigger the same white-backing-store bug. */
 .site-orb {
   position: absolute;
   border-radius: 50%;
-  will-change: transform;
 }
 
-/* Indigo orb — top-left, large, slow drift */
+/* Indigo orb — top-left */
 .site-orb--1 {
   width: 60vw;
   height: 60vw;
@@ -31,10 +33,10 @@
   background: radial-gradient(circle, rgba(99,102,241,0.45), transparent 68%);
   filter: blur(80px);
   opacity: 0.7;
-  animation: orb-drift-1 26s ease-in-out infinite alternate;
+  animation: orb-wave-1 28s ease-in-out infinite;
 }
 
-/* Cyan orb — bottom-right, medium, medium drift */
+/* Cyan orb — bottom-right */
 .site-orb--2 {
   width: 48vw;
   height: 48vw;
@@ -43,10 +45,10 @@
   background: radial-gradient(circle, rgba(56,189,248,0.32), transparent 68%);
   filter: blur(72px);
   opacity: 0.6;
-  animation: orb-drift-2 32s ease-in-out infinite alternate;
+  animation: orb-wave-2 34s ease-in-out infinite;
 }
 
-/* Faint indigo orb — center, subtle depth layer */
+/* Faint indigo orb — center */
 .site-orb--3 {
   width: 38vw;
   height: 38vw;
@@ -55,23 +57,33 @@
   background: radial-gradient(circle, rgba(99,102,241,0.18), transparent 68%);
   filter: blur(64px);
   opacity: 0.55;
-  animation: orb-drift-3 20s ease-in-out infinite alternate;
+  animation: orb-wave-3 22s ease-in-out infinite;
 }
 
-/* Only transform is animated — composited on GPU, zero repaint */
-@keyframes orb-drift-1 {
-  0%   { transform: translate(0,    0)    scale(1);    }
-  100% { transform: translate(7vw,  6vh)  scale(1.07); }
-}
-
-@keyframes orb-drift-2 {
+/* Multi-waypoint loops so each orb traces a slow curved path — wave-like,
+   never snapping back the same way it came. Only transform is animated. */
+@keyframes orb-wave-1 {
   0%   { transform: translate(0,     0)    scale(1);    }
-  100% { transform: translate(-7vw, -6vh)  scale(0.93); }
+  25%  { transform: translate(5vw,  -4vh)  scale(1.04); }
+  50%  { transform: translate(8vw,   4vh)  scale(1.07); }
+  75%  { transform: translate(3vw,   8vh)  scale(1.03); }
+  100% { transform: translate(0,     0)    scale(1);    }
 }
 
-@keyframes orb-drift-3 {
-  0%   { transform: translate(0,    0)    scale(1);    }
-  100% { transform: translate(-4vw, 7vh)  scale(1.05); }
+@keyframes orb-wave-2 {
+  0%   { transform: translate(0,      0)    scale(1);    }
+  25%  { transform: translate(-5vw,   3vh)  scale(0.95); }
+  50%  { transform: translate(-8vw,  -5vh)  scale(0.92); }
+  75%  { transform: translate(-3vw,  -8vh)  scale(0.96); }
+  100% { transform: translate(0,      0)    scale(1);    }
+}
+
+@keyframes orb-wave-3 {
+  0%   { transform: translate(0,     0)    scale(1);    }
+  30%  { transform: translate(-4vw,  5vh)  scale(1.05); }
+  60%  { transform: translate( 4vw,  7vh)  scale(0.97); }
+  80%  { transform: translate( 2vw, -3vh)  scale(1.03); }
+  100% { transform: translate(0,     0)    scale(1);    }
 }
 
 /* Everything real should sit above the background */
