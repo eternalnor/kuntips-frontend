@@ -1,8 +1,8 @@
 /* ======================== Global animated background ========================
-   Performance strategy: blur is STATIC on each orb so the browser rasterizes
-   it once and caches the GPU texture. Only `transform` is animated, which the
-   compositor handles entirely on the GPU — no repaint, no JS per frame.
-   Mouse parallax uses a CSS variable + transition on the wrapper (also cheap).
+   Performance strategy: filter is STATIC on each path so the browser
+   rasterises it once and caches the GPU texture. Only `transform` animates
+   on the SVG wrapper — handled entirely by the compositor, zero repaint.
+   Thin hairlines + double drop-shadow bloom = "lit from within" aesthetic.
    ========================================================================= */
 
 .site-bg {
@@ -10,21 +10,16 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  /* No overflow:hidden — combining it with filter:blur() on children causes
-     white compositing-layer artifacts in Safari and some Chromium builds */
+  /* No overflow:hidden — combining it with filter on children causes
+     white compositing-layer artifacts in Safari / some Chromium builds */
   transform: translate3d(var(--mouse-x, 0px), var(--mouse-y, 0px), 0);
   transition: transform 0.45s ease-out;
 }
 
-/* Each wave is a 200vw-wide SVG. Animating translateX(-50%) shifts it by exactly
-   100vw — one tile width — so the loop is seamless. Only transform animates,
-   meaning each wave SVG is composited as a single GPU texture with zero repaint. */
-
 /* Each SVG is 200vw wide. translateX(-50%) = -100vw = one seamless tile.
-   stroke-width is large so each path becomes a soft band, not a line.
-   filter:blur() is static on the path — rasterised once, GPU-cached.
-   The linearGradient in each SVG creates bright/dim patches along the wave
-   so it reads as a gradient wash, not a uniform stripe. */
+   stroke-width is deliberately thin (1–2 px) so the double drop-shadow
+   reads as a glowing fibre-optic line rather than a blurry band.
+   The linearGradient fades each line in/out at the edges for clean tiling. */
 
 .site-wave-svg {
   position: absolute;
@@ -39,44 +34,59 @@
   fill: none;
 }
 
-/* Wave 1 — indigo, upper screen, 28s */
+/* Wave 1 — indigo hairline, upper, double-swell, 32s */
 .site-wave-svg--1 {
-  animation: waves-scroll 28s linear infinite;
+  animation: waves-scroll 32s linear infinite;
   animation-delay: 0s;
 }
 .site-wave-svg--1 path {
-  stroke-width: 75;
-  filter: blur(14px);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 5px rgba(99,102,241,0.95))
+          drop-shadow(0 0 18px rgba(99,102,241,0.45));
 }
 
-/* Wave 2 — cyan, mid-screen, slowest = most majestic, 42s */
+/* Wave 2 — cyan hairline, mid-upper, grand single swell, 44s */
 .site-wave-svg--2 {
-  animation: waves-scroll 42s linear infinite;
-  animation-delay: -14s;
+  animation: waves-scroll 44s linear infinite;
+  animation-delay: -18s;
 }
 .site-wave-svg--2 path {
-  stroke-width: 110;
-  filter: blur(20px);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 5px rgba(56,189,248,0.95))
+          drop-shadow(0 0 20px rgba(56,189,248,0.40));
 }
 
-/* Wave 3 — indigo, lower screen, fastest = quick ripples, 20s */
+/* Wave 3 — lavender hairline, centre, quick ripples, 22s */
 .site-wave-svg--3 {
-  animation: waves-scroll 20s linear infinite;
-  animation-delay: -7s;
+  animation: waves-scroll 22s linear infinite;
+  animation-delay: -8s;
 }
 .site-wave-svg--3 path {
-  stroke-width: 50;
-  filter: blur(10px);
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 4px rgba(224,231,255,0.90))
+          drop-shadow(0 0 14px rgba(224,231,255,0.35));
 }
 
-/* Wave 4 — white shimmer, crossing mid-upper, 34s */
+/* Wave 4 — indigo hairline, mid-lower, double-swell, 36s */
 .site-wave-svg--4 {
-  animation: waves-scroll 34s linear infinite;
-  animation-delay: -22s;
+  animation: waves-scroll 36s linear infinite;
+  animation-delay: -12s;
 }
 .site-wave-svg--4 path {
-  stroke-width: 60;
-  filter: blur(12px);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 6px rgba(99,102,241,0.90))
+          drop-shadow(0 0 22px rgba(99,102,241,0.40));
+}
+
+/* Wave 5 — cyan hairline, lower, grand single swell, 50s */
+.site-wave-svg--5 {
+  animation: waves-scroll 50s linear infinite;
+  animation-delay: -26s;
+}
+.site-wave-svg--5 path {
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 5px rgba(56,189,248,0.90))
+          drop-shadow(0 0 16px rgba(56,189,248,0.35));
 }
 
 /* Seamless scroll: -50% of the SVG's own width (200vw) = -100vw */
