@@ -34,9 +34,11 @@
   fill: none;
 }
 
-/* Wave 1 — indigo hairline, upper, double-swell, 32s */
+/* Wave 1 — indigo hairline, upper, double-swell */
+/* --wave-dur-N is set by JS (App.jsx) to scale duration with viewport width,
+   keeping the pixel-speed constant at all screen sizes. Fallback = mobile value. */
 .site-wave-svg--1 {
-  animation: waves-scroll 32s linear infinite;
+  animation: waves-scroll var(--wave-dur-1, 32s) linear infinite;
   animation-delay: 0s;
 }
 .site-wave-svg--1 path {
@@ -45,9 +47,9 @@
           drop-shadow(0 0 18px rgba(99,102,241,0.45));
 }
 
-/* Wave 2 — cyan hairline, mid-upper, grand single swell, 44s */
+/* Wave 2 — cyan hairline, mid-upper, grand single swell */
 .site-wave-svg--2 {
-  animation: waves-scroll 44s linear infinite;
+  animation: waves-scroll var(--wave-dur-2, 44s) linear infinite;
   animation-delay: -18s;
 }
 .site-wave-svg--2 path {
@@ -56,9 +58,9 @@
           drop-shadow(0 0 20px rgba(56,189,248,0.40));
 }
 
-/* Wave 3 — lavender hairline, centre, quick ripples, 22s */
+/* Wave 3 — lavender hairline, centre, quick ripples */
 .site-wave-svg--3 {
-  animation: waves-scroll 22s linear infinite;
+  animation: waves-scroll var(--wave-dur-3, 22s) linear infinite;
   animation-delay: -8s;
 }
 .site-wave-svg--3 path {
@@ -67,9 +69,9 @@
           drop-shadow(0 0 14px rgba(224,231,255,0.35));
 }
 
-/* Wave 4 — indigo hairline, mid-lower, double-swell, 36s */
+/* Wave 4 — indigo hairline, mid-lower, double-swell */
 .site-wave-svg--4 {
-  animation: waves-scroll 36s linear infinite;
+  animation: waves-scroll var(--wave-dur-4, 36s) linear infinite;
   animation-delay: -12s;
 }
 .site-wave-svg--4 path {
@@ -78,9 +80,9 @@
           drop-shadow(0 0 22px rgba(99,102,241,0.40));
 }
 
-/* Wave 5 — cyan hairline, lower, grand single swell, 50s */
+/* Wave 5 — cyan hairline, lower, grand single swell */
 .site-wave-svg--5 {
-  animation: waves-scroll 50s linear infinite;
+  animation: waves-scroll var(--wave-dur-5, 50s) linear infinite;
   animation-delay: -26s;
 }
 .site-wave-svg--5 path {

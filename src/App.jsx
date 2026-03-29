@@ -117,6 +117,28 @@ function App() {
     return () => window.removeEventListener("pointermove", onMove);
   }, []);
 
+  // Scale animation durations with viewport width so the wave pixel-speed
+  // stays constant regardless of screen size. BASE_WIDTH is the mobile
+  // reference viewport (390 px) where the hand-tuned durations feel right.
+  useEffect(() => {
+    const el = bgRef.current;
+    if (!el) return;
+
+    const BASE_WIDTH = 390;
+    const BASE_DURATIONS = [32, 44, 22, 36, 50]; // wave 1-5
+
+    const updateDurations = () => {
+      const ratio = window.innerWidth / BASE_WIDTH;
+      BASE_DURATIONS.forEach((dur, i) => {
+        el.style.setProperty(`--wave-dur-${i + 1}`, `${(dur * ratio).toFixed(1)}s`);
+      });
+    };
+
+    updateDurations();
+    window.addEventListener("resize", updateDurations, { passive: true });
+    return () => window.removeEventListener("resize", updateDurations);
+  }, []);
+
   return (
     <div className="app-root">
       {/* Global animated background — gradient wave bands sweeping left */}
