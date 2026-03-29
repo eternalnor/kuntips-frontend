@@ -9,6 +9,7 @@ import {
   createStripeAccountLink,
   fetchPayoutPreview,
   requestPayout,
+  getSessionToken,
 } from "./api";
 
 function useQuery() {
@@ -68,16 +69,7 @@ function CreatorsDashboard() {
     }
 
     // Require a session token on the frontend
-    let sessionToken = null;
-    if (typeof window !== "undefined") {
-      try {
-        sessionToken = window.localStorage.getItem(
-          "kuntips_creator_session",
-        );
-      } catch {
-        // ignore
-      }
-    }
+    const sessionToken = getSessionToken();
 
     if (!sessionToken) {
       setLoading(false);
@@ -324,7 +316,11 @@ function CreatorsDashboard() {
     try {
       await requestPayout(creatorUsername);
       setPayoutRequestSuccess("Payout requested successfully. It will be processed by Stripe shortly.");
-      fetchPayoutPreview(creatorUsername).then(setPayoutPreview).catch(() => {});
+      fetchPayoutPreview(creatorUsername)
+        .then(setPayoutPreview)
+        .catch(() => {
+          setPayoutError("Preview could not refresh automatically — your payout was still requested. Reload the page to see updated figures.");
+        });
     } catch (err) {
       setPayoutRequestError(err.data?.message || err.message || "Could not request payout. Please try again.");
     } finally {
