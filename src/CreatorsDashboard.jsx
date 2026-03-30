@@ -2,6 +2,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import {
+  AreaChart, Area, XAxis, YAxis, CartesianGrid,
+  Tooltip, ResponsiveContainer,
+} from "recharts";
+import {
   fetchCreatorDashboard,
   updateCreatorProfile,
   changePassword,
@@ -38,6 +42,31 @@ function useCountdown(isoString) {
   }, [isoString]);
 
   return timeLeft;
+}
+
+// ── Chart helpers ────────────────────────────────────────────────────────────
+const MILESTONES_DEF = [
+  { key: "firstTip",  icon: "🎯", label: "First tip",      desc: "Received your first tip" },
+  { key: "nok1k",     icon: "💫", label: "1,000 NOK",      desc: "1,000 NOK earned lifetime" },
+  { key: "nok5k",     icon: "⭐", label: "5,000 NOK",      desc: "5,000 NOK earned lifetime" },
+  { key: "nok10k",    icon: "🌟", label: "10,000 NOK",     desc: "10,000 NOK earned lifetime" },
+  { key: "nok50k",    icon: "💎", label: "50,000 NOK",     desc: "50,000 NOK earned lifetime" },
+  { key: "nok100k",   icon: "👑", label: "100,000 NOK",    desc: "100,000 NOK earned lifetime" },
+];
+
+function fmtChartDate(dateStr) {
+  const d = new Date(dateStr + "T00:00:00");
+  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+}
+
+function ChartTooltip({ active, payload, label }) {
+  if (!active || !payload?.length) return null;
+  return (
+    <div className="chart-tooltip">
+      <p className="chart-tooltip-date">{fmtChartDate(label)}</p>
+      <p className="chart-tooltip-value">{payload[0].value} NOK</p>
+    </div>
+  );
 }
 
 function useQuery() {
@@ -156,6 +185,10 @@ function CreatorsDashboard() {
   const stats = payload?.stats;
   const tier = payload?.tier;
   const recentTips = payload?.recentTips || [];
+  const charts = payload?.charts ?? null;
+  const insights = payload?.insights ?? null;
+  const percentileRank = payload?.percentileRank ?? null;
+  const milestones = payload?.milestones ?? {};
 
   const status = payload?.status;
   const isActive = status?.isActive ?? true;
@@ -623,6 +656,112 @@ function CreatorsDashboard() {
                       </p>
                     </div>
                   </section>
+
+                  {/* EARNINGS CHART */}
+                  {charts && (
+                    <section className="card creators-chart-card">
+                      <div className="creators-chart-header">
+                        <div>
+                          <h2>Last 30 days</h2>
+                          {charts.daily.length > 0 && (
+                            <p className="creators-small">
+                              {fmtChartDate(charts.daily[0].date)} – {fmtChartDate(charts.daily[charts.daily.length - 1].date)}
+                            </p>
+                          )}
+                        </div>
+                        <div className="creators-chart-meta">
+                          {percentileRank !== null && (
+                            <span className="chart-percentile-badge">
+                              Top {percentileRank}% of creators
+                            </span>
+                          )}
+                          {charts.changePercent !== null && (
+                            <span className={`chart-change-badge ${charts.changePercent >= 0 ? "chart-change-up" : "chart-change-down"}`}>
+                              {charts.changePercent >= 0 ? "↑" : "↘"} {Math.abs(charts.changePercent)}% vs prev. 30 days
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="creators-chart-wrap">
+                        <ResponsiveContainer width="100%" height={200}>
+                          <AreaChart data={charts.daily} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
+                            <defs>
+                              <linearGradient id="earningsGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%"  stopColor="#38bdf8" stopOpacity={0.28} />
+                                <stop offset="95%" stopColor="#38bdf8" stopOpacity={0} />
+                              </linearGradient>
+                            </defs>
+                            <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.12)" vertical={false} />
+                            <XAxis
+                              dataKey="date"
+                              tickFormatter={fmtChartDate}
+                              tick={{ fill: "rgba(148,163,184,0.7)", fontSize: 11 }}
+                              tickLine={false}
+                              axisLine={false}
+                              interval={6}
+                            />
+                            <YAxis
+                              tick={{ fill: "rgba(148,163,184,0.7)", fontSize: 11 }}
+                              tickLine={false}
+                              axisLine={false}
+                              tickFormatter={v => v === 0 ? "" : `${v}`}
+                            />
+                            <Tooltip content={<ChartTooltip />} cursor={{ stroke: "rgba(56,189,248,0.25)", strokeWidth: 1 }} />
+                            <Area
+                              type="monotone"
+                              dataKey="amountNok"
+                              stroke="#38bdf8"
+                              strokeWidth={2}
+                              fill="url(#earningsGrad)"
+                              dot={false}
+                              activeDot={{ r: 4, fill: "#38bdf8", strokeWidth: 0 }}
+                            />
+                          </AreaChart>
+                        </ResponsiveContainer>
+                      </div>
+
+                      {/* INSIGHTS BAR */}
+                      {insights && (
+                        <div className="creators-insights-bar">
+                          {insights.streakDays > 0 && (
+                            <span className="insight-chip">
+                              🔥 {insights.streakDays}-day streak
+                            </span>
+                          )}
+                          {insights.projectedMonthNok !== null && (
+                            <span className="insight-chip">
+                              📈 On pace for ~{insights.projectedMonthNok.toLocaleString()} NOK this month
+                            </span>
+                          )}
+                          {insights.bestDayNok > 0 && (
+                            <span className="insight-chip">
+                              🏆 Best day: {insights.bestDayNok.toLocaleString()} NOK
+                            </span>
+                          )}
+                          {insights.bestMonthNok > 0 && insights.bestMonthLabel && (
+                            <span className="insight-chip">
+                              📅 Best month: {insights.bestMonthNok.toLocaleString()} NOK ({insights.bestMonthLabel})
+                            </span>
+                          )}
+                        </div>
+                      )}
+
+                      {/* MILESTONE BADGES */}
+                      <div className="creators-milestones">
+                        {MILESTONES_DEF.map(m => (
+                          <div
+                            key={m.key}
+                            className={`milestone-badge ${milestones[m.key] ? "milestone-unlocked" : "milestone-locked"}`}
+                            title={`${m.label} — ${m.desc}`}
+                          >
+                            <span className="milestone-icon">{m.icon}</span>
+                            <span className="milestone-label">{m.label}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </section>
+                  )}
 
                   {/* TIER / FEE INFO */}
                   <section className={`card creators-dashboard-tier${globalEventBoostTiers > 0 ? " tier-card-event" : ""}`}>
