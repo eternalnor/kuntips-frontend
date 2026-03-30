@@ -132,6 +132,7 @@ function CreatorsDashboard() {
   const referralBoostTiers = tier?.referralBoostTiers ?? 0;
   const joinBoostTiers = tier?.joinBoostTiers ?? 0;
   const temporaryBoostTiers = tier?.temporaryBoostTiers ?? 0;
+  const globalEventBoostTiers = tier?.globalEventBoostTiers ?? 0;
   const totalReferralsLast365d = tier?.totalReferralsLast365d ?? 0;
 
   const keptPercentLabel = tier
@@ -578,7 +579,7 @@ function CreatorsDashboard() {
                             <p className="creators-dashboard-sub">
                               Share this link with other creators. When they sign up and start
                               receiving tips, you get a permanent referral bonus on your tier
-                              (up to Tier 5).
+                              (up to Tier 6).
                             </p>
 
                             {referralLink && (
@@ -644,13 +645,25 @@ function CreatorsDashboard() {
                                 </p>
                             )}
 
+                            {globalEventBoostTiers > 0 && (
+                                <p className="creators-dashboard-sub">
+                                  🎉 Platform event boost:{" "}
+                                  <strong>
+                                    +{globalEventBoostTiers} tier
+                                    {globalEventBoostTiers > 1 ? "s" : ""}
+                                  </strong>{" "}
+                                  — a special KunTips promotion is active for all creators right now!
+                                </p>
+                            )}
+
                             {referralBoostTiers === 0 &&
                                 joinBoostTiers === 0 &&
-                                temporaryBoostTiers === 0 && (
+                                temporaryBoostTiers === 0 &&
+                                globalEventBoostTiers === 0 && (
                                     <p className="creators-dashboard-sub">
                                       You don’t have any extra boosts yet. Once you reach 10 referred
-                                      creators in a 12-month period, you get +1 tier. At 25, +2 tiers;
-                                      50 gives +3; and 100 gives +4 tiers – always capped at Tier 5.
+                                      creators in a 12-month period, you get +1 tier. At 35, +2 tiers;
+                                      and 100 gives +3 tiers – always capped at Tier 6.
                                     </p>
                                 )}
                           </>
