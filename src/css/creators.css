@@ -963,3 +963,42 @@
   color: #fcd34d;
   margin: 0.1rem 0 0;
 }
+
+/* ── Easter tier card overrides ─────────────────────────────────────────── */
+
+.tier-card-event--easter {
+  border-color: rgba(196, 145, 255, 0.45) !important;
+  box-shadow:
+    0 0 0 1px rgba(196, 145, 255, 0.1),
+    0 4px 20px rgba(139, 92, 246, 0.2);
+}
+
+.tier-card-event--easter .tier-event-word {
+  color: #d8b4fe;
+  text-shadow: 0 0 18px rgba(139, 92, 246, 0.6);
+}
+
+.tier-card-event--easter .tier-event-digit {
+  background: linear-gradient(135deg, #c084fc 0%, #a855f7 40%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 8px rgba(168, 85, 247, 0.6));
+}
+
+.tier-card-event--easter .tier-event-badge {
+  color: #f5f0ff;
+  background: linear-gradient(90deg, #6d28d9, #7c3aed);
+  border-color: rgba(196, 145, 255, 0.5);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+  animation: badgePulseEaster 2.5s ease-in-out infinite;
+}
+
+@keyframes badgePulseEaster {
+  0%, 100% { box-shadow: 0 0 8px rgba(139, 92, 246, 0.35); }
+  50%       { box-shadow: 0 0 20px rgba(139, 92, 246, 0.75); }
+}
+
+.tier-card-event--easter .tier-event-note {
+  color: #d8b4fe;
+}

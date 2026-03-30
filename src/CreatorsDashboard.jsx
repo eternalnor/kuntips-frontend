@@ -209,6 +209,7 @@ function CreatorsDashboard() {
 
   // Live countdown for the platform event (updated every second)
   const eventCountdown = useCountdown(globalEvent?.expiresAt ?? null);
+  const isEasterEvent = /easter|påske/i.test(globalEvent?.label ?? "");
 
   const nextTierText =
     tier && tier.nextTier && nextTierNumber
@@ -464,9 +465,9 @@ function CreatorsDashboard() {
 
       {/* PLATFORM EVENT BANNER */}
       {!loading && !error && payload && globalEventBoostTiers > 0 && globalEvent && (
-        <div className={`event-banner${/easter|påske/i.test(globalEvent.label ?? "") ? " event-banner--easter" : ""}`}>
+        <div className={`event-banner${isEasterEvent ? " event-banner--easter" : ""}`}>
           <div className="event-banner-shimmer" />
-          {/easter|påske/i.test(globalEvent.label ?? "") && (
+          {isEasterEvent && (
             <div className="event-banner-eggs">
               <span className="event-banner-egg">🥚</span>
               <span className="event-banner-egg">🐣</span>
@@ -478,7 +479,7 @@ function CreatorsDashboard() {
           )}
           <div className="event-banner-inner">
             <span className="event-banner-icon">
-              {/easter|påske/i.test(globalEvent.label ?? "") ? "🐣" : "🎉"}
+              {isEasterEvent ? "🐣" : "🎉"}
             </span>
             <div className="event-banner-text">
               <p className="event-banner-title">
@@ -776,7 +777,7 @@ function CreatorsDashboard() {
                   )}
 
                   {/* TIER / FEE INFO */}
-                  <section className={`card creators-dashboard-tier${globalEventBoostTiers > 0 ? " tier-card-event" : ""}`}>
+                  <section className={`card creators-dashboard-tier${globalEventBoostTiers > 0 ? " tier-card-event" : ""}${globalEventBoostTiers > 0 && isEasterEvent ? " tier-card-event--easter" : ""}`}>
                     <div className="creators-dashboard-tier-main">
                       <h2>Your KunTips tier</h2>
                       {tier ? (
