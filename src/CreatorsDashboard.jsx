@@ -59,6 +59,7 @@ function CreatorsDashboard() {
   const [payload, setPayload] = useState(null);
   const [activeTab, setActiveTab] = useState("overview"); // "overview" | "profile" | "payouts"
   const [tipLinkCopied, setTipLinkCopied] = useState(false);
+  const [referralLinkCopied, setReferralLinkCopied] = useState(false);
 
   // Profile editing state
   const [displayNameInput, setDisplayNameInput] = useState("");
@@ -335,6 +336,17 @@ function CreatorsDashboard() {
     }
   }
 
+  async function handleCopyReferralLink() {
+    if (!referralLink) return;
+    try {
+      await navigator.clipboard.writeText(referralLink);
+      setReferralLinkCopied(true);
+      setTimeout(() => setReferralLinkCopied(false), 2000);
+    } catch {
+      // Fallback: select the input
+    }
+  }
+
   useEffect(() => {
     if (!creatorUsername || !payload) return;
 
@@ -416,33 +428,6 @@ function CreatorsDashboard() {
         </section>
       )}
 
-      {!loading && !error && payload && (
-        <section className="card creators-status">
-          {canReceiveTips ? (
-            <>
-              <p>Your KunTips page is live and ready to receive tips.</p>
-              <p className="creators-small">
-                Fans can support you at <code>/u/{creatorUsername}</code>.
-              </p>
-            </>
-          ) : stripeConnected ? (
-            <>
-              <p>Your Stripe account is connected, but your page is not ready to receive tips yet.</p>
-              <p className="creators-small">
-                This can happen if your account is under review or not fully activated.
-                If this persists, please contact support.
-              </p>
-            </>
-          ) : (
-            <>
-              <p>You need to finish setting up Stripe payouts before you can receive tips.</p>
-              <p className="creators-small">
-                Click <strong>“Connect Stripe payouts”</strong> below to connect or complete your Stripe account.
-              </p>
-            </>
-          )}
-        </section>
-      )}
 
       {/* PLATFORM EVENT BANNER */}
       {!loading && !error && payload && globalEventBoostTiers > 0 && globalEvent && (
@@ -857,23 +842,25 @@ function CreatorsDashboard() {
 
                             {referralLink && (
                                 <div className="creators-referral-link-block">
-                                  <label
-                                      htmlFor="referral-link"
-                                      className="creators-dashboard-sub"
-                                  >
-                                    Your referral link:
-                                  </label>
-                                  <input
-                                      id="referral-link"
-                                      type="text"
-                                      value={referralLink}
-                                      readOnly
-                                      onFocus={(e) => e.target.select()}
-                                      className="creators-referral-link-input"
-                                  />
+                                  <div className="creators-tiplink-row">
+                                    <input
+                                        id="referral-link"
+                                        type="text"
+                                        value={referralLink}
+                                        readOnly
+                                        onFocus={(e) => e.target.select()}
+                                        className="creators-tiplink-input"
+                                    />
+                                    <button
+                                        type="button"
+                                        className={`btn ${referralLinkCopied ? "btn-success" : "btn-primary"} creators-tiplink-copy`}
+                                        onClick={handleCopyReferralLink}
+                                    >
+                                      {referralLinkCopied ? "Copied!" : "Copy link"}
+                                    </button>
+                                  </div>
                                   <p className="creators-small">
-                                    Copy and share this link. New creators who register through it
-                                    will count towards your referral boosts.
+                                    New creators who register through it will count towards your referral boosts.
                                   </p>
                                 </div>
                             )}
