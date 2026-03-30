@@ -1,5 +1,5 @@
 // CreatorsDashboard.jsx
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import {
   fetchCreatorDashboard,
@@ -11,6 +11,34 @@ import {
   requestPayout,
   getSessionToken,
 } from "./api";
+
+// ── Countdown helper ────────────────────────────────────────────────────────
+function computeTimeLeft(isoString) {
+  if (!isoString) return null;
+  const diff = new Date(isoString).getTime() - Date.now();
+  if (diff <= 0) return null;
+  return {
+    days:    Math.floor(diff / 86_400_000),
+    hours:   Math.floor((diff % 86_400_000) / 3_600_000),
+    minutes: Math.floor((diff % 3_600_000)  /    60_000),
+    seconds: Math.floor((diff %    60_000)  /     1_000),
+  };
+}
+
+function useCountdown(isoString) {
+  const [timeLeft, setTimeLeft] = useState(() => computeTimeLeft(isoString));
+  const isoRef = useRef(isoString);
+  isoRef.current = isoString;
+
+  useEffect(() => {
+    if (!isoString) { setTimeLeft(null); return; }
+    setTimeLeft(computeTimeLeft(isoString));
+    const id = setInterval(() => setTimeLeft(computeTimeLeft(isoRef.current)), 1000);
+    return () => clearInterval(id);
+  }, [isoString]);
+
+  return timeLeft;
+}
 
 function useQuery() {
   const location = useLocation();
@@ -133,6 +161,7 @@ function CreatorsDashboard() {
   const joinBoostTiers = tier?.joinBoostTiers ?? 0;
   const temporaryBoostTiers = tier?.temporaryBoostTiers ?? 0;
   const globalEventBoostTiers = tier?.globalEventBoostTiers ?? 0;
+  const globalEvent = tier?.globalEvent ?? null;          // { label, expiresAt } | null
   const totalReferralsLast365d = tier?.totalReferralsLast365d ?? 0;
 
   const keptPercentLabel = tier
@@ -140,8 +169,11 @@ function CreatorsDashboard() {
     : null;
 
   const nextTierNumber = tier && tier.nextTier
-    ? Math.min(tier.currentTier + 1, 5)
+    ? Math.min(tier.currentTier + 1, 6)
     : null;
+
+  // Live countdown for the platform event (updated every second)
+  const eventCountdown = useCountdown(globalEvent?.expiresAt ?? null);
 
   const nextTierText =
     tier && tier.nextTier && nextTierNumber
@@ -394,6 +426,63 @@ function CreatorsDashboard() {
         </section>
       )}
 
+      {/* PLATFORM EVENT BANNER */}
+      {!loading && !error && payload && globalEventBoostTiers > 0 && globalEvent && (
+        <div className="event-banner">
+          <div className="event-banner-shimmer" />
+          <div className="event-banner-inner">
+            <span className="event-banner-icon">🎉</span>
+            <div className="event-banner-text">
+              <p className="event-banner-title">
+                {globalEvent.label
+                  ? globalEvent.label
+                  : "Platform Bonus Active!"}
+              </p>
+              <p className="event-banner-subtitle">
+                All creators receive{" "}
+                <strong>
+                  +{globalEventBoostTiers} tier
+                  {globalEventBoostTiers > 1 ? "s" : ""}
+                </strong>{" "}
+                for the duration of this event.
+              </p>
+            </div>
+            {eventCountdown ? (
+              <div className="event-countdown">
+                {eventCountdown.days > 0 && (
+                  <div className="event-countdown-block">
+                    <span className="event-countdown-number">{eventCountdown.days}</span>
+                    <span className="event-countdown-label">day{eventCountdown.days !== 1 ? "s" : ""}</span>
+                  </div>
+                )}
+                <div className="event-countdown-block">
+                  <span className="event-countdown-number">
+                    {String(eventCountdown.hours).padStart(2, "0")}
+                  </span>
+                  <span className="event-countdown-label">hr</span>
+                </div>
+                <div className="event-countdown-block">
+                  <span className="event-countdown-number">
+                    {String(eventCountdown.minutes).padStart(2, "0")}
+                  </span>
+                  <span className="event-countdown-label">min</span>
+                </div>
+                <div className="event-countdown-block">
+                  <span className="event-countdown-number">
+                    {String(eventCountdown.seconds).padStart(2, "0")}
+                  </span>
+                  <span className="event-countdown-label">sec</span>
+                </div>
+              </div>
+            ) : (
+              <p className="event-banner-subtitle" style={{ fontStyle: "italic" }}>
+                Ending soon…
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+
       {!loading && !error && payload && (
           <>
           {/* TABS */}
@@ -542,14 +631,33 @@ function CreatorsDashboard() {
                   </section>
 
                   {/* TIER / FEE INFO */}
-                  <section className="card creators-dashboard-tier">
+                  <section className={`card creators-dashboard-tier${globalEventBoostTiers > 0 ? " tier-card-event" : ""}`}>
                     <div className="creators-dashboard-tier-main">
                       <h2>Your KunTips tier</h2>
                       {tier ? (
                           <>
-                            <p className="creators-dashboard-number">
-                              Tier {tier.currentTier}
-                            </p>
+                            {globalEventBoostTiers > 0 ? (
+                              <div className="tier-display-event">
+                                <div className="tier-display-event-number">
+                                  <span className="tier-event-word">Tier</span>
+                                  <span className="tier-event-digit">{tier.currentTier}</span>
+                                </div>
+                                <span className="tier-event-badge">
+                                  ✦ EVENT BOOST ACTIVE ✦
+                                </span>
+                                {tier.baseTier !== tier.currentTier && (
+                                  <p className="tier-event-note">
+                                    Boosted from Tier {tier.baseTier} — you keep{" "}
+                                    <strong>{keptPercentLabel}</strong> of every tip
+                                    during this event.
+                                  </p>
+                                )}
+                              </div>
+                            ) : (
+                              <p className="creators-dashboard-number">
+                                Tier {tier.currentTier}
+                              </p>
+                            )}
                             <p className="creators-dashboard-sub">
                               You currently keep {keptPercentLabel} of each tip. Fans
                               cover payment fees. Stripe only charges a small fixed

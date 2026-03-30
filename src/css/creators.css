@@ -449,3 +449,177 @@
   flex-direction: column;
   gap: 1.25rem;
 }
+
+/* ======================== Platform event banner ======================== */
+
+.event-banner {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  padding: 1.5rem 1.75rem;
+  background: linear-gradient(135deg, #78350f 0%, #92400e 25%, #b45309 50%, #d97706 75%, #f59e0b 100%);
+  border: 1px solid rgba(251, 191, 36, 0.6);
+  box-shadow:
+    0 0 0 1px rgba(251, 191, 36, 0.15),
+    0 4px 24px rgba(217, 119, 6, 0.35),
+    0 0 60px rgba(245, 158, 11, 0.12);
+  color: #fef3c7;
+}
+
+/* Shimmer sweep */
+.event-banner-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.12) 50%,
+    transparent 65%
+  );
+  background-size: 200% 100%;
+  animation: bannerShimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes bannerShimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.event-banner-inner {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+
+.event-banner-icon {
+  font-size: 2.4rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+}
+
+.event-banner-text {
+  flex: 1;
+  min-width: 180px;
+}
+
+.event-banner-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fef9c3;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  margin: 0 0 0.2rem;
+}
+
+.event-banner-subtitle {
+  font-size: 0.9rem;
+  color: #fde68a;
+  margin: 0;
+}
+
+/* Countdown blocks */
+.event-countdown {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.event-countdown-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.55rem 0.2rem;
+  min-width: 2.8rem;
+}
+
+.event-countdown-number {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fef9c3;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.event-countdown-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #fcd34d;
+  margin-top: 0.1rem;
+}
+
+/* ======================== Boosted tier display ======================== */
+
+.tier-card-event {
+  border-color: rgba(251, 191, 36, 0.45) !important;
+  box-shadow:
+    0 0 0 1px rgba(251, 191, 36, 0.1),
+    0 4px 20px rgba(217, 119, 6, 0.18);
+}
+
+.tier-display-event {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.tier-display-event-number {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  line-height: 1;
+}
+
+.tier-event-word {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fcd34d;
+  text-shadow: 0 0 18px rgba(245, 158, 11, 0.6);
+}
+
+.tier-event-digit {
+  font-size: 4.5rem;
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 40%, #ef4444 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.55));
+  letter-spacing: -0.02em;
+}
+
+.tier-event-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fef3c7;
+  background: linear-gradient(90deg, #b45309, #d97706);
+  border: 1px solid rgba(251, 191, 36, 0.5);
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  width: fit-content;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.35);
+  animation: badgePulse 2.5s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(245, 158, 11, 0.35); }
+  50%       { box-shadow: 0 0 18px rgba(245, 158, 11, 0.7); }
+}
+
+.tier-event-note {
+  font-size: 0.875rem;
+  color: #fcd34d;
+  margin: 0.1rem 0 0;
+}
