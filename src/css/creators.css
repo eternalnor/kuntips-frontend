@@ -450,6 +450,110 @@
   gap: 1.25rem;
 }
 
+/* ======================== Stripe status bar ======================== */
+
+.creators-stripe-status-bar {
+  padding: 0.75rem 1.25rem;
+}
+
+.stripe-status-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+}
+
+.stripe-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.stripe-status-connected {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #86efac;
+}
+
+.stripe-status-disconnected {
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  color: #fcd34d;
+}
+
+.creators-tab-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.creators-tab-link:hover {
+  color: var(--text-main);
+}
+
+/* ======================== Tip link card ======================== */
+
+.creators-tiplink-card h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+
+.creators-tiplink-row {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.65rem 0 0.5rem;
+  flex-wrap: wrap;
+}
+
+.creators-tiplink-input {
+  flex: 1;
+  min-width: 0;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 0.5rem;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  padding: 0.45rem 0.75rem;
+  font-family: monospace;
+}
+
+.creators-tiplink-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.creators-tiplink-copy {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.creators-tiplink-preview {
+  display: inline-block;
+  margin-top: 0.1rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.creators-tiplink-preview:hover {
+  text-decoration: underline;
+}
+
+.btn-success {
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(34, 197, 94, 0.5);
+  color: #86efac;
+}
+
 /* ======================== Platform event banner ======================== */
 
 .event-banner {

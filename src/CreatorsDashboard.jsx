@@ -57,7 +57,8 @@ function CreatorsDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [payload, setPayload] = useState(null);
-  const [activeTab, setActiveTab] = useState("overview"); // "overview" | "profile"
+  const [activeTab, setActiveTab] = useState("overview"); // "overview" | "profile" | "payouts"
+  const [tipLinkCopied, setTipLinkCopied] = useState(false);
 
   // Profile editing state
   const [displayNameInput, setDisplayNameInput] = useState("");
@@ -181,13 +182,19 @@ function CreatorsDashboard() {
       : null;
 
 
-  // Build referral URL like: https://kuntips.no/creators/register?ref=testcreator1
+  // Build referral URL
   const referralLink =
     creatorUsername && typeof window !== "undefined"
       ? `${window.location.origin}/creators/register?ref=${creatorUsername}`
       : creatorUsername
       ? `/creators/register?ref=${creatorUsername}`
       : "";
+
+  // Build public tip page URL
+  const tipPageUrl =
+    creatorUsername && typeof window !== "undefined"
+      ? `${window.location.origin}/u/${creatorUsername}`
+      : `/u/${creatorUsername}`;
 
   const stripeConnected = status?.stripeConnected ?? false;
   const canReceiveTips =
@@ -317,8 +324,19 @@ function CreatorsDashboard() {
     navigate("/creators");
   }
 
+  async function handleCopyTipLink() {
+    if (!tipPageUrl) return;
+    try {
+      await navigator.clipboard.writeText(tipPageUrl);
+      setTipLinkCopied(true);
+      setTimeout(() => setTipLinkCopied(false), 2000);
+    } catch {
+      // Fallback: select the input
+    }
+  }
+
   useEffect(() => {
-    if (activeTab !== "payouts" || !creatorUsername) return;
+    if (!creatorUsername || !payload) return;
 
     let cancelled = false;
     setPayoutLoading(true);
@@ -337,7 +355,7 @@ function CreatorsDashboard() {
       });
 
     return () => { cancelled = true; };
-  }, [activeTab, creatorUsername]);
+  }, [creatorUsername, payload]);
 
   async function handleRequestPayout() {
     if (!creatorUsername || payoutRequesting) return;
@@ -489,123 +507,114 @@ function CreatorsDashboard() {
           <div className="creators-tabs">
             <button
                 type="button"
-                className={
-                  activeTab === "overview"
-                      ? "creators-tab-button is-active"
-                      : "creators-tab-button"
-                }
+                className={activeTab === "overview" ? "creators-tab-button is-active" : "creators-tab-button"}
                 onClick={() => setActiveTab("overview")}
             >
               Overview
             </button>
             <button
                 type="button"
-                className={
-                  activeTab === "profile"
-                      ? "creators-tab-button is-active"
-                      : "creators-tab-button"
-                }
+                className={activeTab === "profile" ? "creators-tab-button is-active" : "creators-tab-button"}
                 onClick={() => setActiveTab("profile")}
             >
-              Profile &amp; settings
+              Profile
             </button>
-
             <button
                 type="button"
-                className={
-                  activeTab === "security"
-                      ? "creators-tab-button is-active"
-                      : "creators-tab-button"
-                }
-                onClick={() => setActiveTab("security")}
-            >
-              Security
-            </button>
-
-            <button
-                type="button"
-                className={
-                  activeTab === "payouts"
-                      ? "creators-tab-button is-active"
-                      : "creators-tab-button"
-                }
+                className={activeTab === "payouts" ? "creators-tab-button is-active" : "creators-tab-button"}
                 onClick={() => setActiveTab("payouts")}
             >
               Payouts
             </button>
-
           </div>
 
           {/* TAB CONTENT */}
           <div key={activeTab} className="creators-tab-content fade-soft">
             {activeTab === "overview" && (
                 <>
-                  {/* STRIPE / PAYOUT STATUS */}
-                  <section className="card creators-stripe-card">
-                    <div className="creators-stripe-main">
-                      <h2>Stripe payouts</h2>
-
-                      {stripeConnected ? (
-                          <>
-                            <p className="creators-dashboard-sub">
-                              Your Stripe account is connected. KunTips uses Stripe to
-                              handle all payouts. You keep{" "}
-                              {keptPercentLabel || "95%"} of each tip; fans cover
-                              Stripe fees and the KunTips platform fee.
-                            </p>
-                            <p className="creators-dashboard-sub">
-                              Use this button to review or update your payout details
-                              (bank account, tax info, etc.) directly in Stripe.
-                            </p>
-                          </>
-                      ) : (
-                          <>
-                            <p className="creators-dashboard-sub">
-                              Stripe payouts are not connected yet. You need a Stripe
-                              account to receive tips from fans.
-                            </p>
-                            <p className="creators-dashboard-sub">
-                              When you click the button below, you&apos;ll be taken
-                              to Stripe to either create a new payout account or
-                              connect an existing one. Once finished, you&apos;ll be
-                              redirected back to this dashboard.
-                            </p>
-                          </>
-                      )}
-                    </div>
-
-                    {stripeError && (
-                        <p className="creators-error-inline creators-stripe-error">
-                          {stripeError}
-                        </p>
+                  {/* STRIPE STATUS PILL */}
+                  <section className="card creators-stripe-status-bar">
+                    {stripeConnected ? (
+                      <div className="stripe-status-row">
+                        <span className="stripe-status-pill stripe-status-connected">
+                          ● Stripe connected
+                        </span>
+                        <span className="creators-small">
+                          Your payout account is active. Manage it in the{" "}
+                          <button
+                            type="button"
+                            className="creators-tab-link"
+                            onClick={() => setActiveTab("payouts")}
+                          >
+                            Payouts tab
+                          </button>.
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="stripe-status-row">
+                        <span className="stripe-status-pill stripe-status-disconnected">
+                          ⚠ Stripe not connected
+                        </span>
+                        <span className="creators-small">
+                          You need to connect Stripe before you can receive tips. Go to the{" "}
+                          <button
+                            type="button"
+                            className="creators-tab-link"
+                            onClick={() => setActiveTab("payouts")}
+                          >
+                            Payouts tab
+                          </button>{" "}
+                          to set it up.
+                        </span>
+                      </div>
                     )}
-
-                    <div className="creators-stripe-actions">
-                      <button
-                          type="button"
-                          className="btn btn-primary"
-                          disabled={!creatorUsername || stripeLoading}
-                          onClick={handleManageStripeClick}
-                      >
-                        {stripeButtonLabel}
-                      </button>
-                      <p className="creators-small creators-stripe-note">
-                        This opens Stripe in a new session. When you&apos;re done,
-                        come back here to see your updated stats and tip readiness.
-                      </p>
-                    </div>
                   </section>
 
+                  {/* TIP LINK CARD */}
+                  <section className="card creators-tiplink-card">
+                    <h2>Your tip link</h2>
+                    <p className="creators-dashboard-sub">
+                      Share this link with your fans so they can send you anonymous tips.
+                    </p>
+                    <div className="creators-tiplink-row">
+                      <input
+                        type="text"
+                        className="creators-tiplink-input"
+                        value={tipPageUrl}
+                        readOnly
+                        onFocus={(e) => e.target.select()}
+                      />
+                      <button
+                        type="button"
+                        className={`btn ${tipLinkCopied ? "btn-success" : "btn-primary"} creators-tiplink-copy`}
+                        onClick={handleCopyTipLink}
+                      >
+                        {tipLinkCopied ? "Copied!" : "Copy link"}
+                      </button>
+                    </div>
+                    <a
+                      href={`/u/${creatorUsername}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="creators-small creators-tiplink-preview"
+                    >
+                      Preview your page →
+                    </a>
+                  </section>
 
                   {/* STATS GRID */}
                   <section className="card creators-dashboard-grid">
                     <div className="creators-dashboard-tile">
-                      <h2>This month</h2>
+                      <h2>Awaiting payout</h2>
                       <p className="creators-dashboard-number">
-                        {stats?.thisMonthIntendedNok ?? 0} NOK
+                        {payoutPreview
+                          ? `${Math.round(payoutPreview.eligible_creator_net_minor / 100)} NOK`
+                          : "—"}
                       </p>
                       <p className="creators-dashboard-sub">
-                        Total tips this calendar month
+                        {payoutPreview
+                          ? `${payoutPreview.pending_tip_count} tip(s) in 7‑day hold`
+                          : payoutLoading ? "Loading…" : "—"}
                       </p>
                     </div>
 
@@ -672,112 +681,6 @@ function CreatorsDashboard() {
                       ) : (
                           <p className="creators-dashboard-sub">
                             Tier information is not available yet.
-                          </p>
-                      )}
-                    </div>
-                  </section>
-
-                  {/* REFERRAL PROGRAM */}
-                  <section className="card creators-dashboard-tier">
-                    <div className="creators-dashboard-tier-main">
-                      <h2>Referral program</h2>
-
-                      {creatorUsername ? (
-                          <>
-                            <p className="creators-dashboard-sub">
-                              Share this link with other creators. When they sign up and start
-                              receiving tips, you get a permanent referral bonus on your tier
-                              (up to Tier 6).
-                            </p>
-
-                            {referralLink && (
-                                <div className="creators-referral-link-block">
-                                  <label
-                                      htmlFor="referral-link"
-                                      className="creators-dashboard-sub"
-                                  >
-                                    Your referral link:
-                                  </label>
-                                  <input
-                                      id="referral-link"
-                                      type="text"
-                                      value={referralLink}
-                                      readOnly
-                                      onFocus={(e) => e.target.select()}
-                                      className="creators-referral-link-input"
-                                  />
-                                  <p className="creators-small">
-                                    Copy and share this link. New creators who register through it
-                                    will count towards your referral boosts.
-                                  </p>
-                                </div>
-                            )}
-
-                            <p className="creators-dashboard-sub">
-                              Creators referred in the last 365 days:{" "}
-                              <strong>{totalReferralsLast365d}</strong>
-                            </p>
-
-                            {referralBoostTiers > 0 && (
-                                <p className="creators-dashboard-sub">
-                                  Referral boost:{" "}
-                                  <strong>
-                                    +{referralBoostTiers} tier
-                                    {referralBoostTiers > 1 ? "s" : ""}
-                                  </strong>{" "}
-                                  applied to your effective tier right now.
-                                </p>
-                            )}
-
-                            {joinBoostTiers > 0 && (
-                                <p className="creators-dashboard-sub">
-                                  Join boost:{" "}
-                                  <strong>
-                                    +{joinBoostTiers} tier
-                                    {joinBoostTiers > 1 ? "s" : ""}
-                                  </strong>{" "}
-                                  because you recently joined KunTips. This is temporary but stacked
-                                  on top of your base tier.
-                                </p>
-                            )}
-
-                            {temporaryBoostTiers > 0 && (
-                                <p className="creators-dashboard-sub">
-                                  Temporary promo boost:{" "}
-                                  <strong>
-                                    +{temporaryBoostTiers} tier
-                                    {temporaryBoostTiers > 1 ? "s" : ""}
-                                  </strong>{" "}
-                                  currently active. When it ends, you’ll fall back to your base +
-                                  referral + join boosts.
-                                </p>
-                            )}
-
-                            {globalEventBoostTiers > 0 && (
-                                <p className="creators-dashboard-sub">
-                                  🎉 Platform event boost:{" "}
-                                  <strong>
-                                    +{globalEventBoostTiers} tier
-                                    {globalEventBoostTiers > 1 ? "s" : ""}
-                                  </strong>{" "}
-                                  — a special KunTips promotion is active for all creators right now!
-                                </p>
-                            )}
-
-                            {referralBoostTiers === 0 &&
-                                joinBoostTiers === 0 &&
-                                temporaryBoostTiers === 0 &&
-                                globalEventBoostTiers === 0 && (
-                                    <p className="creators-dashboard-sub">
-                                      You don’t have any extra boosts yet. Once you reach 10 referred
-                                      creators in a 12-month period, you get +1 tier. At 35, +2 tiers;
-                                      and 100 gives +3 tiers – always capped at Tier 6.
-                                    </p>
-                                )}
-                          </>
-                      ) : (
-                          <p className="creators-dashboard-sub">
-                            Referral details will appear here when your username is available.
                           </p>
                       )}
                     </div>
@@ -853,94 +756,318 @@ function CreatorsDashboard() {
             )}
 
             {activeTab === "profile" && (
-                <section className="card creators-profile-card">
-                  <h2>Public profile</h2>
-                  <p className="creators-dashboard-sub">
-                    This is what fans see on your KunTips page (
-                    <code>/u/{creatorUsername}</code>).
-                  </p>
+                <>
+                  {/* PUBLIC PROFILE */}
+                  <section className="card creators-profile-card">
+                    <h2>Public profile</h2>
+                    <p className="creators-dashboard-sub">
+                      This is what fans see on your KunTips page (
+                      <code>/u/{creatorUsername}</code>).
+                    </p>
 
-                  <div className="creators-profile-header">
-                    <div className="creators-profile-avatar">
-                      {creatorDisplayName.charAt(0).toUpperCase()}
-                    </div>
-                    <div className="creators-profile-text">
-                      <div className="creators-profile-name">
-                        {creatorDisplayName}
+                    <div className="creators-profile-header">
+                      <div className="creators-profile-avatar">
+                        {creatorDisplayName.charAt(0).toUpperCase()}
                       </div>
-                      <div className="creators-profile-username">
-                        @{creatorUsername}
+                      <div className="creators-profile-text">
+                        <div className="creators-profile-name">
+                          {creatorDisplayName}
+                        </div>
+                        <div className="creators-profile-username">
+                          @{creatorUsername}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <form className="creators-profile-form" onSubmit={handleProfileSave}>
-                    <div className="form-field creators-form-group">
-                      <label className="creators-label" htmlFor="displayName">
-                        Display name
-                      </label>
-                      <input
-                          id="displayName"
-                          type="text"
-                          className="form-input creators-input"
-                          value={displayNameInput}
-                          onChange={(e) => setDisplayNameInput(e.target.value)}
-                          maxLength={80}
-                      />
-                      <p className="creators-small">
-                        Shown on your KunTips page and in dashboards.
-                      </p>
-                    </div>
-
-                    <div className="form-field creators-form-group">
-                      <label className="creators-label" htmlFor="bio">
-                        Bio
-                      </label>
-                      <textarea
-                          id="bio"
-                          className="form-textarea creators-textarea"
-                          rows={4}
-                          value={bioInput}
-                          onChange={(e) => setBioInput(e.target.value)}
-                          maxLength={500}
-                      />
-                      <p className="creators-small">
-                        A short description that helps fans understand who they are
-                        tipping.
-                      </p>
-                    </div>
-
-                    {profileError && (
-                        <p className="creators-error-inline">{profileError}</p>
-                    )}
-                    {profileSaved && !profileError && (
-                        <p className="creators-success-inline">
-                          Profile saved. Your public page will reflect these changes
-                          shortly.
+                    <form className="creators-profile-form" onSubmit={handleProfileSave}>
+                      <div className="form-field creators-form-group">
+                        <label className="creators-label" htmlFor="displayName">
+                          Display name
+                        </label>
+                        <input
+                            id="displayName"
+                            type="text"
+                            className="form-input creators-input"
+                            value={displayNameInput}
+                            onChange={(e) => setDisplayNameInput(e.target.value)}
+                            maxLength={80}
+                        />
+                        <p className="creators-small">
+                          Shown on your KunTips page and in dashboards.
                         </p>
-                    )}
+                      </div>
 
-                    <div className="creators-profile-actions">
-                      <button
-                          type="submit"
-                          className="btn btn-primary"
-                          disabled={profileSaving || !displayNameInput.trim()}
-                      >
-                        {profileSaving ? "Saving…" : "Save changes"}
-                      </button>
+                      <div className="form-field creators-form-group">
+                        <label className="creators-label" htmlFor="bio">
+                          Bio
+                        </label>
+                        <textarea
+                            id="bio"
+                            className="form-textarea creators-textarea"
+                            rows={4}
+                            value={bioInput}
+                            onChange={(e) => setBioInput(e.target.value)}
+                            maxLength={500}
+                        />
+                        <p className="creators-small">
+                          A short description that helps fans understand who they are
+                          tipping.
+                        </p>
+                      </div>
+
+                      {profileError && (
+                          <p className="creators-error-inline">{profileError}</p>
+                      )}
+                      {profileSaved && !profileError && (
+                          <p className="creators-success-inline">
+                            Profile saved. Your public page will reflect these changes
+                            shortly.
+                          </p>
+                      )}
+
+                      <div className="creators-profile-actions">
+                        <button
+                            type="submit"
+                            className="btn btn-primary"
+                            disabled={profileSaving || !displayNameInput.trim()}
+                        >
+                          {profileSaving ? "Saving…" : "Save changes"}
+                        </button>
+                      </div>
+                    </form>
+
+                    <p className="creators-small creators-profile-note">
+                      Profile editing currently lets you change your display name and
+                      bio. Avatar and additional branding options will be added later.
+                    </p>
+                  </section>
+
+                  {/* REFERRAL PROGRAM */}
+                  <section className="card creators-dashboard-tier">
+                    <div className="creators-dashboard-tier-main">
+                      <h2>Referral program</h2>
+
+                      {creatorUsername ? (
+                          <>
+                            <p className="creators-dashboard-sub">
+                              Share this link with other creators. When they sign up and start
+                              receiving tips, you get a permanent referral bonus on your tier
+                              (up to Tier 6).
+                            </p>
+
+                            {referralLink && (
+                                <div className="creators-referral-link-block">
+                                  <label
+                                      htmlFor="referral-link"
+                                      className="creators-dashboard-sub"
+                                  >
+                                    Your referral link:
+                                  </label>
+                                  <input
+                                      id="referral-link"
+                                      type="text"
+                                      value={referralLink}
+                                      readOnly
+                                      onFocus={(e) => e.target.select()}
+                                      className="creators-referral-link-input"
+                                  />
+                                  <p className="creators-small">
+                                    Copy and share this link. New creators who register through it
+                                    will count towards your referral boosts.
+                                  </p>
+                                </div>
+                            )}
+
+                            <p className="creators-dashboard-sub">
+                              Creators referred in the last 365 days:{" "}
+                              <strong>{totalReferralsLast365d}</strong>
+                            </p>
+
+                            {referralBoostTiers > 0 && (
+                                <p className="creators-dashboard-sub">
+                                  Referral boost:{" "}
+                                  <strong>+{referralBoostTiers} tier{referralBoostTiers > 1 ? "s" : ""}</strong>{" "}
+                                  applied to your effective tier right now.
+                                </p>
+                            )}
+                            {joinBoostTiers > 0 && (
+                                <p className="creators-dashboard-sub">
+                                  Join boost:{" "}
+                                  <strong>+{joinBoostTiers} tier{joinBoostTiers > 1 ? "s" : ""}</strong>{" "}
+                                  because you recently joined KunTips. Temporary, stacked on top of your base tier.
+                                </p>
+                            )}
+                            {temporaryBoostTiers > 0 && (
+                                <p className="creators-dashboard-sub">
+                                  Temporary promo boost:{" "}
+                                  <strong>+{temporaryBoostTiers} tier{temporaryBoostTiers > 1 ? "s" : ""}</strong>{" "}
+                                  currently active.
+                                </p>
+                            )}
+                            {globalEventBoostTiers > 0 && (
+                                <p className="creators-dashboard-sub">
+                                  🎉 Platform event boost:{" "}
+                                  <strong>+{globalEventBoostTiers} tier{globalEventBoostTiers > 1 ? "s" : ""}</strong>{" "}
+                                  — a special KunTips promotion is active for all creators right now!
+                                </p>
+                            )}
+                            {referralBoostTiers === 0 && joinBoostTiers === 0 &&
+                             temporaryBoostTiers === 0 && globalEventBoostTiers === 0 && (
+                                <p className="creators-dashboard-sub">
+                                  You don't have any extra boosts yet. Once you reach 10 referred
+                                  creators in a 12-month period, you get +1 tier. At 35, +2 tiers;
+                                  and 100 gives +3 tiers – always capped at Tier 6.
+                                </p>
+                            )}
+                          </>
+                      ) : (
+                          <p className="creators-dashboard-sub">
+                            Referral details will appear here when your username is available.
+                          </p>
+                      )}
                     </div>
-                  </form>
+                  </section>
 
-                  <p className="creators-small creators-profile-note">
-                    Profile editing currently lets you change your display name and
-                    bio. Avatar and additional branding options will be added later.
-                  </p>
-                </section>
+                  {/* SECURITY */}
+                  <section className="card creators-security-card">
+                    <h2>Account security</h2>
+                    <p className="creators-dashboard-sub">
+                      Change your password and log out of this browser.
+                    </p>
+
+                    <form
+                        className="creators-profile-form creators-security-form"
+                        onSubmit={handlePasswordChange}
+                    >
+                      <div className="form-field creators-form-group">
+                        <label className="creators-label" htmlFor="currentPassword">
+                          Current password
+                        </label>
+                        <input
+                            id="currentPassword"
+                            type="password"
+                            className="form-input creators-input"
+                            value={currentPassword}
+                            onChange={(e) => setCurrentPassword(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="form-field creators-form-group">
+                        <label className="creators-label" htmlFor="newPassword">
+                          New password
+                        </label>
+                        <input
+                            id="newPassword"
+                            type="password"
+                            className="form-input creators-input"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                        />
+                        <p className="creators-small">
+                          Use at least 8 characters, and avoid reusing passwords from
+                          other services.
+                        </p>
+                      </div>
+
+                      <div className="form-field creators-form-group">
+                        <label className="creators-label" htmlFor="confirmPassword">
+                          Confirm new password
+                        </label>
+                        <input
+                            id="confirmPassword"
+                            type="password"
+                            className="form-input creators-input"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
+                      </div>
+
+                      {securityError && (
+                          <p className="creators-error-inline">{securityError}</p>
+                      )}
+                      {securitySuccess && !securityError && (
+                          <p className="creators-success-inline">{securitySuccess}</p>
+                      )}
+
+                      <div className="creators-profile-actions creators-security-actions">
+                        <button
+                            type="submit"
+                            className="btn btn-primary"
+                            disabled={securitySaving}
+                        >
+                          {securitySaving ? "Updating…" : "Update password"}
+                        </button>
+                        <button
+                            type="button"
+                            className="btn btn-secondary"
+                            onClick={handleLogoutClick}
+                        >
+                          Log out of this browser
+                        </button>
+                      </div>
+                    </form>
+                  </section>
+                </>
             )}
 
             {activeTab === "payouts" && (
+                <>
+                {/* STRIPE CONNECTION */}
+                <section className="card creators-stripe-card">
+                  <div className="creators-stripe-main">
+                    <h2>Stripe payouts</h2>
+                    {stripeConnected ? (
+                        <>
+                          <p className="creators-dashboard-sub">
+                            Your Stripe account is connected. KunTips uses Stripe to
+                            handle all payouts. You keep{" "}
+                            {keptPercentLabel || "95%"} of each tip; fans cover
+                            Stripe fees and the KunTips platform fee.
+                          </p>
+                          <p className="creators-dashboard-sub">
+                            Use this button to review or update your payout details
+                            (bank account, tax info, etc.) directly in Stripe.
+                          </p>
+                        </>
+                    ) : (
+                        <>
+                          <p className="creators-dashboard-sub">
+                            Stripe payouts are not connected yet. You need a Stripe
+                            account to receive tips from fans.
+                          </p>
+                          <p className="creators-dashboard-sub">
+                            Click the button below to create or connect a Stripe
+                            account. Once finished, you&apos;ll be redirected back here.
+                          </p>
+                        </>
+                    )}
+                  </div>
+
+                  {stripeError && (
+                      <p className="creators-error-inline creators-stripe-error">
+                        {stripeError}
+                      </p>
+                  )}
+
+                  <div className="creators-stripe-actions">
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        disabled={!creatorUsername || stripeLoading}
+                        onClick={handleManageStripeClick}
+                    >
+                      {stripeButtonLabel}
+                    </button>
+                    <p className="creators-small creators-stripe-note">
+                      This opens Stripe in a new session. When you&apos;re done,
+                      come back here to see your updated stats and tip readiness.
+                    </p>
+                  </div>
+                </section>
+
+                {/* PAYOUT PREVIEW */}
                 <section className="card creators-payouts-card">
-                  <h2>Payouts</h2>
+                  <h2>Payout balance</h2>
                   <p className="creators-dashboard-sub">
                     Tips are held for 7 days before becoming eligible for payout.
                     When you request a payout, eligible tips are sent to your connected Stripe account.
@@ -1018,89 +1145,7 @@ function CreatorsDashboard() {
                     </>
                   )}
                 </section>
-            )}
-
-            {activeTab === "security" && (
-                <section className="card creators-security-card">
-                  <h2>Account security</h2>
-                  <p className="creators-dashboard-sub">
-                    Change your password and log out of this browser.
-                  </p>
-
-                  <form
-                      className="creators-profile-form creators-security-form"
-                      onSubmit={handlePasswordChange}
-                  >
-                    <div className="form-field creators-form-group">
-                      <label className="creators-label" htmlFor="currentPassword">
-                        Current password
-                      </label>
-                      <input
-                          id="currentPassword"
-                          type="password"
-                          className="form-input creators-input"
-                          value={currentPassword}
-                          onChange={(e) => setCurrentPassword(e.target.value)}
-                      />
-                    </div>
-
-                    <div className="form-field creators-form-group">
-                      <label className="creators-label" htmlFor="newPassword">
-                        New password
-                      </label>
-                      <input
-                          id="newPassword"
-                          type="password"
-                          className="form-input creators-input"
-                          value={newPassword}
-                          onChange={(e) => setNewPassword(e.target.value)}
-                      />
-                      <p className="creators-small">
-                        Use at least 8 characters, and avoid reusing passwords from
-                        other services.
-                      </p>
-                    </div>
-
-                    <div className="form-field creators-form-group">
-                      <label className="creators-label" htmlFor="confirmPassword">
-                        Confirm new password
-                      </label>
-                      <input
-                          id="confirmPassword"
-                          type="password"
-                          className="form-input creators-input"
-                          value={confirmPassword}
-                          onChange={(e) => setConfirmPassword(e.target.value)}
-                      />
-                    </div>
-
-                    {securityError && (
-                        <p className="creators-error-inline">{securityError}</p>
-                    )}
-                    {securitySuccess && !securityError && (
-                        <p className="creators-success-inline">
-                          {securitySuccess}
-                        </p>
-                    )}
-
-                    <div className="creators-profile-actions creators-security-actions">
-                      <button
-                          type="submit"
-                          className="btn btn-primary"
-                          disabled={securitySaving}
-                      >
-                        {securitySaving ? "Updating…" : "Update password"}
-                      </button>
-                      <button
-                          type="button"
-                          className="btn btn-secondary"
-                          onClick={handleLogoutClick}
-                      >
-                        Log out of this browser
-                      </button>
-                    </div>
-                  </form>
-                </section>
+                </>
             )}
           </div>
 
