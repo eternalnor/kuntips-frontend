@@ -464,10 +464,22 @@ function CreatorsDashboard() {
 
       {/* PLATFORM EVENT BANNER */}
       {!loading && !error && payload && globalEventBoostTiers > 0 && globalEvent && (
-        <div className="event-banner">
+        <div className={`event-banner${/easter|påske/i.test(globalEvent.label ?? "") ? " event-banner--easter" : ""}`}>
           <div className="event-banner-shimmer" />
+          {/easter|påske/i.test(globalEvent.label ?? "") && (
+            <div className="event-banner-eggs">
+              <span className="event-banner-egg">🥚</span>
+              <span className="event-banner-egg">🐣</span>
+              <span className="event-banner-egg">🥚</span>
+              <span className="event-banner-egg">🐰</span>
+              <span className="event-banner-egg">🥚</span>
+              <span className="event-banner-egg">🌸</span>
+            </div>
+          )}
           <div className="event-banner-inner">
-            <span className="event-banner-icon">🎉</span>
+            <span className="event-banner-icon">
+              {/easter|påske/i.test(globalEvent.label ?? "") ? "🐣" : "🎉"}
+            </span>
             <div className="event-banner-text">
               <p className="event-banner-title">
                 {globalEvent.label

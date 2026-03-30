@@ -729,6 +729,83 @@
   color: #fef3c7;
 }
 
+/* ── Easter variant ─────────────────────────────────────────────────────── */
+.event-banner--easter {
+  background: linear-gradient(135deg,
+    #2d1b4e 0%,
+    #3b1f6e 20%,
+    #4a2472 40%,
+    #6b3fa0 60%,
+    #8b5cf6 80%,
+    #a78bfa 100%
+  );
+  border-color: rgba(196, 145, 255, 0.65);
+  box-shadow:
+    0 0 0 1px rgba(196, 145, 255, 0.15),
+    0 4px 28px rgba(139, 92, 246, 0.4),
+    0 0 70px rgba(167, 139, 250, 0.15);
+  color: #f5f0ff;
+}
+
+.event-banner--easter .event-banner-title {
+  color: #f0e6ff;
+  text-shadow: 0 1px 6px rgba(139, 92, 246, 0.6);
+}
+
+.event-banner--easter .event-banner-subtitle {
+  color: #d8b4fe;
+}
+
+.event-banner--easter .event-countdown-block {
+  background: rgba(0, 0, 0, 0.25);
+  border-color: rgba(196, 145, 255, 0.4);
+}
+
+.event-banner--easter .event-countdown-number {
+  color: #f5f0ff;
+  text-shadow: 0 0 8px rgba(196, 145, 255, 0.7);
+}
+
+.event-banner--easter .event-countdown-label {
+  color: #c4b5fd;
+}
+
+/* Floating egg decorations */
+.event-banner-eggs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.event-banner-egg {
+  position: absolute;
+  font-size: 1.4rem;
+  opacity: 0.18;
+  animation: eggFloat 6s ease-in-out infinite;
+  user-select: none;
+}
+
+.event-banner-egg:nth-child(1) { top: 10%; left:  8%; animation-delay: 0s;    animation-duration: 5.5s; }
+.event-banner-egg:nth-child(2) { top: 55%; left: 18%; animation-delay: 1.2s;  animation-duration: 6.8s; }
+.event-banner-egg:nth-child(3) { top: 20%; left: 40%; animation-delay: 2.4s;  animation-duration: 5.2s; }
+.event-banner-egg:nth-child(4) { top: 65%; left: 60%; animation-delay: 0.8s;  animation-duration: 7.0s; }
+.event-banner-egg:nth-child(5) { top: 15%; left: 78%; animation-delay: 3.0s;  animation-duration: 6.0s; }
+.event-banner-egg:nth-child(6) { top: 60%; left: 88%; animation-delay: 1.8s;  animation-duration: 5.8s; }
+
+@keyframes eggFloat {
+  0%   { transform: translateY(0px) rotate(-8deg); }
+  50%  { transform: translateY(-8px) rotate(8deg); }
+  100% { transform: translateY(0px) rotate(-8deg); }
+}
+
+.event-banner--easter .tier-card-event {
+  border-color: rgba(196, 145, 255, 0.45) !important;
+  box-shadow:
+    0 0 0 1px rgba(196, 145, 255, 0.1),
+    0 4px 20px rgba(139, 92, 246, 0.2);
+}
+
 /* Shimmer sweep */
 .event-banner-shimmer {
   position: absolute;
