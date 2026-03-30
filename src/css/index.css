@@ -34,6 +34,11 @@
   --success: #22c55e;      /* success/confirmation only */
 }
 
+html,
+body {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   font-family: var(--font-main);
