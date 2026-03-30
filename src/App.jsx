@@ -144,7 +144,7 @@ function App() {
       {/* Global animated background — gradient wave bands sweeping left */}
       <div ref={bgRef} className="site-bg" aria-hidden="true">
 
-        {/* Wave 1 — indigo hairline, upper, double-swell */}
+        {/* Wave 1 — indigo pair, upper, double-swell */}
         <svg className="site-wave-svg site-wave-svg--1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2880 900" preserveAspectRatio="none">
           <defs>
             <linearGradient id="wg1" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -156,7 +156,10 @@ function App() {
               <stop offset="100%" stopColor="#6366f1" stopOpacity="0"/>
             </linearGradient>
           </defs>
+          {/* main line */}
           <path stroke="url(#wg1)" d="M0,190 C180,70 540,310 720,190 C900,70 1260,310 1440,190 C1620,70 1980,310 2160,190 C2340,70 2700,310 2880,190" />
+          {/* companion — offset 14px below, thinner, dimmer */}
+          <path stroke="url(#wg1)" strokeWidth="0.75" opacity="0.45" d="M0,204 C180,84 540,324 720,204 C900,84 1260,324 1440,204 C1620,84 1980,324 2160,204 C2340,84 2700,324 2880,204" />
         </svg>
 
         {/* Wave 2 — cyan hairline, mid-upper, grand single swell */}
@@ -189,7 +192,7 @@ function App() {
           <path stroke="url(#wg3)" d="M0,470 C120,405 360,535 480,470 C600,405 840,535 960,470 C1080,405 1320,535 1440,470 C1560,405 1800,535 1920,470 C2040,405 2280,535 2400,470 C2520,405 2760,535 2880,470" />
         </svg>
 
-        {/* Wave 4 — indigo hairline, mid-lower, double-swell */}
+        {/* Wave 4 — indigo pair, mid-lower, double-swell */}
         <svg className="site-wave-svg site-wave-svg--4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2880 900" preserveAspectRatio="none">
           <defs>
             <linearGradient id="wg4" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -201,10 +204,13 @@ function App() {
               <stop offset="100%" stopColor="#6366f1" stopOpacity="0"/>
             </linearGradient>
           </defs>
+          {/* main line */}
           <path stroke="url(#wg4)" d="M0,610 C180,510 540,710 720,610 C900,510 1260,710 1440,610 C1620,510 1980,710 2160,610 C2340,510 2700,710 2880,610" />
+          {/* companion — offset 14px above, thinner, dimmer */}
+          <path stroke="url(#wg4)" strokeWidth="0.75" opacity="0.45" d="M0,596 C180,496 540,696 720,596 C900,496 1260,696 1440,596 C1620,496 1980,696 2160,596 C2340,496 2700,696 2880,596" />
         </svg>
 
-        {/* Wave 5 — cyan hairline, lower, grand single swell */}
+        {/* Wave 5 — cyan pair, lower, grand single swell */}
         <svg className="site-wave-svg site-wave-svg--5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2880 900" preserveAspectRatio="none">
           <defs>
             <linearGradient id="wg5" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -216,7 +222,10 @@ function App() {
               <stop offset="100%" stopColor="#38bdf8" stopOpacity="0"/>
             </linearGradient>
           </defs>
+          {/* main line */}
           <path stroke="url(#wg5)" d="M0,740 C360,670 1080,810 1440,740 C1800,670 2520,810 2880,740" />
+          {/* companion — offset 10px below, thinner, dimmer */}
+          <path stroke="url(#wg5)" strokeWidth="0.7" opacity="0.4" d="M0,750 C360,680 1080,820 1440,750 C1800,680 2520,820 2880,750" />
         </svg>
 
       </div>

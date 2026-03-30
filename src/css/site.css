@@ -34,7 +34,7 @@
   fill: none;
 }
 
-/* Wave 1 — indigo hairline, upper, double-swell */
+/* Wave 1 — indigo pair, upper, double-swell */
 /* --wave-dur-N is set by JS (App.jsx) to scale duration with viewport width,
    keeping the pixel-speed constant at all screen sizes. Fallback = mobile value. */
 .site-wave-svg--1 {
@@ -42,12 +42,12 @@
   animation-delay: 0s;
 }
 .site-wave-svg--1 path {
-  stroke-width: 1.5;
   filter: drop-shadow(0 0 5px rgba(99,102,241,0.95))
           drop-shadow(0 0 18px rgba(99,102,241,0.45));
 }
+.site-wave-svg--1 path:first-child { stroke-width: 1.5; }
 
-/* Wave 2 — cyan hairline, mid-upper, grand single swell */
+/* Wave 2 — cyan solo, mid-upper, grand single swell */
 .site-wave-svg--2 {
   animation: waves-scroll var(--wave-dur-2, 44s) linear infinite;
   animation-delay: -18s;
@@ -58,7 +58,7 @@
           drop-shadow(0 0 20px rgba(56,189,248,0.40));
 }
 
-/* Wave 3 — lavender hairline, centre, quick ripples */
+/* Wave 3 — lavender solo, centre, quick ripples */
 .site-wave-svg--3 {
   animation: waves-scroll var(--wave-dur-3, 22s) linear infinite;
   animation-delay: -8s;
@@ -69,27 +69,27 @@
           drop-shadow(0 0 14px rgba(224,231,255,0.35));
 }
 
-/* Wave 4 — indigo hairline, mid-lower, double-swell */
+/* Wave 4 — indigo pair, mid-lower, double-swell */
 .site-wave-svg--4 {
   animation: waves-scroll var(--wave-dur-4, 36s) linear infinite;
   animation-delay: -12s;
 }
 .site-wave-svg--4 path {
-  stroke-width: 2;
   filter: drop-shadow(0 0 6px rgba(99,102,241,0.90))
           drop-shadow(0 0 22px rgba(99,102,241,0.40));
 }
+.site-wave-svg--4 path:first-child { stroke-width: 2; }
 
-/* Wave 5 — cyan hairline, lower, grand single swell */
+/* Wave 5 — cyan pair, lower, grand single swell */
 .site-wave-svg--5 {
   animation: waves-scroll var(--wave-dur-5, 50s) linear infinite;
   animation-delay: -26s;
 }
 .site-wave-svg--5 path {
-  stroke-width: 1.5;
   filter: drop-shadow(0 0 5px rgba(56,189,248,0.90))
           drop-shadow(0 0 16px rgba(56,189,248,0.35));
 }
+.site-wave-svg--5 path:first-child { stroke-width: 1.5; }
 
 /* Seamless scroll: -50% of the SVG's own width (200vw) = -100vw */
 @keyframes waves-scroll {
