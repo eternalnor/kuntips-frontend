@@ -844,8 +844,8 @@ function CreatorsDashboard() {
                             <tr>
                               <th>Date</th>
                               <th>Amount</th>
+                              <th>From</th>
                               <th>Status</th>
-                              <th>Currency</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -865,16 +865,16 @@ function CreatorsDashboard() {
                                   <tr key={tip.id}>
                                     <td>{dateLabel}</td>
                                     <td>{tip.tipAmountNok} NOK</td>
-                                    <td>
-                                <span
-                                    className={`status-pill status-${String(
-                                        tip.status || "",
-                                    ).toLowerCase()}`}
-                                >
-                                  {tip.status}
-                                </span>
+                                    <td className="tip-from-cell">
+                                      {tip.tipperName
+                                        ? <span className="tip-from-name">{tip.tipperName}</span>
+                                        : <span className="tip-from-anon">Anonymous</span>}
                                     </td>
-                                    <td>{tip.currency}</td>
+                                    <td>
+                                      <span className={`status-pill status-${String(tip.status || "").toLowerCase()}`}>
+                                        {tip.status}
+                                      </span>
+                                    </td>
                                   </tr>
                               );
                             })}

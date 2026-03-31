@@ -28,6 +28,7 @@ export function TipWidget({
 }) {
   const [tipAmount, setTipAmount] = useState(MIN_TIP);
   const [inputValue, setInputValue] = useState(String(MIN_TIP));
+  const [tipperName, setTipperName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [clientSecret, setClientSecret] = useState(null);
@@ -216,6 +217,7 @@ export function TipWidget({
           creatorUsername,
           tipAmount: numeric,
           currency: 'NOK',
+          tipperName: tipperName.trim() || null,
         }),
       });
 
@@ -381,6 +383,23 @@ export function TipWidget({
               fee. Creators keep 95–100% of the tip amount depending on their
               earnings tier — the green amount above is what they receive.
             </p>
+          </div>
+
+          {/* Optional tipper name */}
+          <div className="tip-card__field">
+            <label htmlFor="tipper-name" className="tip-card__label-row">
+              <span>Your name <span className="tip-card__optional">(optional)</span></span>
+            </label>
+            <input
+              id="tipper-name"
+              type="text"
+              maxLength={60}
+              placeholder="Leave it blank to tip anonymously"
+              value={tipperName}
+              onChange={(e) => setTipperName(e.target.value)}
+              className="tip-card__amount-input tip-card__name-input"
+              disabled={isLocked}
+            />
           </div>
 
           {/* CTA BLOCK – button + note (hidden once Stripe form appears) */}

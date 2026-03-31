@@ -193,6 +193,22 @@
   box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.5);
 }
 
+/* Name input — no currency prefix so full-width without the wrap div */
+.tip-card__name-input {
+  padding-left: 0.75rem !important;
+}
+
+.tip-card__name-input::placeholder {
+  color: rgba(156, 163, 175, 0.5);
+  font-style: italic;
+}
+
+.tip-card__optional {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 400;
+}
+
 .tip-card__error {
   font-size: 0.75rem;
   color: #f97373;

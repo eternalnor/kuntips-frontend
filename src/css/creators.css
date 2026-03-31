@@ -254,6 +254,17 @@
   background: rgba(15, 23, 42, 0.7);
 }
 
+.tip-from-name {
+  color: #e2e8f0;
+  font-size: 0.85rem;
+}
+
+.tip-from-anon {
+  color: #4b5563;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
 /*  ======================== Responsive layout ========================  */
 
 @media (min-width: 768px) {
