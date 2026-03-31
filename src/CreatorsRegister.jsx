@@ -139,6 +139,7 @@ function CreatorsRegister() {
           "kuntips_creator_email",
           data.creator.email || payload.email,
         );
+        window.dispatchEvent(new Event("kuntips-auth-change"));
       }
 
       setRegisteredEmail(form.email.trim());
