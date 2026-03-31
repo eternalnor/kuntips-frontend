@@ -7,9 +7,9 @@ function CreatorsStart() {
       <section className="card creators-start">
         <h1>What you need to get started as a creator</h1>
         <p>
-          When KunTips is live, creators will connect their Stripe account to
-          receive payouts. Stripe handles identity checks and payouts to your
-          bank account – KunTips only handles the tip logic.
+          Getting started takes just a few minutes. You connect your Stripe
+          account to receive payouts — Stripe handles identity verification and
+          bank transfers, KunTips handles the tip flow.
         </p>
 
         <div className="creators-columns">
@@ -17,30 +17,29 @@ function CreatorsStart() {
             <h2>You&apos;ll need</h2>
             <ul className="creators-list">
               <li>
-                A Stripe account (created during onboarding if you don&apos;t
-                have one).
+                A Stripe account — created automatically during onboarding if
+                you don&apos;t have one yet.
               </li>
               <li>
                 Basic identity info required by Stripe (name, address, bank
-                details).
+                details for payouts).
               </li>
               <li>
-                A creator alias and short bio for your KunTips page.
+                A creator username and short bio for your KunTips tip page.
               </li>
             </ul>
           </div>
 
           <div className="creators-column">
-            <h2>What happens</h2>
+            <h2>How it works</h2>
             <ul className="creators-list">
-              <li>You create a KunTips creator account.</li>
+              <li>Create your KunTips creator account below.</li>
               <li>
-                You&apos;re redirected to Stripe&apos;s secure onboarding flow
-                to connect payouts.
+                Connect Stripe from your dashboard — takes about 5 minutes.
               </li>
               <li>
-                After onboarding, your tip page is activated and fans can send
-                tips; Stripe handles KYC and payouts to you.
+                Your tip page goes live immediately. Share the link anywhere
+                and fans can start tipping you the same day.
               </li>
             </ul>
           </div>

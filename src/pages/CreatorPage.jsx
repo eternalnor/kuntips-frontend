@@ -4,6 +4,16 @@ import { TipWidget } from '../components/TipWidget.jsx';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+function setMetaTag(property, content) {
+  let el = document.querySelector(`meta[property="${property}"]`);
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute('property', property);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', content);
+}
+
 export default function CreatorPage() {
   const { username } = useParams();
   const [creator, setCreator] = useState(null);
@@ -83,14 +93,44 @@ export default function CreatorPage() {
   const displayName = creator.display_name || username;
   const stripeConnected = creator.stripe_connected ?? false;
   const canReceiveTips = creator.can_receive_tips ?? stripeConnected;
-  const keptPercent = creator.keptPercent ?? 95; // fallback if backend ever omits it
+  const keptPercent = creator.keptPercent ?? 95;
+  const avatarUrl = creator.avatar_url || null;
+
+  // Update page title + Open Graph tags for social sharing
+  useEffect(() => {
+    const prevTitle = document.title;
+    document.title = `${displayName} — KunTips`;
+
+    const siteUrl = window.location.href;
+    const desc = creator.bio
+      ? `${creator.bio} — Send an anonymous tip to ${displayName} on KunTips.`
+      : `Send an anonymous tip to ${displayName} on KunTips. No account needed.`;
+
+    setMetaTag('og:title', `Support ${displayName} on KunTips`);
+    setMetaTag('og:description', desc);
+    setMetaTag('og:url', siteUrl);
+    setMetaTag('og:type', 'website');
+    if (avatarUrl) setMetaTag('og:image', avatarUrl);
+
+    return () => {
+      document.title = prevTitle;
+    };
+  }, [displayName, creator.bio, avatarUrl]);
 
   return (
     <main className="card">
       <div className="creator-page">
         <header className="creator-header">
           <div className="creator-avatar">
-            {displayName.charAt(0).toUpperCase()}
+            {avatarUrl ? (
+              <img
+                src={avatarUrl}
+                alt={displayName}
+                className="creator-avatar-img"
+              />
+            ) : (
+              displayName.charAt(0).toUpperCase()
+            )}
           </div>
 
           <div className="creator-meta">

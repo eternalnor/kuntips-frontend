@@ -266,24 +266,6 @@ function CreatorsRegister() {
             )}
           </div>
 
-          {/* REFERRAL USERNAME (OPTIONAL) */}
-          <div className="form-field creators-form-group">
-            <label className="creators-label" htmlFor="referralUsername">
-              Referral username (optional)
-            </label>
-            <input
-              id="referralUsername"
-              name="referralUsername"
-              type="text"
-              className="form-input creators-input"
-              value={form.referralUsername}
-              onChange={handleChange}
-            />
-            <p className="creators-small">
-              If another creator sent you here, type their KunTips username so they get referral credit.
-            </p>
-          </div>
-
           {/* USERNAME */}
           <div className="form-field creators-form-group">
             <label className="creators-label" htmlFor="username">
@@ -370,6 +352,24 @@ function CreatorsRegister() {
                 {errors.confirmPassword}
               </p>
             )}
+          </div>
+
+          {/* REFERRAL USERNAME (OPTIONAL) */}
+          <div className="form-field creators-form-group">
+            <label className="creators-label" htmlFor="referralUsername">
+              Referral code (optional)
+            </label>
+            <input
+              id="referralUsername"
+              name="referralUsername"
+              type="text"
+              className="form-input creators-input"
+              value={form.referralUsername}
+              onChange={handleChange}
+            />
+            <p className="creators-small">
+              If another creator referred you, enter their username here so they get referral credit.
+            </p>
           </div>
 
           {/* TERMS */}

@@ -124,18 +124,17 @@ export default function HomePage() {
             <p>
               Add a KunTips link to your socials, streams, profiles or
               portfolio, and let fans support you directly. There are no feeds,
-              algorithms or paywalled posts to manage – KunTips only handles
+              algorithms or paywalled posts to manage — KunTips only handles
               tips and payouts.
             </p>
             <p>
-              <span style={{ fontSize: '0.8rem', color: '#9ca3af' }}>
-                Creator dashboard and full onboarding are coming soon. For now,
-                reach out if you want early access.
-              </span>
+              Connect Stripe once, get your link, and start receiving tips the
+              same day. Creators keep 95–100% of every tip depending on their
+              earnings tier.
             </p>
             <p className="home-tile-cta">
-              <Link to="/support" className="btn btn-primary">
-                Ask about creator access
+              <Link to="/creators/register" className="btn btn-primary">
+                Create your creator account
               </Link>
             </p>
           </div>

@@ -1,5 +1,4 @@
 // src/CreatorOnboardingError.jsx
-import React from "react";
 import { Link } from "react-router-dom";
 
 export default function CreatorOnboardingError() {
@@ -14,17 +13,16 @@ export default function CreatorOnboardingError() {
           This can happen if you closed the Stripe window, used the back
           button, or something went wrong during the verification steps.
         </p>
-
         <p className="page-body">
-          You can safely try again. Stripe won’t double-charge you or create
-          duplicate accounts; you’ll just continue the onboarding process.
+          You can safely try again — Stripe won’t create duplicate accounts,
+          you’ll just pick up where you left off.
         </p>
 
         <div className="page-actions">
-          <Link to="/creators/start" className="primary-button">
-            Try Stripe onboarding again
+          <Link to="/creators/dashboard" className="btn btn-primary">
+            Back to dashboard
           </Link>
-          <Link to="/support" className="secondary-link">
+          <Link to="/support" className="btn btn-secondary">
             Contact support
           </Link>
         </div>

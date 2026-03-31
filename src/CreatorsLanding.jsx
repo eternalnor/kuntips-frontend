@@ -27,7 +27,7 @@ function CreatorsLanding() {
         </div>
 
         <div className="creators-hero-side">
-          <div className="creators-pill">95% of tips to you</div>
+          <div className="creators-pill">95–100% of tips to you</div>
           <div className="creators-pill">Fans cover fees</div>
           <div className="creators-pill">Norwegian company · Stripe</div>
         </div>
@@ -95,13 +95,8 @@ function CreatorsLanding() {
           </li>
         </ul>
 
-        <p className="creators-small">
-          In this first version everything runs in Stripe test mode, so you can
-          try the full flow before we open for real payouts.
-        </p>
-
-        <Link to="/creators/start" className="btn btn-secondary">
-          See what you need to get started
+        <Link to="/creators/register" className="btn btn-primary">
+          Create your creator account
         </Link>
       </section>
     </div>
