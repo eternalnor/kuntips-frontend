@@ -1,10 +1,17 @@
 import { useState, useEffect, useCallback } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import LogoMark from "./LogoMark.jsx";
 
 export default function SiteHeader() {
   const [loggedInUsername, setLoggedInUsername] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Close menu on route change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
 
   const readUsername = useCallback(() => {
     try {
@@ -16,14 +23,9 @@ export default function SiteHeader() {
   }, []);
 
   useEffect(() => {
-    // Read on mount
     readUsername();
-
-    // Re-read when login/logout happens in the same tab
     window.addEventListener("kuntips-auth-change", readUsername);
-    // Re-read when localStorage changes in another tab
     window.addEventListener("storage", readUsername);
-
     return () => {
       window.removeEventListener("kuntips-auth-change", readUsername);
       window.removeEventListener("storage", readUsername);
@@ -41,14 +43,17 @@ export default function SiteHeader() {
     navigate("/");
   }
 
+  const close = () => setMenuOpen(false);
+
   return (
     <header className="site-header">
       <div className="site-header-inner">
-        <Link to="/" className="site-logo">
+        <Link to="/" className="site-logo" onClick={close}>
           <LogoMark size={28} />
           <span className="site-logo-text">KunTips</span>
         </Link>
 
+        {/* Desktop nav */}
         <nav className="site-nav">
           <NavLink
             to="/home"
@@ -115,8 +120,104 @@ export default function SiteHeader() {
               Log in
             </NavLink>
           )}
+
+          {/* Hamburger — only visible on mobile */}
+          <button
+            className={"site-nav-menu-btn" + (menuOpen ? " site-nav-menu-btn--open" : "")}
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+          >
+            <span className="site-nav-menu-btn__bar" />
+            <span className="site-nav-menu-btn__bar" />
+            <span className="site-nav-menu-btn__bar" />
+          </button>
         </nav>
       </div>
+
+      {/* Mobile dropdown */}
+      {menuOpen && (
+        <>
+          {/* Backdrop — tap anywhere outside to close */}
+          <div className="site-nav-backdrop" onClick={close} aria-hidden="true" />
+
+          <div className="site-nav-mobile-menu" role="dialog" aria-label="Navigation menu">
+            <NavLink
+              to="/home"
+              className={({ isActive }) =>
+                "site-nav-mobile-link" + (isActive ? " site-nav-mobile-link--active" : "")
+              }
+              onClick={close}
+            >
+              How it works
+            </NavLink>
+
+            <NavLink
+              to="/fans"
+              className={({ isActive }) =>
+                "site-nav-mobile-link" + (isActive ? " site-nav-mobile-link--active" : "")
+              }
+              onClick={close}
+            >
+              For fans
+            </NavLink>
+
+            <NavLink
+              to="/creators"
+              className={({ isActive }) =>
+                "site-nav-mobile-link" + (isActive ? " site-nav-mobile-link--active" : "")
+              }
+              onClick={close}
+            >
+              For creators
+            </NavLink>
+
+            <NavLink
+              to="/support"
+              className={({ isActive }) =>
+                "site-nav-mobile-link" + (isActive ? " site-nav-mobile-link--active" : "")
+              }
+              onClick={close}
+            >
+              Support
+            </NavLink>
+
+            <div className="site-nav-mobile-divider" />
+
+            {loggedInUsername ? (
+              <>
+                <NavLink
+                  to={`/creators/dashboard?username=${encodeURIComponent(loggedInUsername)}`}
+                  className={({ isActive }) =>
+                    "site-nav-mobile-link site-nav-mobile-link--accent" +
+                    (isActive ? " site-nav-mobile-link--active" : "")
+                  }
+                  onClick={close}
+                >
+                  Dashboard
+                </NavLink>
+                <button
+                  onClick={() => { handleLogout(); close(); }}
+                  className="site-nav-mobile-link site-nav-mobile-link--muted"
+                >
+                  Log out
+                </button>
+              </>
+            ) : (
+              <NavLink
+                to="/creators/login"
+                className={({ isActive }) =>
+                  "site-nav-mobile-link site-nav-mobile-link--accent" +
+                  (isActive ? " site-nav-mobile-link--active" : "")
+                }
+                onClick={close}
+              >
+                Log in
+              </NavLink>
+            )}
+          </div>
+        </>
+      )}
     </header>
   );
 }

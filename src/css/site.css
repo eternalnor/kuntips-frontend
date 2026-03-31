@@ -252,10 +252,134 @@
   transform: translateY(-1px);
 }
 
-/* Small screens — hide secondary nav links, keep For fans + Login/Dashboard */
+/* ======================== Hamburger button ======================== */
+
+.site-nav-menu-btn {
+  display: none; /* hidden on desktop */
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 2px;
+  margin-left: 0.25rem;
+}
+
+.site-nav-menu-btn__bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(229, 231, 235, 0.85);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* X shape when open */
+.site-nav-menu-btn--open .site-nav-menu-btn__bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.site-nav-menu-btn--open .site-nav-menu-btn__bar:nth-child(2) {
+  opacity: 0;
+}
+.site-nav-menu-btn--open .site-nav-menu-btn__bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ======================== Mobile dropdown menu ======================== */
+
+.site-nav-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 39;
+}
+
+.site-nav-mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 40;
+
+  background: rgba(2, 6, 23, 0.97);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+  padding: 0.5rem 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+
+  animation: menu-slide-in 0.18s ease-out both;
+}
+
+@keyframes menu-slide-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.site-nav-mobile-link {
+  display: block;
+  padding: 0.75rem 0;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: rgba(229, 231, 235, 0.85);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+  transition: color 0.15s ease;
+}
+
+.site-nav-mobile-link:last-child {
+  border-bottom: none;
+}
+
+.site-nav-mobile-link:hover,
+.site-nav-mobile-link:active {
+  color: #fff;
+}
+
+.site-nav-mobile-link--active {
+  color: #fff;
+  font-weight: 650;
+}
+
+.site-nav-mobile-link--accent {
+  color: #a5b4fc;
+}
+
+.site-nav-mobile-link--accent:hover {
+  color: #c7d2fe;
+}
+
+.site-nav-mobile-link--muted {
+  color: rgba(229, 231, 235, 0.45);
+}
+
+.site-nav-mobile-link--muted:hover {
+  color: #fca5a5;
+}
+
+.site-nav-mobile-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0.25rem 0;
+}
+
+/* Small screens — hide secondary nav links, show hamburger */
 @media (max-width: 600px) {
   .site-nav-link--hide-mobile {
     display: none;
+  }
+
+  .site-nav-menu-btn {
+    display: flex;
   }
 }
 
