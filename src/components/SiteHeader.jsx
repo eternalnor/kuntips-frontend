@@ -66,7 +66,7 @@ export default function SiteHeader() {
           <NavLink
             to="/fans"
             className={({ isActive }) =>
-              "site-nav-link" + (isActive ? " site-nav-link-active" : "")
+              "site-nav-link site-nav-link--hide-mobile" + (isActive ? " site-nav-link-active" : "")
             }
           >
             For fans
@@ -95,7 +95,7 @@ export default function SiteHeader() {
               <NavLink
                 to={`/creators/dashboard?username=${encodeURIComponent(loggedInUsername)}`}
                 className={({ isActive }) =>
-                  "site-nav-link site-nav-link--dashboard" +
+                  "site-nav-link site-nav-link--dashboard site-nav-link--hide-mobile" +
                   (isActive ? " site-nav-link-active" : "")
                 }
               >
@@ -103,7 +103,7 @@ export default function SiteHeader() {
               </NavLink>
               <button
                 onClick={handleLogout}
-                className="site-nav-link site-nav-link--logout"
+                className="site-nav-link site-nav-link--logout site-nav-link--hide-mobile"
               >
                 Log out
               </button>
@@ -112,7 +112,7 @@ export default function SiteHeader() {
             <NavLink
               to="/creators/login"
               className={({ isActive }) =>
-                "site-nav-link site-nav-link--login" +
+                "site-nav-link site-nav-link--login site-nav-link--hide-mobile" +
                 (isActive ? " site-nav-link-active" : "")
               }
             >
