@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import LogoMark from "./LogoMark.jsx";
 
 export default function SiteHeader() {
   const [loggedInUsername, setLoggedInUsername] = useState(null);
@@ -44,7 +45,7 @@ export default function SiteHeader() {
     <header className="site-header">
       <div className="site-header-inner">
         <Link to="/" className="site-logo">
-          <span className="site-logo-mark" />
+          <LogoMark size={28} />
           <span className="site-logo-text">KunTips</span>
         </Link>
 
