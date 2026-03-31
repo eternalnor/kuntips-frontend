@@ -19,6 +19,9 @@ import CreatorLogin from "./CreatorLogin";
 import CreatorsRegister from "./CreatorsRegister";
 import WelcomePage from "./pages/WelcomePage.jsx";
 import FansPage from "./pages/FansPage.jsx";
+import VerifyEmailPage from "./pages/VerifyEmailPage.jsx";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage.jsx";
+import ResetPasswordPage from "./pages/ResetPasswordPage.jsx";
 
 
 function AppRoutes() {
@@ -71,6 +74,9 @@ function AppRoutes() {
           <Route path="/creators/register" element={<CreatorsRegister />} />
           <Route path="/creators/login" element={<CreatorLogin />} />
           <Route path="/creators/dashboard" element={<CreatorsDashboard />} />
+          <Route path="/creators/verify-email" element={<VerifyEmailPage />} />
+          <Route path="/creators/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/creators/reset-password" element={<ResetPasswordPage />} />
           <Route
             path="/creator-onboarding/success"
             element={<CreatorOnboardingSuccess />}

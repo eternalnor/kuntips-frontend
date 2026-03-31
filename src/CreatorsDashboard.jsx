@@ -18,6 +18,7 @@ import {
   requestPayout,
   fetchPayoutStatement,
   getSessionToken,
+  resendVerificationEmail,
 } from "./api";
 
 // ── Countdown helper ────────────────────────────────────────────────────────
@@ -127,6 +128,10 @@ function CreatorsDashboard() {
   // Payout statement state (expanded row)
   const [expandedPayoutId, setExpandedPayoutId] = useState(null);
   const [statementData, setStatementData] = useState({}); // { [payoutId]: statement | "loading" | "error" }
+
+  // Email verification resend state
+  const [resendingVerification, setResendingVerification] = useState(false);
+  const [resendVerificationMsg, setResendVerificationMsg] = useState(null);
 
   useEffect(() => {
     if (!usernameQuery) {
@@ -456,6 +461,22 @@ function CreatorsDashboard() {
     }
   }
 
+  async function handleResendVerification() {
+    if (resendingVerification) return;
+    setResendingVerification(true);
+    setResendVerificationMsg(null);
+    try {
+      await resendVerificationEmail();
+      setResendVerificationMsg("Verification email sent — check your inbox.");
+    } catch (err) {
+      setResendVerificationMsg(
+        err.data?.message || err.message || "Could not send verification email."
+      );
+    } finally {
+      setResendingVerification(false);
+    }
+  }
+
 
   return (
     <div className="creators-page">
@@ -474,6 +495,32 @@ function CreatorsDashboard() {
           </p>
         )}
       </header>
+
+      {/* EMAIL VERIFICATION BANNER */}
+      {payload && !payload.creator.emailVerified && (
+        <section className="card creators-status creators-status-warning">
+          <p>
+            <strong>Please verify your email address</strong> — check your inbox
+            for a verification link from KunTips.
+          </p>
+          <p className="creators-small">
+            You need a verified email before you can connect Stripe and receive
+            payouts.
+          </p>
+          {resendVerificationMsg ? (
+            <p className="creators-small">{resendVerificationMsg}</p>
+          ) : (
+            <button
+              className="btn btn-secondary"
+              style={{ marginTop: "0.5rem" }}
+              onClick={handleResendVerification}
+              disabled={resendingVerification}
+            >
+              {resendingVerification ? "Sending…" : "Resend verification email"}
+            </button>
+          )}
+        </section>
+      )}
 
       {/* STATUS / ERRORS */}
       {loading && (

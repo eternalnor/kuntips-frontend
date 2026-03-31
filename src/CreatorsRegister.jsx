@@ -39,6 +39,8 @@ function CreatorsRegister() {
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [globalError, setGlobalError] = useState(null);
+  const [registered, setRegistered] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState("");
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
@@ -139,8 +141,8 @@ function CreatorsRegister() {
         );
       }
 
-      const username = data.creator.username;
-      navigate(`/creators/dashboard?username=${encodeURIComponent(username)}`);
+      setRegisteredEmail(form.email.trim());
+      setRegistered(true);
 
 
     } catch (err) {
@@ -208,6 +210,36 @@ function CreatorsRegister() {
     } finally {
       setSubmitting(false);
     }
+  }
+
+  if (registered) {
+    return (
+      <div className="creators-page">
+        <section className="card creators-profile-card">
+          <h1>Check your email</h1>
+          <p className="creators-subtext">
+            We&apos;ve sent a verification link to <strong>{registeredEmail}</strong>.
+          </p>
+          <p className="creators-small">
+            Click the link in the email to verify your account. You can still
+            access your dashboard, but you&apos;ll need to verify your email before
+            connecting Stripe and receiving payouts.
+          </p>
+          <div className="creators-profile-actions" style={{ marginTop: "1.5rem" }}>
+            <Link
+              to={`/creators/dashboard?username=${encodeURIComponent(
+                typeof window !== "undefined"
+                  ? window.localStorage.getItem("kuntips_creator_username") || ""
+                  : ""
+              )}`}
+              className="btn btn-primary"
+            >
+              Go to dashboard
+            </Link>
+          </div>
+        </section>
+      </div>
+    );
   }
 
   return (

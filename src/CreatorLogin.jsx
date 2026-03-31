@@ -137,6 +137,10 @@ function CreatorLogin() {
               {submitting ? "Logging in…" : "Log in"}
             </button>
           </div>
+
+          <p className="creators-small" style={{ marginTop: "0.75rem", textAlign: "center" }}>
+            <Link to="/creators/forgot-password">Forgot your password?</Link>
+          </p>
         </form>
 
         <p className="creators-small creators-profile-note">

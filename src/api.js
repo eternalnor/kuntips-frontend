@@ -223,3 +223,36 @@ export function fetchPayoutStatement(username, payoutId) {
   });
 }
 
+// Verify email address with token from URL
+export function verifyEmail(token) {
+  return fetchJson(`/auth/verify-email?token=${encodeURIComponent(token)}`, {
+    method: "GET",
+  });
+}
+
+// Resend verification email (requires session)
+export function resendVerificationEmail() {
+  return fetchJson("/auth/resend-verification", {
+    method: "POST",
+    headers: {
+      ...authHeaders(),
+    },
+    body: JSON.stringify({}),
+  });
+}
+
+// Request a password reset link (no session required)
+export function forgotPassword(email) {
+  return fetchJson("/auth/forgot-password", {
+    method: "POST",
+    body: JSON.stringify({ email }),
+  });
+}
+
+// Reset password using the token from the email link
+export function resetPassword(token, newPassword) {
+  return fetchJson("/auth/reset-password", {
+    method: "POST",
+    body: JSON.stringify({ token, newPassword }),
+  });
+}
