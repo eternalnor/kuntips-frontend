@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { usePageTitle } from "./hooks/usePageTitle.js";
+import { containsBlockedContent } from "./utils/wordFilter.js";
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer,
@@ -252,6 +253,11 @@ function CreatorsDashboard() {
   async function handleProfileSave(e) {
     e.preventDefault();
     if (!creatorUsername || profileSaving) return;
+
+    if (containsBlockedContent(bioInput)) {
+      setProfileError("Your bio contains content that isn't allowed. Please revise it.");
+      return;
+    }
 
     setProfileSaving(true);
     setProfileError(null);
@@ -965,14 +971,16 @@ function CreatorsDashboard() {
                         <textarea
                             id="bio"
                             className="form-textarea creators-textarea"
-                            rows={4}
+                            rows={3}
                             value={bioInput}
-                            onChange={(e) => setBioInput(e.target.value)}
-                            maxLength={500}
+                            onChange={(e) => setBioInput(e.target.value.slice(0, 160))}
+                            maxLength={160}
                         />
-                        <p className="creators-small">
-                          A short description that helps fans understand who they are
-                          tipping.
+                        <p className="creators-small" style={{ display: "flex", justifyContent: "space-between" }}>
+                          <span>A short description shown on your tip page.</span>
+                          <span style={{ color: bioInput.length >= 150 ? "#f87171" : "inherit" }}>
+                            {bioInput.length}/160
+                          </span>
                         </p>
                       </div>
 

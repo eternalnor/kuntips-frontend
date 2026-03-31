@@ -1,5 +1,6 @@
 // src/components/TipWidget.jsx
 import { useState, useMemo, useEffect, useRef } from 'react';
+import { containsBlockedContent } from '../utils/wordFilter.js';
 import { loadStripe } from '@stripe/stripe-js';
 import {
   Elements,
@@ -186,6 +187,11 @@ export function TipWidget({
 
     if (validationError) {
       setErrorMessage(validationError);
+      return;
+    }
+
+    if (tipperName.trim() && containsBlockedContent(tipperName)) {
+      setErrorMessage("That name isn't allowed. Please use a different name or tip anonymously.");
       return;
     }
 

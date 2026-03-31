@@ -49,11 +49,20 @@ function CreatorsRegister() {
     setGlobalError(null);
   }
 
+  function passwordRequirements(password) {
+    return {
+      length:    password.length >= 8,
+      upper:     /[A-Z]/.test(password),
+      lower:     /[a-z]/.test(password),
+      digit:     /\d/.test(password),
+      special:   /[^A-Za-z0-9]/.test(password),
+    };
+  }
+
   function isStrongPassword(password) {
-    if (!password || password.length < 8) return false;
-    const hasLetter = /[A-Za-z]/.test(password);
-    const hasDigit = /\d/.test(password);
-    return hasLetter && hasDigit;
+    if (!password) return false;
+    const r = passwordRequirements(password);
+    return r.length && r.upper && r.lower && r.digit && r.special;
   }
 
   function validateClientSide() {
@@ -88,7 +97,7 @@ function CreatorsRegister() {
       nextErrors.password = "Please choose a password.";
     } else if (!isStrongPassword(password)) {
       nextErrors.password =
-        "Password must be at least 8 characters and include at least one letter and one number.";
+        "Password must be at least 8 characters and include an uppercase letter, a lowercase letter, a number, and a special character.";
     }
 
     if (!confirmPassword) {
@@ -168,7 +177,7 @@ function CreatorsRegister() {
       }
       if (serverFieldErrors.password === "password_too_weak") {
         mapped.password =
-          "Password must be at least 8 characters and include at least one letter and one number.";
+          "Password must be at least 8 characters and include an uppercase letter, a lowercase letter, a number, and a special character.";
       }
       if (serverFieldErrors.confirmPassword === "password_mismatch") {
         mapped.confirmPassword = "Passwords do not match.";
@@ -197,7 +206,7 @@ function CreatorsRegister() {
           message.toLowerCase().includes("must contain at least one letter")
         ) {
           mapped.password =
-            "Password must be at least 8 characters and include at least one letter and one number.";
+            "Password must be at least 8 characters and include an uppercase letter, a lowercase letter, a number, and a special character.";
         }
       }
 
@@ -327,9 +336,25 @@ function CreatorsRegister() {
               onChange={handleChange}
               autoComplete="new-password"
             />
-            <p className="creators-small">
-              At least 8 characters, with at least one letter and one number.
-            </p>
+            {form.password && (() => {
+              const r = passwordRequirements(form.password);
+              const items = [
+                { label: "At least 8 characters", met: r.length },
+                { label: "One uppercase letter (A–Z)", met: r.upper },
+                { label: "One lowercase letter (a–z)", met: r.lower },
+                { label: "One number (0–9)", met: r.digit },
+                { label: "One special character (!@#$ etc.)", met: r.special },
+              ];
+              return (
+                <ul className="password-requirements">
+                  {items.map(({ label, met }) => (
+                    <li key={label} className={met ? "req-met" : ""}>
+                      {met ? "✓" : "·"} {label}
+                    </li>
+                  ))}
+                </ul>
+              );
+            })()}
             {errors.password && (
               <p className="creators-error-inline">{errors.password}</p>
             )}
