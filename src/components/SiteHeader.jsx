@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 export default function SiteHeader() {
   const [loggedInUsername, setLoggedInUsername] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     try {
@@ -12,6 +13,16 @@ export default function SiteHeader() {
       setLoggedInUsername(null);
     }
   }, []);
+
+  function handleLogout() {
+    try {
+      window.localStorage.removeItem("kuntips_creator_session");
+      window.localStorage.removeItem("kuntips_creator_username");
+      window.localStorage.removeItem("kuntips_creator_email");
+    } catch {}
+    setLoggedInUsername(null);
+    navigate("/");
+  }
 
   return (
     <header className="site-header">
@@ -59,14 +70,22 @@ export default function SiteHeader() {
           </NavLink>
 
           {loggedInUsername && (
-            <NavLink
-              to={`/creators/dashboard?username=${encodeURIComponent(loggedInUsername)}`}
-              className={({ isActive }) =>
-                "site-nav-link site-nav-link--dashboard" + (isActive ? " site-nav-link-active" : "")
-              }
-            >
-              Dashboard
-            </NavLink>
+            <>
+              <NavLink
+                to={`/creators/dashboard?username=${encodeURIComponent(loggedInUsername)}`}
+                className={({ isActive }) =>
+                  "site-nav-link site-nav-link--dashboard" + (isActive ? " site-nav-link-active" : "")
+                }
+              >
+                Dashboard
+              </NavLink>
+              <button
+                onClick={handleLogout}
+                className="site-nav-link site-nav-link--logout"
+              >
+                Log out
+              </button>
+            </>
           )}
         </nav>
       </div>

@@ -13,12 +13,7 @@ export default function FansPage() {
               tip. No sign-up, no subscription, no personal details shared with
               the creator — just a clean, private payment powered by Stripe.
             </p>
-            <div className="home-hero-actions">
-              <Link to="/home" className="btn btn-ghost">
-                How it works
-              </Link>
-            </div>
-            <div style={{ marginTop: "1.25rem" }}>
+            <div style={{ marginTop: "0.5rem" }}>
               <CreatorSearch
                 label="Know who you want to tip? Enter their username:"
                 placeholder="username"
@@ -81,14 +76,6 @@ export default function FansPage() {
         </div>
       </section>
 
-      <section className="card home-section home-section-last">
-        <h2>Find a creator</h2>
-        <p>
-          If a creator has shared their KunTips link with you, you can also
-          type their username directly below to go straight to their tip page.
-        </p>
-        <CreatorSearch placeholder="username" buttonText="Go to tip page →" />
-      </section>
     </main>
   );
 }

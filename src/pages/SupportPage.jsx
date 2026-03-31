@@ -2,30 +2,91 @@ import { Link } from 'react-router-dom';
 
 export default function SupportPage() {
   return (
-    <main className="page page-legal">
+    <main className="page page-legal card">
       <h1 className="page-title">Support</h1>
       <div className="page-body">
-        <p>
-          If you need help with your account, have questions about KunTips, or
-          want to report an issue, you can contact us at:
-        </p>
 
         <p>
-          For creator onboarding, click the link below.
+          Need help? You can reach us at{' '}
+          <a href="mailto:support@kuntips.no">support@kuntips.no</a>.
+          We aim to respond within 48 hours.
         </p>
-        <Link to="/creators/start" className="btn btn-primary">
-          Start creator onboarding
-        </Link>
 
+        <h2>For fans</h2>
         <p>
-          📧{' '}
-          <a href="mailto:support@kuntips.no">
-            support@kuntips.no
-          </a>
+          You do not need a KunTips account to send a tip. If you have a
+          question about a payment you made, contact us with the approximate
+          date and amount and we will look into it.
         </p>
+        <ul>
+          <li>
+            <strong>I was charged but something went wrong</strong> — contact
+            us with the date, amount, and creator username. We will investigate
+            and issue a refund if appropriate.
+          </li>
+          <li>
+            <strong>I want to find a creator</strong> — you need their exact
+            KunTips username. Creators share their link directly. You can also
+            enter a username on the{' '}
+            <Link to="/">home page</Link>.
+          </li>
+          <li>
+            <strong>I want to report a creator</strong> — email us with the
+            creator username and a description of the issue. We take all
+            reports seriously.
+          </li>
+        </ul>
 
-        <p>We aim to respond within 48 hours.</p>
+        <h2>For creators</h2>
+        <ul>
+          <li>
+            <strong>Getting started</strong> — visit the{' '}
+            <Link to="/creators">For creators</Link> page or go straight to{' '}
+            <Link to="/creators/register">create your account</Link>.
+          </li>
+          <li>
+            <strong>Stripe onboarding issues</strong> — Stripe handles identity
+            verification independently. If Stripe declines your onboarding,
+            contact Stripe support directly. KunTips cannot override Stripe's
+            decisions.
+          </li>
+          <li>
+            <strong>Payout questions</strong> — payout requests are made from
+            your dashboard. Tips are held for at least 7 days before becoming
+            eligible. Check your dashboard for your current balance.
+          </li>
+          <li>
+            <strong>Account suspension or appeal</strong> — if your account has
+            been suspended and you believe this is an error, email us at{' '}
+            <a href="mailto:support@kuntips.no">support@kuntips.no</a> with a
+            description of your situation. We will respond within 10 business
+            days.
+          </li>
+          <li>
+            <strong>Closing your account</strong> — contact us by email.
+            Outstanding eligible balances will be paid out before closure.
+          </li>
+        </ul>
 
+        <h2>Legal and policies</h2>
+        <p>
+          For information about how KunTips works, your rights, and our
+          policies:
+        </p>
+        <ul>
+          <li><Link to="/legal/terms">Terms of Service</Link></li>
+          <li><Link to="/legal/privacy">Privacy Policy</Link></li>
+          <li><Link to="/legal/cookies">Cookie Policy</Link></li>
+          <li><Link to="/legal/creator-agreement">Creator Agreement</Link></li>
+        </ul>
+
+        <h2>Contact</h2>
+        <p>
+          Eternal AS, Norway<br />
+          Email:{' '}
+          <a href="mailto:support@kuntips.no">support@kuntips.no</a><br />
+          Response time: within 48 hours
+        </p>
 
       </div>
     </main>

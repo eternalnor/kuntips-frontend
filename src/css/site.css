@@ -228,6 +228,18 @@
   color: #c7d2fe;
 }
 
+/* Log out button in nav */
+.site-nav-link--logout {
+  color: rgba(229, 231, 235, 0.55);
+  cursor: pointer;
+  padding: 0.35rem 0.2rem;
+}
+
+.site-nav-link--logout:hover {
+  color: #fca5a5;
+  transform: translateY(-1px);
+}
+
 /* Small screens */
 @media (max-width: 480px) {
   .site-header-inner {

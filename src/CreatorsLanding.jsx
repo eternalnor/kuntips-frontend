@@ -59,8 +59,8 @@ function CreatorsLanding() {
         <div className="card creators-step">
           <h2>1. Connect Stripe</h2>
           <p>
-            You onboard with Stripe (test mode for now). They verify you and
-            handle payouts to your bank account.
+            You onboard with Stripe — they verify your identity and handle
+            payouts directly to your bank account.
           </p>
         </div>
         <div className="card creators-step">
