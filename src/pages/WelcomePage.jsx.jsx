@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import CreatorSearch from "../components/CreatorSearch.jsx";
 
 export default function WelcomePage() {
   return (
@@ -40,6 +41,14 @@ export default function WelcomePage() {
             </div>
           </div>
         </Link>
+      </section>
+
+      <section className="welcome-search-section welcome-choices-animate">
+        <CreatorSearch
+          label="Already know who you want to tip? Enter their username:"
+          placeholder="username"
+          buttonText="Go to tip page →"
+        />
       </section>
 
       <section className="welcome-more-section">

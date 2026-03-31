@@ -267,6 +267,92 @@
   font-size: 0.92rem;
 }
 
+/* Search section on welcome page */
+.welcome-search-section {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 980px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ── Creator search component ─────────────────────────────────────────────── */
+
+.creator-search {
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.creator-search__label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+  text-align: center;
+}
+
+.creator-search__form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.creator-search__input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: rgba(10, 15, 31, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 0 0.75rem;
+  transition: border-color 0.15s;
+}
+
+.creator-search__input-wrap:focus-within {
+  border-color: rgba(99, 102, 241, 0.6);
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.3);
+}
+
+.creator-search__prefix {
+  font-size: 0.78rem;
+  color: #4b5563;
+  white-space: nowrap;
+  user-select: none;
+  padding-right: 0.15rem;
+}
+
+.creator-search__input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #f9fafb;
+  font-size: 0.95rem;
+  padding: 0.6rem 0;
+  min-width: 0;
+}
+
+.creator-search__input::placeholder {
+  color: #374151;
+}
+
+.creator-search__btn {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.creator-search__error {
+  font-size: 0.8rem;
+  color: #f97373;
+  margin: 0;
+  text-align: center;
+}
+
 /* Lower info section */
 .welcome-info {
   position: relative;

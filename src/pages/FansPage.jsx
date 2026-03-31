@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import CreatorSearch from "../components/CreatorSearch.jsx";
 
 export default function FansPage() {
   return (
@@ -13,12 +14,16 @@ export default function FansPage() {
               the creator — just a clean, private payment powered by Stripe.
             </p>
             <div className="home-hero-actions">
-              <Link to="/u/testcreator1" className="btn btn-primary">
-                Try the example tip page
-              </Link>
               <Link to="/home" className="btn btn-ghost">
                 How it works
               </Link>
+            </div>
+            <div style={{ marginTop: "1.25rem" }}>
+              <CreatorSearch
+                label="Know who you want to tip? Enter their username:"
+                placeholder="username"
+                buttonText="Go to tip page →"
+              />
             </div>
           </div>
         </div>
@@ -77,17 +82,12 @@ export default function FansPage() {
       </section>
 
       <section className="card home-section home-section-last">
-        <h2>Ready to try it?</h2>
+        <h2>Find a creator</h2>
         <p>
-          Open the example tip page to see exactly what fans see — choose an
-          amount and walk through the full payment flow before sending a real
-          tip.
+          If a creator has shared their KunTips link with you, you can also
+          type their username directly below to go straight to their tip page.
         </p>
-        <p>
-          <Link to="/u/testcreator1" className="btn btn-primary">
-            Open example tip page
-          </Link>
-        </p>
+        <CreatorSearch placeholder="username" buttonText="Go to tip page →" />
       </section>
     </main>
   );

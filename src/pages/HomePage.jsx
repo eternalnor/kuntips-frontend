@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import CreatorSearch from '../components/CreatorSearch.jsx';
 
 export default function HomePage() {
   return (
@@ -115,8 +116,8 @@ export default function HomePage() {
               no follow-up messages — just support when you feel like it.
             </p>
             <p className="home-tile-cta">
-              <Link to="/u/testcreator1" className="btn btn-ghost">
-                Open example tip page
+              <Link to="/fans" className="btn btn-ghost">
+                More info for fans →
               </Link>
             </p>
           </div>
@@ -187,17 +188,12 @@ export default function HomePage() {
 
       {/* FINAL CALL */}
       <section className="card home-section home-section-last">
-        <h2>See KunTips from a fan’s point of view</h2>
+        <h2>Ready to send a tip?</h2>
         <p>
-          Want to experience the flow yourself? Open our example creator page,
-          adjust the tip amount, and see exactly what fans will see before they
-          pay.
+          If you already know a creator’s username, type it below and you’ll
+          go straight to their tip page — no account needed.
         </p>
-        <p>
-          <Link to="/u/testcreator1" className="btn btn-primary">
-            Open example tip page
-          </Link>
-        </p>
+        <CreatorSearch placeholder="username" buttonText="Go to tip page →" />
       </section>
     </main>
   );
