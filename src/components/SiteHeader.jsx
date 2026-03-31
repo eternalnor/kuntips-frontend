@@ -53,7 +53,7 @@ export default function SiteHeader() {
           <NavLink
             to="/home"
             className={({ isActive }) =>
-              "site-nav-link" + (isActive ? " site-nav-link-active" : "")
+              "site-nav-link site-nav-link--hide-mobile" + (isActive ? " site-nav-link-active" : "")
             }
           >
             How it works
@@ -71,7 +71,7 @@ export default function SiteHeader() {
           <NavLink
             to="/creators"
             className={({ isActive }) =>
-              "site-nav-link" + (isActive ? " site-nav-link-active" : "")
+              "site-nav-link site-nav-link--hide-mobile" + (isActive ? " site-nav-link-active" : "")
             }
           >
             For creators
@@ -80,7 +80,7 @@ export default function SiteHeader() {
           <NavLink
             to="/support"
             className={({ isActive }) =>
-              "site-nav-link" + (isActive ? " site-nav-link-active" : "")
+              "site-nav-link site-nav-link--hide-mobile" + (isActive ? " site-nav-link-active" : "")
             }
           >
             Support

@@ -143,49 +143,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* WHAT KUNTIPS IS */}
-      <section className="card home-section home-section-center">
-        <h2>What KunTips is (and isn’t)</h2>
-        <p>
-          KunTips is a tiny layer between fans and creators: one-time tips in,
-          payouts out. We don’t host creator content, run subscriptions, or
-          manage paywalled media. You keep using the platforms you already have
-          — we simply give fans a clean way to say “thanks”.
-        </p>
-      </section>
-
-      {/* SECURITY & PRIVACY */}
-      <section className="card home-section">
-        <h2>Security, privacy and compliance</h2>
-        <div className="home-grid">
-          <div className="home-tile">
-            <h3>Stripe handles payments</h3>
-            <p>
-              KunTips never sees your full card or bank details. All sensitive
-              payment data is processed and stored by Stripe, a PCI-compliant
-              global payments provider.
-            </p>
-          </div>
-          <div className="home-tile">
-            <h3>Private, not lawless</h3>
-            <p>
-              Fans and creators are private to each other, but the platform is
-              not a free-for-all. In serious cases like fraud, abuse or criminal
-              investigations, KunTips and Stripe can cooperate with law
-              enforcement and our payment partners where legally required.
-            </p>
-          </div>
-          <div className="home-tile">
-            <h3>No data resale, no ads</h3>
-            <p>
-              We don&apos;t sell your data or use it for advertising profiles.
-              Data is used only to run KunTips, prevent fraud, and meet legal
-              obligations — not to build ad networks or social graphs.
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* FINAL CALL */}
       <section className="card home-section home-section-last">
         <h2>Ready to send a tip?</h2>

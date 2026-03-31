@@ -252,7 +252,13 @@
   transform: translateY(-1px);
 }
 
-/* Small screens */
+/* Small screens — hide secondary nav links, keep For fans + Login/Dashboard */
+@media (max-width: 600px) {
+  .site-nav-link--hide-mobile {
+    display: none;
+  }
+}
+
 @media (max-width: 480px) {
   .site-header-inner {
     padding-inline: 1rem;
