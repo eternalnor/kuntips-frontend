@@ -116,7 +116,7 @@ export default function TermsPage() {
           <li>Engage in or facilitate any activity involving minors in any capacity;</li>
           <li>Distribute, promote, or fund non-consensual intimate imagery or any illegal content;</li>
           <li>Commit fraud, money laundering, or any other financial crime;</li>
-          <li>Engage in activities prohibited under Stripe's Restricted Businesses list;</li>
+          <li>Engage in activities prohibited under <a href="https://stripe.com/legal/restricted-businesses" target="_blank" rel="noopener noreferrer">Stripe's Restricted Businesses list</a>;</li>
           <li>Use the platform for any age-restricted or regulated services without the required authorisations;</li>
           <li>Attempt to circumvent the platform fee system or manipulate tip volumes;</li>
           <li>Use automated tools, bots, or scripts to generate fraudulent tips or activity;</li>

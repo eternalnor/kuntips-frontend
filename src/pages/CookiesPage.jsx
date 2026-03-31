@@ -181,11 +181,11 @@ export default function CookiesPage() {
 
         <h2>Analytics</h2>
         <p>
-          KunTips may use privacy-respecting analytics tools to understand
-          platform performance (e.g. page load times, error rates). Any
-          analytics used are configured to avoid personal profiling or
-          cross-site tracking. No personal identifiers are shared with
-          analytics providers.
+          KunTips does not currently use any analytics, tracking, or
+          performance monitoring tools beyond those already described above
+          (Cloudflare infrastructure). No personal data is shared with
+          analytics providers. If this changes in the future, this policy
+          will be updated before any analytics are enabled.
         </p>
 
         <h2>Legal basis for essential cookies</h2>
@@ -227,6 +227,9 @@ export default function CookiesPage() {
 
         <h2>Contact</h2>
         <p>
+          Eternal AS<br />
+          Johan Berentsens vei 41, 5160 Laksevåg, Norway<br />
+          Org.nr. 926462237<br />
           Email: <a href="mailto:support@kuntips.no">support@kuntips.no</a>
         </p>
       </div>

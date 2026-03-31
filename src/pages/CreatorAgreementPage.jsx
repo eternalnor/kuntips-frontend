@@ -111,6 +111,12 @@ export default function CreatorAgreementPage() {
           amount. KunTips does not charge an additional fee for payouts.
         </p>
         <p>
+          There is no minimum payout amount enforced by KunTips. Because
+          the minimum individual tip on the platform is 100 NOK, any
+          eligible balance will always be at least 100 NOK (less platform
+          and processing fees) before a payout is requested.
+        </p>
+        <p>
           KunTips does not guarantee earnings. Tips are voluntary and
           KunTips makes no representation as to the volume of tips you will
           receive.
