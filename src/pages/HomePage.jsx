@@ -9,34 +9,20 @@ export default function HomePage() {
       {/* HERO */}
       <section className="card home-hero">
         <div className="home-hero-main">
-          <div className="home-hero-text">
+          <div className=”home-hero-text”>
             <h1>Support your favorites — no accounts, no pressure.</h1>
-            <p className="home-hero-sub">
-              KunTips lets fans send one-time tips to creators in seconds. No
-              sign-up for fans, no profiles or follower lists, and no personal
-              details shared with creators — just a quick “thank you” powered by
-              Stripe.
+            <p className=”home-hero-sub”>
+              One-time tips to creators, processed by Stripe. No fan account needed, nothing shared with the creator.
             </p>
 
-            <p className="home-hero-sub">
-              Creators drop a single KunTips link wherever they are online. We
-              quietly handle the payment flow in the background so they can
-              focus on their work, not another platform.
-            </p>
-
-            <div className="home-hero-actions">
-              <Link to="/creators/register" className="btn btn-primary">
+            <div className=”home-hero-actions”>
+              <Link to=”/creators/register” className=”btn btn-primary”>
                 Create a creator account
               </Link>
-              <Link to="/fans" className="btn btn-ghost">
+              <Link to=”/fans” className=”btn btn-ghost”>
                 How tipping works →
               </Link>
             </div>
-
-            <p className="home-hero-note">
-              Private by default, Stripe-secure. No subscriptions, no feeds,
-              just tips.
-            </p>
           </div>
 
           {/* Visual card */}
@@ -79,29 +65,15 @@ export default function HomePage() {
         <div className="home-grid">
           <div className="home-tile">
             <h3>1. No account needed</h3>
-            <p>
-              Fans choose a tip amount and pay securely with Stripe. There’s no
-              KunTips account to create, no login, and no public donor list —
-              just a clean, one-time payment.
-            </p>
+            <p>Pick an amount and pay with your card — no KunTips account, no login, no donor list.</p>
           </div>
           <div className="home-tile">
             <h3>2. Creators keep more</h3>
-            <p>
-              Fans cover Stripe&apos;s processing fee and a small KunTips
-              service fee. Creators keep around 95–100% of each tip, depending
-              on their tier – usually more than on traditional creator platforms.
-            </p>
+            <p>Creators keep 95–100% of every tip. Fans cover a small service fee on top — not deducted from the creator.</p>
           </div>
           <div className="home-tile">
             <h3>3. Private and secure</h3>
-            <p>
-              Fans are private by default — no payment details are ever shared
-              with creators. Fans can optionally leave their name if they want
-              to. KunTips doesn&apos;t store card numbers; all sensitive data
-              lives with Stripe, a PCI-compliant provider used by millions of
-              businesses.
-            </p>
+            <p>Creators never see your payment details. Leave your name optionally, or tip anonymously.</p>
           </div>
         </div>
       </section>
@@ -112,33 +84,19 @@ export default function HomePage() {
         <div className="home-grid home-grid-two">
           <div className="home-tile">
             <h3>For fans</h3>
-            <p>
-              Send a tip without signing up, logging in, or exposing your
-              identity to the creator. No recurring charges, no subscriptions,
-              no follow-up messages — just support when you feel like it.
-            </p>
+            <p>No sign-up, no subscription, nothing shared with the creator — just support when you feel like it.</p>
             <p className="home-tile-cta">
               <Link to="/fans" className="btn btn-ghost">
-                More info for fans →
+                More info →
               </Link>
             </p>
           </div>
           <div className="home-tile">
             <h3>For creators</h3>
-            <p>
-              Add a KunTips link to your socials, streams, profiles or
-              portfolio, and let fans support you directly. There are no feeds,
-              algorithms or paywalled posts to manage — KunTips only handles
-              tips and payouts.
-            </p>
-            <p>
-              Connect Stripe once, get your link, and start receiving tips the
-              same day. Creators keep 95–100% of every tip depending on their
-              earnings tier.
-            </p>
+            <p>Share your KunTips link anywhere. Connect Stripe once and start receiving tips the same day — you keep 95–100%.</p>
             <p className="home-tile-cta">
               <Link to="/creators/register" className="btn btn-primary">
-                Create your creator account
+                Create your account
               </Link>
             </p>
           </div>
@@ -147,11 +105,8 @@ export default function HomePage() {
 
       {/* FINAL CALL */}
       <section className="card home-section home-section-last">
-        <h2>Ready to send a tip?</h2>
-        <p>
-          If you already know a creator’s username, type it below and you’ll
-          go straight to their tip page — no account needed.
-        </p>
+        <h2>Know who you want to tip?</h2>
+        <p>Enter their username and go straight to their tip page.</p>
         <CreatorSearch placeholder="username" buttonText="Go to tip page →" />
       </section>
     </main>

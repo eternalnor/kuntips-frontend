@@ -120,18 +120,13 @@ function CreatorsLanding() {
         </div>
       </section>
 
-      {/* WHAT IT IS */}
+      {/* FINAL CTA */}
       <section className="card creators-details">
-        <h2>What KunTips is (and isn't)</h2>
-        <ul className="creators-list">
-          <li>No content hosting — we only handle the tip payment flow.</li>
-          <li>No subscriptions — single tips only, with sensible per-day limits.</li>
-          <li>Your real name never appears on the tip page — only your creator alias.</li>
-          <li>Payouts go from Stripe directly to you. KunTips never holds your funds or sees card details.</li>
-        </ul>
-
         <Link to="/creators/register" className="btn btn-primary">
           Create your creator account
+        </Link>
+        <Link to="/creators/login" className="btn btn-secondary">
+          Log in to dashboard
         </Link>
       </section>
     </div>

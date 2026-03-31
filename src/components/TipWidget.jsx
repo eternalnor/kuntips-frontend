@@ -357,7 +357,7 @@ export function TipWidget({
               <span className="tip-card__value">kr {breakdown.tip}</span>
             </div>
             <div className="tip-card__row">
-              <span>Service fee (processing + KunTips, ~8%)</span>
+              <span>Service fee</span>
               <span>kr {breakdown.processorFee}</span>
             </div>
             <div className="tip-card__row">
@@ -379,9 +379,8 @@ export function TipWidget({
             </div>
 
             <p className="tip-card__footnote">
-              Fans cover Stripe’s processing fee and a small KunTips service
-              fee. Creators keep 95–100% of the tip amount depending on their
-              earnings tier — the green amount above is what they receive.
+              The service fee covers Stripe’s card processing and a small
+              KunTips fee — paid by you, not deducted from the creator.
             </p>
           </div>
 
