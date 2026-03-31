@@ -58,6 +58,36 @@ export default function CreatorPage() {
     fetchCreator();
   }, [username]);
 
+  const displayName = creator?.display_name || username;
+  const stripeConnected = creator?.stripe_connected ?? false;
+  const canReceiveTips = creator?.can_receive_tips ?? stripeConnected;
+  const keptPercent = creator?.keptPercent ?? 95;
+  const avatarUrl = creator?.avatar_url || null;
+
+  // Update page title + Open Graph tags for social sharing
+  // Must be called unconditionally (before any early returns) — Rules of Hooks
+  useEffect(() => {
+    if (!creator) return;
+
+    const prevTitle = document.title;
+    document.title = `${displayName} — KunTips`;
+
+    const siteUrl = window.location.href;
+    const desc = creator.bio
+      ? `${creator.bio} — Send a tip to ${displayName} on KunTips.`
+      : `Send a tip to ${displayName} on KunTips. No account needed.`;
+
+    setMetaTag('og:title', `Support ${displayName} on KunTips`);
+    setMetaTag('og:description', desc);
+    setMetaTag('og:url', siteUrl);
+    setMetaTag('og:type', 'website');
+    if (avatarUrl) setMetaTag('og:image', avatarUrl);
+
+    return () => {
+      document.title = prevTitle;
+    };
+  }, [creator, displayName, avatarUrl]);
+
   if (loading) {
     return (
       <main className="card status-block">
@@ -89,33 +119,6 @@ export default function CreatorPage() {
   if (!creator) {
     return null;
   }
-
-  const displayName = creator.display_name || username;
-  const stripeConnected = creator.stripe_connected ?? false;
-  const canReceiveTips = creator.can_receive_tips ?? stripeConnected;
-  const keptPercent = creator.keptPercent ?? 95;
-  const avatarUrl = creator.avatar_url || null;
-
-  // Update page title + Open Graph tags for social sharing
-  useEffect(() => {
-    const prevTitle = document.title;
-    document.title = `${displayName} — KunTips`;
-
-    const siteUrl = window.location.href;
-    const desc = creator.bio
-      ? `${creator.bio} — Send an anonymous tip to ${displayName} on KunTips.`
-      : `Send an anonymous tip to ${displayName} on KunTips. No account needed.`;
-
-    setMetaTag('og:title', `Support ${displayName} on KunTips`);
-    setMetaTag('og:description', desc);
-    setMetaTag('og:url', siteUrl);
-    setMetaTag('og:type', 'website');
-    if (avatarUrl) setMetaTag('og:image', avatarUrl);
-
-    return () => {
-      document.title = prevTitle;
-    };
-  }, [displayName, creator.bio, avatarUrl]);
 
   return (
     <main className="card">
