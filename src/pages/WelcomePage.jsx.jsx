@@ -7,7 +7,11 @@ export default function WelcomePage() {
   return (
     <main className="welcome-stage">
       <section className="welcome-hero welcome-hero-animate">
-        <h1 className="welcome-title">Welcome to KunTips</h1>
+        <img
+          src="/KunTips_Full_Logo.png"
+          className="welcome-logo"
+          alt="KunTips"
+        />
         <p className="welcome-sub">
           One-time tips, powered by Stripe. No fan accounts. No feed. Just a clean tip flow.
         </p>

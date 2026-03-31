@@ -25,6 +25,13 @@
   margin-top: 0.25rem;
 }
 
+.welcome-logo {
+  width: clamp(180px, 45vw, 320px);
+  height: auto;
+  mix-blend-mode: screen;
+  margin-bottom: 0.25rem;
+}
+
 .welcome-title {
   font-size: clamp(1.65rem, 6vw, 2.5rem);
   letter-spacing: -0.02em;

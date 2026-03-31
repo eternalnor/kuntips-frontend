@@ -173,16 +173,19 @@
   text-decoration: none;
 }
 
-/* The PNG includes glow padding — negative margin pulls wordmark snug */
+/* mix-blend-mode: screen makes the PNG's dark pixels transparent
+   so the neon glow shows cleanly on any dark background */
 .site-logo-icon {
-  height: 34px;
+  height: 40px;
   width: auto;
-  margin-right: -4px;
+  margin-right: -6px; /* compensate for glow halo in PNG */
+  mix-blend-mode: screen;
 }
 
 .site-logo-wordmark {
-  height: 22px;
+  height: 26px;
   width: auto;
+  mix-blend-mode: screen;
 }
 
 .site-nav {
@@ -450,10 +453,10 @@
 
 .site-footer-logo {
   display: block;
-  width: 110px;
+  width: 130px;
   height: auto;
   margin: 0 auto 1rem;
-  opacity: 0.85;
+  mix-blend-mode: screen;
 }
 
 .site-footer-nav {
