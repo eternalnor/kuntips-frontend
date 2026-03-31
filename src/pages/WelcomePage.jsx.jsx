@@ -51,16 +51,6 @@ export default function WelcomePage() {
         />
       </section>
 
-      <section className="welcome-more-section">
-        <Link to="/home" className="welcome-more-bar">
-          <span className="welcome-more-bar__label">More info</span>
-          <span className="welcome-more-bar__hint">How KunTips works</span>
-          <span className="welcome-more-bar__arrow">→</span>
-        </Link>
-
-        <p className="welcome-more-note">Or scroll to see a quick breakdown.</p>
-      </section>
-
       <section className="welcome-info" id="welcome-info">
         <div className="welcome-info-grid">
           <div className="card welcome-info-card">
