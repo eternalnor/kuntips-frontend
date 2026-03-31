@@ -228,6 +228,16 @@
   color: #c7d2fe;
 }
 
+/* Log in link — slightly highlighted */
+.site-nav-link--login {
+  color: #a5b4fc;
+  font-weight: 600;
+}
+
+.site-nav-link--login:hover {
+  color: #c7d2fe;
+}
+
 /* Log out button in nav */
 .site-nav-link--logout {
   color: rgba(229, 231, 235, 0.55);

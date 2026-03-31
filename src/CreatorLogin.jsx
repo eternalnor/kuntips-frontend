@@ -33,6 +33,8 @@ function CreatorLogin() {
           "kuntips_creator_email",
           data.creator.email || email,
         );
+        // Notify SiteHeader to update immediately (same-tab)
+        window.dispatchEvent(new Event("kuntips-auth-change"));
       }
 
       const username = data.creator.username;

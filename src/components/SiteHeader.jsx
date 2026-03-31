@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
 export default function SiteHeader() {
   const [loggedInUsername, setLoggedInUsername] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const readUsername = useCallback(() => {
     try {
       const username = window.localStorage.getItem("kuntips_creator_username");
       setLoggedInUsername(username || null);
@@ -14,6 +14,21 @@ export default function SiteHeader() {
     }
   }, []);
 
+  useEffect(() => {
+    // Read on mount
+    readUsername();
+
+    // Re-read when login/logout happens in the same tab
+    window.addEventListener("kuntips-auth-change", readUsername);
+    // Re-read when localStorage changes in another tab
+    window.addEventListener("storage", readUsername);
+
+    return () => {
+      window.removeEventListener("kuntips-auth-change", readUsername);
+      window.removeEventListener("storage", readUsername);
+    };
+  }, [readUsername]);
+
   function handleLogout() {
     try {
       window.localStorage.removeItem("kuntips_creator_session");
@@ -21,6 +36,7 @@ export default function SiteHeader() {
       window.localStorage.removeItem("kuntips_creator_email");
     } catch {}
     setLoggedInUsername(null);
+    window.dispatchEvent(new Event("kuntips-auth-change"));
     navigate("/");
   }
 
@@ -69,12 +85,13 @@ export default function SiteHeader() {
             Support
           </NavLink>
 
-          {loggedInUsername && (
+          {loggedInUsername ? (
             <>
               <NavLink
                 to={`/creators/dashboard?username=${encodeURIComponent(loggedInUsername)}`}
                 className={({ isActive }) =>
-                  "site-nav-link site-nav-link--dashboard" + (isActive ? " site-nav-link-active" : "")
+                  "site-nav-link site-nav-link--dashboard" +
+                  (isActive ? " site-nav-link-active" : "")
                 }
               >
                 Dashboard
@@ -86,6 +103,16 @@ export default function SiteHeader() {
                 Log out
               </button>
             </>
+          ) : (
+            <NavLink
+              to="/creators/login"
+              className={({ isActive }) =>
+                "site-nav-link site-nav-link--login" +
+                (isActive ? " site-nav-link-active" : "")
+              }
+            >
+              Log in
+            </NavLink>
           )}
         </nav>
       </div>
