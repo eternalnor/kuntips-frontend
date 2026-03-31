@@ -1,6 +1,6 @@
 export default function CookiesPage() {
   return (
-    <main className="page page-legal">
+    <main className="page page-legal card">
       <h1 className="page-title">Cookie Policy</h1>
       <div className="page-body">
         <p>Last updated: 31 March 2026</p>
