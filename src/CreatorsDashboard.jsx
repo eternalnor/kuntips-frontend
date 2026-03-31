@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { usePageTitle } from "./hooks/usePageTitle.js";
 import { containsBlockedContent } from "./utils/wordFilter.js";
+import { isStrongPassword, PASSWORD_ERROR, PasswordChecklist } from "./utils/passwordUtils.jsx";
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer,
@@ -344,8 +345,8 @@ function CreatorsDashboard() {
       return;
     }
 
-    if (newPassword.length < 8) {
-      setSecurityError("New password must be at least 8 characters.");
+    if (!isStrongPassword(newPassword)) {
+      setSecurityError(PASSWORD_ERROR);
       return;
     }
 
@@ -1134,10 +1135,7 @@ function CreatorsDashboard() {
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
                         />
-                        <p className="creators-small">
-                          Use at least 8 characters, and avoid reusing passwords from
-                          other services.
-                        </p>
+                        <PasswordChecklist password={newPassword} />
                       </div>
 
                       <div className="form-field creators-form-group">

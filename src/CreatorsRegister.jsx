@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { registerCreator } from "./api";
 import { usePageTitle } from "./hooks/usePageTitle.js";
+import { passwordRequirements, isStrongPassword, PASSWORD_ERROR, PasswordChecklist } from "./utils/passwordUtils.jsx";
 
 function CreatorsRegister() {
   usePageTitle('Create account');
@@ -49,21 +50,6 @@ function CreatorsRegister() {
     setGlobalError(null);
   }
 
-  function passwordRequirements(password) {
-    return {
-      length:    password.length >= 8,
-      upper:     /[A-Z]/.test(password),
-      lower:     /[a-z]/.test(password),
-      digit:     /\d/.test(password),
-      special:   /[^A-Za-z0-9]/.test(password),
-    };
-  }
-
-  function isStrongPassword(password) {
-    if (!password) return false;
-    const r = passwordRequirements(password);
-    return r.length && r.upper && r.lower && r.digit && r.special;
-  }
 
   function validateClientSide() {
     const nextErrors = {};
@@ -97,7 +83,7 @@ function CreatorsRegister() {
       nextErrors.password = "Please choose a password.";
     } else if (!isStrongPassword(password)) {
       nextErrors.password =
-        "Password must be at least 8 characters and include an uppercase letter, a lowercase letter, a number, and a special character.";
+        PASSWORD_ERROR;
     }
 
     if (!confirmPassword) {
@@ -177,7 +163,7 @@ function CreatorsRegister() {
       }
       if (serverFieldErrors.password === "password_too_weak") {
         mapped.password =
-          "Password must be at least 8 characters and include an uppercase letter, a lowercase letter, a number, and a special character.";
+          PASSWORD_ERROR;
       }
       if (serverFieldErrors.confirmPassword === "password_mismatch") {
         mapped.confirmPassword = "Passwords do not match.";
@@ -206,7 +192,7 @@ function CreatorsRegister() {
           message.toLowerCase().includes("must contain at least one letter")
         ) {
           mapped.password =
-            "Password must be at least 8 characters and include an uppercase letter, a lowercase letter, a number, and a special character.";
+            PASSWORD_ERROR;
         }
       }
 
@@ -336,25 +322,7 @@ function CreatorsRegister() {
               onChange={handleChange}
               autoComplete="new-password"
             />
-            {form.password && (() => {
-              const r = passwordRequirements(form.password);
-              const items = [
-                { label: "At least 8 characters", met: r.length },
-                { label: "One uppercase letter (A–Z)", met: r.upper },
-                { label: "One lowercase letter (a–z)", met: r.lower },
-                { label: "One number (0–9)", met: r.digit },
-                { label: "One special character (!@#$ etc.)", met: r.special },
-              ];
-              return (
-                <ul className="password-requirements">
-                  {items.map(({ label, met }) => (
-                    <li key={label} className={met ? "req-met" : ""}>
-                      {met ? "✓" : "·"} {label}
-                    </li>
-                  ))}
-                </ul>
-              );
-            })()}
+            <PasswordChecklist password={form.password} />
             {errors.password && (
               <p className="creators-error-inline">{errors.password}</p>
             )}
