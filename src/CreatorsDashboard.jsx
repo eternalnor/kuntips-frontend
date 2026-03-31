@@ -13,6 +13,7 @@ import {
   createStripeAccountLink,
   fetchPayoutPreview,
   requestPayout,
+  fetchPayoutStatement,
   getSessionToken,
 } from "./api";
 
@@ -119,6 +120,10 @@ function CreatorsDashboard() {
   const [payoutRequestSuccess, setPayoutRequestSuccess] = useState(null);
   const [payoutRequestError, setPayoutRequestError] = useState(null);
 
+  // Payout statement state (expanded row)
+  const [expandedPayoutId, setExpandedPayoutId] = useState(null);
+  const [statementData, setStatementData] = useState({}); // { [payoutId]: statement | "loading" | "error" }
+
   useEffect(() => {
     if (!usernameQuery) {
       setLoading(false);
@@ -185,6 +190,7 @@ function CreatorsDashboard() {
   const stats = payload?.stats;
   const tier = payload?.tier;
   const recentTips = payload?.recentTips || [];
+  const payoutHistory = payload?.payoutHistory || [];
   const charts = payload?.charts ?? null;
   const insights = payload?.insights ?? null;
   const percentileRank = payload?.percentileRank ?? null;
@@ -402,6 +408,22 @@ function CreatorsDashboard() {
 
     return () => { cancelled = true; };
   }, [creatorUsername, payload]);
+
+  async function handleViewStatement(payoutId) {
+    if (expandedPayoutId === payoutId) {
+      setExpandedPayoutId(null);
+      return;
+    }
+    setExpandedPayoutId(payoutId);
+    if (statementData[payoutId]) return; // already loaded
+    setStatementData((prev) => ({ ...prev, [payoutId]: "loading" }));
+    try {
+      const data = await fetchPayoutStatement(creatorUsername, payoutId);
+      setStatementData((prev) => ({ ...prev, [payoutId]: data }));
+    } catch {
+      setStatementData((prev) => ({ ...prev, [payoutId]: "error" }));
+    }
+  }
 
   async function handleRequestPayout() {
     if (!creatorUsername || payoutRequesting) return;
@@ -1284,6 +1306,110 @@ function CreatorsDashboard() {
                     </>
                   )}
                 </section>
+
+                {/* PAYOUT HISTORY */}
+                {payoutHistory.length > 0 && (
+                  <section className="card creators-payouts-card">
+                    <h2>Payout history</h2>
+                    <p className="creators-dashboard-sub">
+                      Your last {payoutHistory.length} payout{payoutHistory.length !== 1 ? "s" : ""}.
+                      Click a row to see the itemised tip breakdown.
+                    </p>
+                    <div className="payout-history-list">
+                      {payoutHistory.map((p) => {
+                        const isExpanded = expandedPayoutId === p.id;
+                        const stmt = statementData[p.id];
+                        const statusLabel =
+                          p.status === "paid" ? "✅ Paid"
+                          : p.status === "processing" ? "⏳ Processing"
+                          : p.status === "failed" ? "❌ Failed"
+                          : p.status === "cancelled" ? "— Cancelled"
+                          : p.status;
+
+                        return (
+                          <div key={p.id} className="payout-history-row">
+                            <button
+                              type="button"
+                              className="payout-history-summary"
+                              onClick={() => handleViewStatement(p.id)}
+                              aria-expanded={isExpanded}
+                            >
+                              <span className="payout-history-ref">{p.reference}</span>
+                              <span className="payout-history-date">
+                                {new Date(p.requestedAt).toLocaleDateString("nb-NO")}
+                              </span>
+                              <span className="payout-history-amount">
+                                {p.payoutAmountNok.toLocaleString("nb-NO")} NOK
+                              </span>
+                              <span className="payout-history-status">{statusLabel}</span>
+                              <span className="payout-history-chevron">{isExpanded ? "▲" : "▼"}</span>
+                            </button>
+
+                            {isExpanded && (
+                              <div className="payout-history-detail">
+                                {stmt === "loading" && (
+                                  <p className="creators-dashboard-sub">Loading statement…</p>
+                                )}
+                                {stmt === "error" && (
+                                  <p className="creators-error-inline">Could not load statement.</p>
+                                )}
+                                {stmt && stmt !== "loading" && stmt !== "error" && (
+                                  <>
+                                    <div className="payout-statement-meta">
+                                      <span>Reference: <strong>{stmt.reference}</strong></span>
+                                      {stmt.stripePayoutId && (
+                                        <span className="payout-statement-stripe-id">
+                                          Stripe ID: {stmt.stripePayoutId}
+                                        </span>
+                                      )}
+                                      {p.debtAppliedNok > 0 && (
+                                        <span className="payout-statement-debt">
+                                          Debt deducted: −{p.debtAppliedNok} NOK
+                                        </span>
+                                      )}
+                                    </div>
+                                    {stmt.items.length === 0 ? (
+                                      <p className="creators-dashboard-sub">No tips in this payout.</p>
+                                    ) : (
+                                      <table className="payout-statement-table">
+                                        <thead>
+                                          <tr>
+                                            <th>Date</th>
+                                            <th>From</th>
+                                            <th>Tip</th>
+                                            <th>Platform fee</th>
+                                            <th>You received</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {stmt.items.map((item) => (
+                                            <tr key={item.tipId}>
+                                              <td>{new Date(item.tippedAt).toLocaleDateString("nb-NO")}</td>
+                                              <td>{item.tipperName || <em>Anonymous</em>}</td>
+                                              <td>{item.tipAmountNok} NOK</td>
+                                              <td>{item.platformFeeNok} NOK</td>
+                                              <td><strong>{item.creatorNetNok} NOK</strong></td>
+                                            </tr>
+                                          ))}
+                                        </tbody>
+                                        <tfoot>
+                                          <tr>
+                                            <td colSpan="4"><strong>Total paid out</strong></td>
+                                            <td><strong>{p.payoutAmountNok.toLocaleString("nb-NO")} NOK</strong></td>
+                                          </tr>
+                                        </tfoot>
+                                      </table>
+                                    )}
+                                  </>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </section>
+                )}
                 </>
             )}
           </div>

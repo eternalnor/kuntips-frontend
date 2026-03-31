@@ -1013,3 +1013,147 @@
 .tier-card-event--easter .tier-event-note {
   color: #d8b4fe;
 }
+
+/* =========================== Payout history =========================== */
+
+.payout-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.payout-history-row {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+
+.payout-history-summary {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 7rem 5.5rem 1fr auto auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  background: #0a0f1f;
+  border: none;
+  color: #e2e8f0;
+  font-size: 0.83rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+}
+
+.payout-history-summary:hover {
+  background: #111827;
+}
+
+.payout-history-ref {
+  font-family: monospace;
+  font-size: 0.78rem;
+  color: #818cf8;
+  white-space: nowrap;
+}
+
+.payout-history-date {
+  color: #94a3b8;
+  font-size: 0.78rem;
+}
+
+.payout-history-amount {
+  font-weight: 700;
+  color: #4ade80;
+}
+
+.payout-history-status {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.payout-history-chevron {
+  color: #475569;
+  font-size: 0.7rem;
+}
+
+.payout-history-detail {
+  padding: 1rem;
+  background: #020617;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.payout-statement-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+
+.payout-statement-debt {
+  color: #f97316;
+}
+
+.payout-statement-stripe-id {
+  font-family: monospace;
+  font-size: 0.72rem;
+}
+
+.payout-statement-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  color: #e2e8f0;
+}
+
+.payout-statement-table th {
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  color: #64748b;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: 600;
+}
+
+.payout-statement-table td {
+  padding: 0.45rem 0.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: #cbd5e1;
+  vertical-align: middle;
+}
+
+.payout-statement-table td em {
+  color: #475569;
+  font-style: italic;
+}
+
+.payout-statement-table td strong {
+  color: #4ade80;
+}
+
+.payout-statement-table tfoot td {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: none;
+  padding-top: 0.6rem;
+  color: #e2e8f0;
+}
+
+.payout-statement-table tfoot td strong {
+  color: #f9fafb;
+}
+
+@media (max-width: 600px) {
+  .payout-history-summary {
+    grid-template-columns: 1fr auto auto;
+    grid-template-rows: auto auto;
+  }
+  .payout-history-ref { grid-column: 1; grid-row: 1; }
+  .payout-history-amount { grid-column: 2; grid-row: 1; }
+  .payout-history-chevron { grid-column: 3; grid-row: 1; }
+  .payout-history-date { grid-column: 1; grid-row: 2; }
+  .payout-history-status { grid-column: 2; grid-row: 2; }
+}

@@ -213,3 +213,13 @@ export function requestPayout(username) {
   });
 }
 
+export function fetchPayoutStatement(username, payoutId) {
+  const safeUsername = encodeURIComponent(username);
+  return fetchJson(`/creators/${safeUsername}/payouts/${payoutId}/statement`, {
+    method: "GET",
+    headers: {
+      ...authHeaders(),
+    },
+  });
+}
+
