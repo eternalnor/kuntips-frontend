@@ -13,7 +13,7 @@ export default function WelcomePage() {
           alt="KunTips"
         />
         <p className="welcome-sub">
-          One-time tips, powered by Stripe. No fan accounts. No feed. Just a clean tip flow.
+          Support your favourites — no fuss.
         </p>
       </section>
 
