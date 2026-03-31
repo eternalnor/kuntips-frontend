@@ -23,11 +23,11 @@ export default function HomePage() {
             </p>
 
             <div className="home-hero-actions">
-              <Link to="/creators/start" className="btn btn-primary">
-                Start creator onboarding
+              <Link to="/creators/register" className="btn btn-primary">
+                Create a creator account
               </Link>
-              <Link to="/u/testcreator1" className="btn btn-ghost">
-                View example tip page
+              <Link to="/fans" className="btn btn-ghost">
+                How tipping works →
               </Link>
             </div>
 
@@ -44,7 +44,7 @@ export default function HomePage() {
                 <div className="home-avatar" />
                 <div>
                   <div className="home-hero-card-name">Creator name</div>
-                  <div className="home-hero-card-hint">Anonymous tip</div>
+                  <div className="home-hero-card-hint">Private tip</div>
                 </div>
               </div>
               <div className="home-hero-card-body">
@@ -167,9 +167,9 @@ export default function HomePage() {
             </p>
           </div>
           <div className="home-tile">
-            <h3>Anonymous, not lawless</h3>
+            <h3>Private, not lawless</h3>
             <p>
-              Fans and creators are anonymous to each other, but the platform is
+              Fans and creators are private to each other, but the platform is
               not a free-for-all. In serious cases like fraud, abuse or criminal
               investigations, KunTips and Stripe can cooperate with law
               enforcement and our payment partners where legally required.
