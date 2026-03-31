@@ -289,7 +289,7 @@ export function TipWidget({
       <div className="tip-card__header">
         <h2 className="tip-card__title">Support {displayName}</h2>
         <p className="tip-card__subtitle">
-          100% anonymous. You choose the amount — we handle the rest.
+          Private by default — no account needed. You choose the amount and whether to leave your name.
         </p>
       </div>
 
@@ -413,7 +413,11 @@ export function TipWidget({
               disabled={isSubmitting || !!clientSecret}
               className="tip-card__cta"
             >
-              {isSubmitting ? 'Starting secure payment…' : 'Tip anonymously now'}
+              {isSubmitting
+                ? 'Starting secure payment…'
+                : tipperName.trim()
+                ? `Tip as ${tipperName.trim()}`
+                : 'Tip anonymously'}
             </button>
             <p className="tip-card__secure-note">
               Payments are processed securely by Stripe. KunTips never stores your

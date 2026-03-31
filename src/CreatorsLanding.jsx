@@ -10,10 +10,11 @@ function CreatorsLanding() {
       {/* HERO */}
       <section className="card creators-hero">
         <div className="creators-hero-text">
-          <h1>Simple, anonymous tipping for your fans</h1>
+          <h1>Simple, private tipping for your fans</h1>
           <p>
-            KunTips lets your followers send tips without exposing their real
-            identity. You get clean payouts to Stripe – they get peace of mind.
+            KunTips lets your followers send tips without creating an account.
+            They stay private by default — or can optionally leave their name.
+            You get clean payouts to Stripe, they get a frictionless experience.
           </p>
 
           <div className="creators-hero-actions">
@@ -70,10 +71,11 @@ function CreatorsLanding() {
           </p>
         </div>
         <div className="card creators-step">
-          <h2>3. Receive anonymous tips</h2>
+          <h2>3. Receive tips</h2>
           <p>
-            Fans choose an amount, pay via Stripe, and you receive payouts from
-            Stripe. KunTips only takes a small platform fee.
+            Fans choose an amount, optionally leave their name, and pay via
+            Stripe. You receive payouts directly. KunTips only takes a small
+            platform fee.
           </p>
         </div>
       </section>

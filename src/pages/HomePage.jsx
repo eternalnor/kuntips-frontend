@@ -31,7 +31,7 @@ export default function HomePage() {
             </div>
 
             <p className="home-hero-note">
-              Anonymous, simple and Stripe-secure. No subscriptions, no feeds,
+              Private by default, Stripe-secure. No subscriptions, no feeds,
               just tips.
             </p>
           </div>
@@ -91,11 +91,12 @@ export default function HomePage() {
             </p>
           </div>
           <div className="home-tile">
-            <h3>3. Anonymous and secure</h3>
+            <h3>3. Private and secure</h3>
             <p>
-              Fans and creators never see each other’s personal payment details.
-              KunTips doesn&apos;t store card numbers; all sensitive data lives
-              with Stripe, a PCI-compliant provider used by millions of
+              Fans are private by default — no payment details are ever shared
+              with creators. Fans can optionally leave their name if they want
+              to. KunTips doesn&apos;t store card numbers; all sensitive data
+              lives with Stripe, a PCI-compliant provider used by millions of
               businesses.
             </p>
           </div>

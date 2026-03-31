@@ -57,20 +57,20 @@ export default function FansPage() {
         <h2>Your privacy is protected</h2>
         <div className="home-grid home-grid-two">
           <div className="home-tile">
-            <h3>Completely anonymous to the creator</h3>
+            <h3>Private by default</h3>
             <p>
               Creators only see that a tip was received — they never see your
-              name, email address, or payment details. There is no public donor
-              list and no way for creators to identify who tipped them.
+              payment details. You can optionally leave your name if you want
+              the creator to know it was from you, but there's no pressure to
+              do so. No public donor list, no follow-up messages.
             </p>
           </div>
           <div className="home-tile">
             <h3>No KunTips account required</h3>
             <p>
-              You do not need to create an account, log in, or provide any
-              personal information to KunTips. Stripe may collect the details
-              required to process your payment, but that data stays with
-              Stripe.
+              You do not need to create an account or log in. Stripe collects
+              the payment details required to process your tip, but that data
+              stays with Stripe — KunTips never stores your card number.
             </p>
           </div>
         </div>

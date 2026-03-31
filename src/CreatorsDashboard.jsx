@@ -605,7 +605,7 @@ function CreatorsDashboard() {
                   <section className="card creators-tiplink-card">
                     <h2>Your tip link</h2>
                     <p className="creators-dashboard-sub">
-                      Share this link with your fans so they can send you anonymous tips.
+                      Share this link with your fans so they can send you tips — they stay private by default, or can optionally leave their name.
                     </p>
                     <div className="creators-tiplink-row">
                       <input
