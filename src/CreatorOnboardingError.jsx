@@ -1,7 +1,9 @@
 // src/CreatorOnboardingError.jsx
 import { Link } from "react-router-dom";
+import { usePageTitle } from "./hooks/usePageTitle.js";
 
 export default function CreatorOnboardingError() {
+  usePageTitle("Onboarding error");
   return (
     <div className="page-shell">
       <div className="page-content">
@@ -19,8 +21,8 @@ export default function CreatorOnboardingError() {
         </p>
 
         <div className="page-actions">
-          <Link to="/creators/dashboard" className="btn btn-primary">
-            Back to dashboard
+          <Link to="/creators/login" className="btn btn-primary">
+            Go to login
           </Link>
           <Link to="/support" className="btn btn-secondary">
             Contact support

@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
+import { usePageTitle } from '../hooks/usePageTitle.js';
 
 export default function SupportPage() {
+  usePageTitle('Support');
   return (
     <main className="page page-legal card">
       <h1 className="page-title">Support</h1>
@@ -82,10 +84,10 @@ export default function SupportPage() {
 
         <h2>Contact</h2>
         <p>
-          Eternal AS, Norway<br />
-          Email:{' '}
-          <a href="mailto:support@kuntips.no">support@kuntips.no</a><br />
-          Response time: within 48 hours
+          Eternal AS · Org.nr. 926 462 237<br />
+          Johan Berentsens vei 41, 5160 Laksevåg, Norway<br />
+          Email: <a href="mailto:support@kuntips.no">support@kuntips.no</a><br />
+          Response time: within 48 hours on business days
         </p>
 
       </div>

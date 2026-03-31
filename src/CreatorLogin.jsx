@@ -2,8 +2,10 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { loginCreator } from "./api";
+import { usePageTitle } from "./hooks/usePageTitle.js";
 
 function CreatorLogin() {
+  usePageTitle('Creator login');
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,13 +57,13 @@ function CreatorLogin() {
 
   return (
     <div className="creators-page">
-      <header className="creators-dashboard-header">
+      <div className="creators-page-header">
         <h1>Creator login</h1>
         <p className="creators-subtext">
           Log in with your KunTips creator email and password to access your
           dashboard.
         </p>
-      </header>
+      </div>
 
       {typeof window !== "undefined" &&
         window.localStorage &&

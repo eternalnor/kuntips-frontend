@@ -164,6 +164,11 @@
   max-width: 40rem;
   margin: 0.35rem auto 0.85rem;
 }
+
+/* Fans page search wrapper */
+.fans-search-wrap {
+  margin-top: 0.5rem;
+}
 .home-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);

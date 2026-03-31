@@ -1,4 +1,7 @@
+import { usePageTitle } from "../hooks/usePageTitle.js";
+
 export default function CreatorAgreementPage() {
+  usePageTitle("Creator Agreement");
   return (
     <main className="page page-legal card">
       <h1 className="page-title">Creator Agreement</h1>

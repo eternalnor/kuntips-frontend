@@ -1,4 +1,7 @@
+import { usePageTitle } from "../hooks/usePageTitle.js";
+
 export default function PrivacyPage() {
+  usePageTitle("Privacy Policy");
   return (
     <main className="page page-legal card">
       <h1 className="page-title">Privacy Policy</h1>

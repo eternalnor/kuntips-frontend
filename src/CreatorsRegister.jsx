@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { registerCreator } from "./api";
+import { usePageTitle } from "./hooks/usePageTitle.js";
 
 function CreatorsRegister() {
+  usePageTitle('Create account');
   const location = useLocation();
   const navigate = useNavigate();
 

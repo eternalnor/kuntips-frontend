@@ -1,7 +1,9 @@
 // src/CreatorsStart.jsx
 import { Link } from "react-router-dom";
+import { usePageTitle } from "./hooks/usePageTitle.js";
 
 function CreatorsStart() {
+  usePageTitle("Get started");
   return (
     <div className="creators-page">
       <section className="card creators-start">

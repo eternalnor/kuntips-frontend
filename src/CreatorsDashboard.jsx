@@ -1,6 +1,7 @@
 // CreatorsDashboard.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
+import { usePageTitle } from "./hooks/usePageTitle.js";
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer,
@@ -79,6 +80,7 @@ function useQuery() {
 }
 
 function CreatorsDashboard() {
+  usePageTitle('Dashboard');
   const query = useQuery();
   const usernameQuery = (query.get("username") || "").trim();
   const navigate = useNavigate();

@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import CreatorSearch from '../components/CreatorSearch.jsx';
+import { usePageTitle } from '../hooks/usePageTitle.js';
 
 export default function HomePage() {
+  usePageTitle('How it works');
   return (
     <main className="home-page">
       {/* HERO */}

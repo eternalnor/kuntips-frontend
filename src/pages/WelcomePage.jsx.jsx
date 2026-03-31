@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import CreatorSearch from "../components/CreatorSearch.jsx";
+import { usePageTitle } from "../hooks/usePageTitle.js";
 
 export default function WelcomePage() {
+  usePageTitle(null); // just "KunTips"
   return (
     <main className="welcome-stage">
       <section className="welcome-hero welcome-hero-animate">

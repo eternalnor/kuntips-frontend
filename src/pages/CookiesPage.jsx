@@ -1,4 +1,7 @@
+import { usePageTitle } from "../hooks/usePageTitle.js";
+
 export default function CookiesPage() {
+  usePageTitle("Cookie Policy");
   return (
     <main className="page page-legal card">
       <h1 className="page-title">Cookie Policy</h1>

@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import CreatorSearch from "../components/CreatorSearch.jsx";
+import { usePageTitle } from "../hooks/usePageTitle.js";
 
 export default function FansPage() {
+  usePageTitle('For fans');
   return (
     <main className="home-page">
       <section className="card home-hero">
@@ -13,7 +15,7 @@ export default function FansPage() {
               tip. No sign-up, no subscription, no personal details shared with
               the creator — just a clean, private payment powered by Stripe.
             </p>
-            <div style={{ marginTop: "0.5rem" }}>
+            <div className="fans-search-wrap">
               <CreatorSearch
                 label="Know who you want to tip? Enter their username:"
                 placeholder="username"
@@ -73,6 +75,23 @@ export default function FansPage() {
               stays with Stripe — KunTips never stores your card number.
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className="card home-section home-section-last">
+        <h2>Are you a creator?</h2>
+        <p>
+          Set up a KunTips page in minutes. Connect Stripe once, share your
+          link, and let fans support you — no platform fees eating into every
+          tip.
+        </p>
+        <div className="home-hero-actions">
+          <Link to="/creators/register" className="btn btn-primary">
+            Create a creator account
+          </Link>
+          <Link to="/creators" className="btn btn-ghost">
+            Learn more →
+          </Link>
         </div>
       </section>
 

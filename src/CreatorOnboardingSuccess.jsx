@@ -1,7 +1,9 @@
 // src/CreatorOnboardingSuccess.jsx
 import { Link } from "react-router-dom";
+import { usePageTitle } from "./hooks/usePageTitle.js";
 
 export default function CreatorOnboardingSuccess() {
+  usePageTitle("Stripe connected");
   let username = null;
 
   try {

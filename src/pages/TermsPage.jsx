@@ -1,4 +1,7 @@
+import { usePageTitle } from "../hooks/usePageTitle.js";
+
 export default function TermsPage() {
+  usePageTitle("Terms of Service");
   return (
     <main className="page page-legal card">
       <h1 className="page-title">Terms of Service</h1>

@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import { usePageTitle } from "./hooks/usePageTitle.js";
 
 function CreatorsLanding() {
+  usePageTitle('For creators');
   let loggedInUsername = null;
   if (typeof window !== "undefined" && window.localStorage) {
     loggedInUsername = window.localStorage.getItem("kuntips_creator_username");
@@ -12,9 +14,9 @@ function CreatorsLanding() {
         <div className="creators-hero-text">
           <h1>Simple, private tipping for your fans</h1>
           <p>
-            KunTips lets your followers send tips without creating an account.
-            They stay private by default — or can optionally leave their name.
-            You get clean payouts to Stripe, they get a frictionless experience.
+            KunTips gives you a clean tip page you can share anywhere. Fans pay
+            in seconds — no account, no sign-up. You keep the money, we handle
+            the payment.
           </p>
 
           <div className="creators-hero-actions">
@@ -28,8 +30,9 @@ function CreatorsLanding() {
         </div>
 
         <div className="creators-hero-side">
-          <div className="creators-pill">95–100% of tips to you</div>
-          <div className="creators-pill">Fans cover fees</div>
+          <div className="creators-pill">Start at 95%, grow to 100%</div>
+          <div className="creators-pill">Fans cover Stripe fees</div>
+          <div className="creators-pill">No monthly subscription</div>
           <div className="creators-pill">Norwegian company · Stripe</div>
         </div>
       </section>
@@ -37,7 +40,7 @@ function CreatorsLanding() {
       {loggedInUsername && (
         <section className="card creators-status">
           <p>
-            You’re logged in as{" "}
+            You're logged in as{" "}
             <span className="creators-username-tag">{loggedInUsername}</span>.
           </p>
           <p className="creators-small">
@@ -54,47 +57,77 @@ function CreatorsLanding() {
         </section>
       )}
 
+      {/* FEE MODEL — the main selling point */}
+      <section className="card creators-fees">
+        <div className="creators-fees-header">
+          <h2>You keep more as you earn more</h2>
+          <p className="creators-subtext">
+            No subscription. No monthly fee. Your platform fee drops
+            automatically as your tip earnings grow — you never have to pay or
+            upgrade anything.
+          </p>
+        </div>
+
+        <div className="creators-fees-tiers">
+          <div className="creators-fee-tier creators-fee-tier--start">
+            <div className="creators-fee-pct">95%</div>
+            <div className="creators-fee-label">Starting rate</div>
+            <div className="creators-fee-desc">From your very first tip</div>
+          </div>
+          <div className="creators-fee-arrow">→</div>
+          <div className="creators-fee-tier">
+            <div className="creators-fee-pct">97%</div>
+            <div className="creators-fee-label">Mid tier</div>
+            <div className="creators-fee-desc">As tips accumulate</div>
+          </div>
+          <div className="creators-fee-arrow">→</div>
+          <div className="creators-fee-tier creators-fee-tier--top">
+            <div className="creators-fee-pct">100%</div>
+            <div className="creators-fee-label">Top tier</div>
+            <div className="creators-fee-desc">Keep every øre</div>
+          </div>
+        </div>
+
+        <ul className="creators-fees-points">
+          <li>Fans cover Stripe's card processing fee on top of the tip amount — your cut is never reduced by card costs.</li>
+          <li>Tiers are calculated automatically based on your cumulative earnings. No action needed on your part.</li>
+          <li>There is no subscription, no listing fee, and no charge just for having a KunTips account.</li>
+        </ul>
+      </section>
+
       {/* HOW IT WORKS */}
       <section className="creators-grid">
         <div className="card creators-step">
           <h2>1. Connect Stripe</h2>
           <p>
-            You onboard with Stripe — they verify your identity and handle
-            payouts directly to your bank account.
+            Onboard with Stripe — they verify your identity and handle
+            payouts directly to your bank account. Takes about 5 minutes.
           </p>
         </div>
         <div className="card creators-step">
           <h2>2. Share your tip link</h2>
           <p>
-            You get a clean kunTips.no/u/&lt;username&gt; page. Link it from
-            social media, profiles, or anywhere you talk to fans.
+            You get a clean kuntips.no/u/&lt;username&gt; page. Drop it in
+            your bio, social profiles, or anywhere you talk to fans.
           </p>
         </div>
         <div className="card creators-step">
-          <h2>3. Receive tips</h2>
+          <h2>3. Receive payouts</h2>
           <p>
-            Fans choose an amount, optionally leave their name, and pay via
-            Stripe. You receive payouts directly. KunTips only takes a small
-            platform fee.
+            Fans pick an amount and pay via Stripe in seconds. Request a
+            payout from your dashboard whenever your balance is ready.
           </p>
         </div>
       </section>
 
-      {/* DETAILS / FAQ */}
+      {/* WHAT IT IS */}
       <section className="card creators-details">
-        <h2>What KunTips is (and isn’t)</h2>
+        <h2>What KunTips is (and isn't)</h2>
         <ul className="creators-list">
-          <li>No content hosting. We only handle the tip payment.</li>
-          <li>
-            No subscriptions – single tips only, with sensible daily limits.
-          </li>
-          <li>
-            Your real name never appears on the tip page – only your creator
-            alias.
-          </li>
-          <li>
-            Payouts go from Stripe to you. KunTips never touches card details.
-          </li>
+          <li>No content hosting — we only handle the tip payment flow.</li>
+          <li>No subscriptions — single tips only, with sensible per-day limits.</li>
+          <li>Your real name never appears on the tip page — only your creator alias.</li>
+          <li>Payouts go from Stripe directly to you. KunTips never holds your funds or sees card details.</li>
         </ul>
 
         <Link to="/creators/register" className="btn btn-primary">
