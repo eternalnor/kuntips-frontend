@@ -44,13 +44,11 @@ export default function WelcomePage() {
       </section>
 
       <section className="welcome-search-section welcome-choices-animate">
-        <div className="welcome-search-section__inner">
-          <CreatorSearch
-            label="Already know who you want to tip? Enter their username:"
-            placeholder="username"
-            buttonText="Go to tip page →"
-          />
-        </div>
+        <CreatorSearch
+          label="Already know who you want to tip? Enter their username:"
+          placeholder="username"
+          buttonText="Go to tip page →"
+        />
       </section>
 
       <section className="welcome-info" id="welcome-info">

@@ -60,19 +60,7 @@ body {
   width: 100%;
   max-width: 960px;
   padding-top: 56px; /* compensate for fixed header height */
-  padding-inline: 0.75rem;
-}
-
-@media (min-width: 640px) {
-  .app-shell {
-    padding-inline: 1.25rem;
-  }
-}
-
-@media (min-width: 960px) {
-  .app-shell {
-    padding-inline: 0;
-  }
+  overflow-x: hidden; /* prevent any child from widening the page */
 }
 
 /*  ======================== Headings / text  ======================== */

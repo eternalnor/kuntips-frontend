@@ -3,16 +3,14 @@
 .welcome-stage {
   position: relative;
   min-height: calc(100vh - 4.5rem);
-  display: grid;
-  align-content: start;
-  justify-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-  /* More breathing room (less clutter in the middle) */
   gap: 2.75rem;
-  padding: 6.25rem 0 4.25rem;
+  padding: 5.5rem 1.25rem 4rem;
 
-  /* clip horizontal overflow from glow pseudo-elements without creating a new BFC */
-  overflow-x: clip;
+  overflow: hidden;
 }
 
 /* Hero text separate from choices (clean, Ko-fi/Throne simple) */
@@ -20,9 +18,8 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 980px;
+  max-width: 900px;
   text-align: center;
-  padding-inline: 1rem;
 
   /* Slightly more separation from cards */
   margin-top: 0.25rem;
@@ -49,9 +46,7 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 980px;
-  /* side padding so cards don't touch screen edges on mobile */
-  padding-inline: 1rem;
+  max-width: 900px;
 
   display: grid;
   grid-template-columns: 1fr;
@@ -217,18 +212,7 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 980px;
-  /* side padding so the card doesn't reach screen edges on mobile */
-  padding-inline: 1rem;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.1rem;
-}
-
-.welcome-search-section__inner {
-  width: 100%;
+  max-width: 900px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -265,8 +249,22 @@
 
 .creator-search__form {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.6rem;
   align-items: stretch;
+}
+
+/* On mobile: input fills its own row, button sits below */
+@media (max-width: 480px) {
+  .creator-search__input-wrap {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .creator-search__btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 .creator-search__input-wrap {
@@ -325,8 +323,8 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 1100px;
-  padding: 1.25rem 1rem 3.25rem;
+  max-width: 900px;
+  padding: 0.5rem 0 3rem;
 }
 
 .welcome-info-grid {
