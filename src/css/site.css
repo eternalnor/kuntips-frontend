@@ -169,23 +169,20 @@
 .site-logo {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.3rem;
   text-decoration: none;
 }
 
-.site-logo-mark {
-  width: 18px;
-  height: 18px;
-  border-radius: 999px;
-  background: radial-gradient(circle at 30% 30%, #38bdf8, #6366f1);
-  box-shadow: 0 0 18px rgba(99, 102, 241, 0.6);
+/* The PNG includes glow padding — negative margin pulls wordmark snug */
+.site-logo-icon {
+  height: 34px;
+  width: auto;
+  margin-right: -4px;
 }
 
-.site-logo-text {
-  font-size: 0.95rem;
-  font-weight: 650;
-  letter-spacing: 0.03em;
-  color: #f9fafb;
+.site-logo-wordmark {
+  height: 22px;
+  width: auto;
 }
 
 .site-nav {
@@ -449,6 +446,14 @@
 
 .site-footer-brand {
   margin: 0;
+}
+
+.site-footer-logo {
+  display: block;
+  width: 110px;
+  height: auto;
+  margin: 0 auto 1rem;
+  opacity: 0.85;
 }
 
 .site-footer-nav {

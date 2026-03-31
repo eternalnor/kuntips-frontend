@@ -4,6 +4,11 @@ export default function Footer() {
   return (
     <footer className="site-footer">
       <div className="site-footer-inner">
+        <img
+          src="/KunTips_Full_Logo.png"
+          className="site-footer-logo"
+          alt="KunTips"
+        />
         <nav className="site-footer-nav">
           <Link to="/home">How it works</Link>
           <Link to="/fans">For fans</Link>
