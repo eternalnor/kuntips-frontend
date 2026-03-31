@@ -173,19 +173,15 @@
   text-decoration: none;
 }
 
-/* mix-blend-mode: screen makes the PNG's dark pixels transparent
-   so the neon glow shows cleanly on any dark background */
 .site-logo-icon {
   height: 40px;
   width: auto;
-  margin-right: -6px; /* compensate for glow halo in PNG */
-  mix-blend-mode: screen;
+  margin-right: -4px;
 }
 
 .site-logo-wordmark {
   height: 26px;
   width: auto;
-  mix-blend-mode: screen;
 }
 
 .site-nav {
@@ -456,7 +452,7 @@
   width: 130px;
   height: auto;
   margin: 0 auto 1rem;
-  mix-blend-mode: screen;
+  opacity: 0.9;
 }
 
 .site-footer-nav {

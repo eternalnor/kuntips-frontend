@@ -8,7 +8,7 @@ export default function WelcomePage() {
     <main className="welcome-stage">
       <section className="welcome-hero welcome-hero-animate">
         <img
-          src="/KunTips_Full_Logo.png"
+          src="/KunTips_Full_Logo_Transparent.webp"
           className="welcome-logo"
           alt="KunTips"
         />

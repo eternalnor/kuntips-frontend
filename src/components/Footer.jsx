@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="site-footer-inner">
         <img
-          src="/KunTips_Full_Logo.png"
+          src="/KunTips_Full_Logo_Transparent.webp"
           className="site-footer-logo"
           alt="KunTips"
         />

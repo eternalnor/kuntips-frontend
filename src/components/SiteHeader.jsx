@@ -48,8 +48,8 @@ export default function SiteHeader() {
     <header className="site-header">
       <div className="site-header-inner">
         <Link to="/" className="site-logo" onClick={close}>
-          <img src="/KunTips_Icon_Only.png" className="site-logo-icon" alt="" />
-          <img src="/KunTips_Wordmark_Only.png" className="site-logo-wordmark" alt="KunTips" />
+          <img src="/KunTips_Icon_Only_Transparent.webp" className="site-logo-icon" alt="" />
+          <img src="/KunTips_Wordmark_Only_Transparent.webp" className="site-logo-wordmark" alt="KunTips" />
         </Link>
 
         {/* Desktop nav */}
