@@ -6,7 +6,7 @@ export default function PrivacyPage() {
         <p>Last updated: 31 March 2026</p>
         <p>
           This Privacy Policy explains how Eternal AS, organisasjonsnummer
-          [ORG.NR.], Norway ("KunTips", "we", "us") collects, uses, stores,
+          926462237, Norway ("KunTips", "we", "us") collects, uses, stores,
           and protects personal data when you use the KunTips platform
           ("Service"). KunTips acts as a data controller for the personal
           data described in this policy.

@@ -8,7 +8,7 @@ export default function CreatorAgreementPage() {
           This Creator Agreement ("Agreement") applies to all creators who
           register and receive tips through KunTips ("Creator", "you").
           KunTips is a service operated by Eternal AS,
-          organisasjonsnummer [ORG.NR.], Norway ("KunTips", "we").
+          organisasjonsnummer 926462237, Norway ("KunTips", "we").
           By creating a creator account you agree to this Agreement, the
           KunTips Terms of Service, and the Privacy Policy. This Agreement
           supplements and should be read alongside the Terms of Service.

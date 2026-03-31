@@ -7,7 +7,7 @@ export default function TermsPage() {
         <p>
           These Terms of Service ("Terms") govern your use of the KunTips
           website and platform ("Service") operated by Eternal AS,
-          organisasjonsnummer [ORG.NR.], Norway ("KunTips", "we", "us").
+          organisasjonsnummer 926462237, Norway ("KunTips", "we", "us").
           By accessing or using KunTips you agree to these Terms in full.
           If you do not agree, do not use the Service.
         </p>
