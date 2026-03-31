@@ -23,7 +23,7 @@
 
   /* KunTips brand palette */
   --bg-body: #0a0f1f; /* primary background */
-  --bg-card: #111827; /* secondary background */
+  --bg-card: rgba(15, 23, 42, 0.82); /* secondary background */
   --border-subtle: rgba(255, 255, 255, 0.06);
 
   --text-main: #f9fafb;
