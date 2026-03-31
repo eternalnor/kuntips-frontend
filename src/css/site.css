@@ -112,8 +112,10 @@
 /* ======================== Global header / navbar  ========================  */
 
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 40;
 
   /* Full-width glass */
