@@ -423,6 +423,12 @@ export function TipWidget({
               Payments are processed securely by Stripe. KunTips never stores your
               card details.
             </p>
+            <p className="tip-card__legal-note">
+              By paying you agree to the{" "}
+              <a href="/legal/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+              {" "}and{" "}
+              <a href="/legal/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+            </p>
           </div>
         </form>
       </div>
@@ -442,7 +448,8 @@ export function TipWidget({
               {/* RECEIPT INFO */}
               <p className="tip-card__success-text">
                 If you entered an email address at checkout, Stripe has sent you
-                a receipt for this tip.
+                a receipt for this tip. Questions?{" "}
+                <a href="mailto:support@kuntips.no">support@kuntips.no</a>
               </p>
 
               {/* SEND ANOTHER TIP */}

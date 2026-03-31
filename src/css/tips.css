@@ -334,6 +334,23 @@
   margin-top: 0.3rem;
 }
 
+/* Legal agreement note (below CTA, before Stripe form) */
+.tip-card__legal-note {
+  text-align: center;
+  font-size: 0.68rem;
+  color: #6b7280;
+  margin-top: 0.2rem;
+}
+
+.tip-card__legal-note a {
+  color: #9ca3af;
+  text-decoration: underline;
+}
+
+.tip-card__legal-note a:hover {
+  color: #e5e7eb;
+}
+
 /* Secondary CTA (used for Pay button + “Send another tip”) ========================  */
 .tip-card__cta--secondary {
   background: #0f172a;

@@ -321,7 +321,8 @@ export default function CreatorAgreementPage() {
         <h2>15. Contact</h2>
         <p>
           Eternal AS<br />
-          Norway<br />
+          Johan Berentsens vei 41, 5160 Laksevåg, Norway<br />
+          Org.nr. 926462237<br />
           Email: <a href="mailto:support@kuntips.no">support@kuntips.no</a>
         </p>
       </div>
