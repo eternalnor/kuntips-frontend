@@ -10,7 +10,7 @@ export default function HomePage() {
       <section className="card home-hero">
         <div className="home-hero-main">
           <div className="home-hero-text">
-            <h1>Support your favorites &mdash; no accounts, no pressure.</h1>
+            <h1>Support your favourites &mdash; no accounts, no pressure.</h1>
             <p className="home-hero-sub">
               One-time tips to creators, processed by Stripe. No fan account needed, nothing shared with the creator.
             </p>

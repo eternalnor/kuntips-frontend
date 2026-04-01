@@ -154,6 +154,14 @@ export default function PrivacyPage() {
             Data transfers are protected by Standard Contractual Clauses.
             See Cloudflare's privacy policy at cloudflare.com/privacypolicy.
           </li>
+          <li>
+            <strong>Resend, Inc.</strong> (United States) — transactional
+            email delivery. Resend processes creator email addresses solely
+            to deliver account-related emails, including email verification,
+            password reset, and payout confirmation messages. Data transfers
+            are protected by Standard Contractual Clauses. See Resend's
+            privacy policy at resend.com/legal/privacy-policy.
+          </li>
         </ul>
         <p>
           We take reasonable steps to ensure that these providers maintain
