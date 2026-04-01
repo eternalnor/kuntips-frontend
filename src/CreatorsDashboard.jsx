@@ -759,6 +759,11 @@ function CreatorsDashboard() {
                               {fmtChartDate(charts.daily[0].date)} – {fmtChartDate(charts.daily[charts.daily.length - 1].date)}
                             </p>
                           )}
+                          {stats?.last30dNetNok > 0 && (
+                            <p className="creators-chart-total">
+                              {stats.last30dNetNok.toLocaleString("nb-NO")} NOK earned
+                            </p>
+                          )}
                         </div>
                         <div className="creators-chart-meta">
                           {percentileRank !== null && (
