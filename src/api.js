@@ -34,6 +34,14 @@ async function fetchJson(path, options = {}) {
   const body = isJson ? await response.json().catch(() => null) : null;
 
   if (!response.ok) {
+    if (response.status === 401 && typeof window !== "undefined") {
+      try {
+        window.localStorage.removeItem("kuntips_creator_session");
+        window.localStorage.removeItem("kuntips_creator_username");
+        window.localStorage.removeItem("kuntips_creator_email");
+        window.dispatchEvent(new Event("kuntips-auth-change"));
+      } catch {}
+    }
     const error = new Error(body?.message || `Request failed: ${response.status}`);
     error.status = response.status;
     error.data = body;
