@@ -1,5 +1,5 @@
 const BACKEND = "https://kuntips-backend.eternalnor.workers.dev";
-const OG_IMAGE = "https://kuntips.no/KunTips%20Logo%201200x630.png";
+const OG_IMAGE = "https://kuntips.no/og-image.png";
 
 // Routes that belong to the SPA — never treat these as creator usernames
 const KNOWN_ROUTES = new Set([
@@ -86,12 +86,17 @@ export async function onRequest({ request, params, env }) {
     // Fall through to generic tags
   }
 
-  // Fetch index.html and inject OG tags before </head>
+  // Fetch index.html, strip existing og:/twitter: tags, inject creator-specific ones
   const indexRes = await env.ASSETS.fetch(
     new Request(`${url.origin}/index.html`, { headers: request.headers }),
   );
-  const html = await indexRes.text();
+  let html = await indexRes.text();
   const pageUrl = `${url.origin}/${username}`;
+
+  // Remove any og: and twitter: meta tags already in index.html so ours take precedence
+  html = html.replace(/<meta\s+property="og:[^"]*"[^>]*>\s*/gi, "");
+  html = html.replace(/<meta\s+name="twitter:[^"]*"[^>]*>\s*/gi, "");
+
   const injected = html.replace("</head>", `${buildOgHtml(title, description, pageUrl)}\n</head>`);
 
   return new Response(injected, {
