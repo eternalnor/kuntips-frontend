@@ -272,7 +272,7 @@ function CreatorsRegister() {
       <section className="card creators-profile-card">
         <h1>Create your KunTips creator account</h1>
         <p className="creators-subtext">
-          Register once, connect Stripe, and get a clean /u/&lt;username&gt; tip
+          Register once, connect Stripe, and get a clean kuntips.no/&lt;username&gt; tip
           page you can share everywhere.
         </p>
 
@@ -311,7 +311,7 @@ function CreatorsRegister() {
               autoComplete="username"
             />
             <p className="creators-small">
-              This becomes your public link: <code>/u/&lt;username&gt;</code>.
+              This becomes your public link: <code>kuntips.no/&lt;username&gt;</code>.
               Use only lowercase letters, numbers and underscores.
             </p>
             {errors.username && (

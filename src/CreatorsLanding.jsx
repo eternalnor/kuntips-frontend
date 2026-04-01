@@ -109,7 +109,7 @@ function CreatorsLanding() {
         <div className="card creators-step">
           <h2>2. Share your tip link</h2>
           <p>
-            You get a clean kuntips.no/u/&lt;username&gt; page. Drop it in
+            You get a clean kuntips.no/&lt;username&gt; page. Drop it in
             your bio, social profiles, or anywhere you talk to fans.
           </p>
         </div>

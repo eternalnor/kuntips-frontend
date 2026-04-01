@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation, useParams } from "react-router-dom";
 
 import HomePage from "./pages/HomePage.jsx";
 import CreatorPage from "./pages/CreatorPage.jsx";
@@ -23,6 +23,11 @@ import VerifyEmailPage from "./pages/VerifyEmailPage.jsx";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage.jsx";
 import ResetPasswordPage from "./pages/ResetPasswordPage.jsx";
 
+
+function RedirectToUsername() {
+  const { username } = useParams();
+  return <Navigate to={`/${username}`} replace />;
+}
 
 function AppRoutes() {
   const location = useLocation();
@@ -60,7 +65,8 @@ function AppRoutes() {
           <Route path="/" element={<WelcomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/fans" element={<FansPage />} />
-          <Route path="/u/:username" element={<CreatorPage />} />
+          <Route path="/u/:username" element={<RedirectToUsername />} />
+          <Route path="/:username" element={<CreatorPage />} />
           <Route path="/legal/terms" element={<TermsPage />} />
           <Route path="/legal/privacy" element={<PrivacyPage />} />
           <Route path="/legal/cookies" element={<CookiesPage />} />

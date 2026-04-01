@@ -20,7 +20,7 @@ export default function CreatorSearch({ label, placeholder, buttonText }) {
       return;
     }
 
-    navigate(`/u/${username}`);
+    navigate(`/${username}`);
   }
 
   return (
@@ -28,7 +28,7 @@ export default function CreatorSearch({ label, placeholder, buttonText }) {
       {label && <p className="creator-search__label">{label}</p>}
       <form className="creator-search__form" onSubmit={handleSubmit}>
         <div className="creator-search__input-wrap">
-          <span className="creator-search__prefix">kuntips.no/u/</span>
+          <span className="creator-search__prefix">kuntips.no/</span>
           <input
             type="text"
             className="creator-search__input"

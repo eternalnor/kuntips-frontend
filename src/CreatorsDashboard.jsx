@@ -243,8 +243,8 @@ function CreatorsDashboard() {
   // Build public tip page URL
   const tipPageUrl =
     creatorUsername && typeof window !== "undefined"
-      ? `${window.location.origin}/u/${creatorUsername}`
-      : `/u/${creatorUsername}`;
+      ? `${window.location.origin}/${creatorUsername}`
+      : `/${creatorUsername}`;
 
   const stripeConnected = status?.stripeConnected ?? false;
   const canReceiveTips =
@@ -702,7 +702,7 @@ function CreatorsDashboard() {
                       </button>
                     </div>
                     <a
-                      href={`/u/${creatorUsername}`}
+                      href={`/${creatorUsername}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="creators-small creators-tiplink-preview"
@@ -977,7 +977,7 @@ function CreatorsDashboard() {
                     <h2>Public profile</h2>
                     <p className="creators-dashboard-sub">
                       This is what fans see on your KunTips page (
-                      <code>/u/{creatorUsername}</code>).
+                      <code>kuntips.no/{creatorUsername}</code>).
                     </p>
 
                     <div className="creators-profile-header">

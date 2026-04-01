@@ -33,7 +33,7 @@ export default function FansPage() {
             <h3>1. Open a creator's link</h3>
             <p>
               Creators share a personal KunTips link — something like
-              kuntips.no/u/theirname. Click it and you're taken straight to
+              kuntips.no/theirname. Click it and you're taken straight to
               their tip page.
             </p>
           </div>
