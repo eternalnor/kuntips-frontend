@@ -103,7 +103,7 @@ function CreatorsDashboard() {
   const [profileError, setProfileError] = useState(null);
   const [profileSaved, setProfileSaved] = useState(false);
 
-  // Password stuff
+  // Password  stuff
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
