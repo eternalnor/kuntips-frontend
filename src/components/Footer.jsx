@@ -19,11 +19,7 @@ export default function Footer() {
           <Link to="/legal/creator-agreement">Creator Agreement</Link>
           <Link to="/support">Support</Link>
         </nav>
-        <p className="site-footer-brand">
-          © 2026 KunTips — operated by Eternal AS, org.nr. 926462237 —
-          Johan Berentsens vei 41, 5160 Laksevåg, Norway —{" "}
-          <a href="mailto:support@kuntips.no">support@kuntips.no</a>
-        </p>
+        <p className="site-footer-brand">© 2026 KunTips</p>
       </div>
     </footer>
   );
