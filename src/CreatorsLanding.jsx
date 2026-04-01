@@ -91,6 +91,7 @@ function CreatorsLanding() {
         <ul className="creators-fees-points">
           <li>Fans cover Stripe's card processing fee on top of the tip amount — your cut is never reduced by card costs.</li>
           <li>Tiers are calculated automatically based on your cumulative earnings. No action needed on your part.</li>
+          <li>Referring other creators earns you a temporary tier boost on top of your earned tier — your referral link is in your dashboard.</li>
           <li>There is no subscription, no listing fee, and no charge just for having a KunTips account.</li>
         </ul>
       </section>
