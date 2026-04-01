@@ -444,8 +444,7 @@ export function TipWidget({
                 : 'Tip anonymously'}
             </button>
             <p className="tip-card__secure-note">
-              Payments are processed securely by Stripe. KunTips never stores your
-              card details.
+              Payments are handled entirely by Stripe. KunTips never sees your card details.
             </p>
             <p className="tip-card__legal-note">
               By paying you agree to the{" "}

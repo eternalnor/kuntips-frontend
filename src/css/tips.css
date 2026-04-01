@@ -329,9 +329,10 @@
 /* Secure payment note (used under Pay button)  ======================== */
 .tip-card__secure-note {
   text-align: center;
-  font-size: 0.7rem;
-  color: #9ca3af;
-  margin-top: 0.3rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #cbd5e1;
+  margin-top: 0.5rem;
 }
 
 /* Legal agreement note (below CTA, before Stripe form) */
