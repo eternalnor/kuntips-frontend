@@ -92,6 +92,7 @@ function CreatorsLanding() {
           <li>Fans cover Stripe's card processing fee on top of the tip amount — your cut is never reduced by card costs.</li>
           <li>Tiers are calculated automatically based on your cumulative earnings. No action needed on your part.</li>
           <li>Another way to climb faster — refer other creators and earn a tier boost that grows with your referral count. Your referral link is in your dashboard.</li>
+          <li>Creators who join through your referral link get a free tier boost for their first 30 days.</li>
           <li>There is no subscription, no listing fee, and no charge just for having a KunTips account.</li>
         </ul>
       </section>
