@@ -30,6 +30,7 @@ export function TipWidget({
   const [tipAmount, setTipAmount] = useState(MIN_TIP);
   const [inputValue, setInputValue] = useState(String(MIN_TIP));
   const [tipperName, setTipperName] = useState("");
+  const [tipperEmail, setTipperEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [clientSecret, setClientSecret] = useState(null);
@@ -224,6 +225,7 @@ export function TipWidget({
           tipAmount: numeric,
           currency: 'NOK',
           tipperName: tipperName.trim() || null,
+          receiptEmail: tipperEmail.trim() || null,
         }),
       });
 
@@ -402,6 +404,23 @@ export function TipWidget({
               placeholder="Leave it blank to tip anonymously"
               value={tipperName}
               onChange={(e) => setTipperName(e.target.value)}
+              className="tip-card__amount-input tip-card__name-input"
+              disabled={isLocked}
+            />
+          </div>
+
+          {/* Optional receipt email */}
+          <div className="tip-card__field">
+            <label htmlFor="tipper-email" className="tip-card__label-row">
+              <span>Email for receipt <span className="tip-card__optional">(optional)</span></span>
+            </label>
+            <input
+              id="tipper-email"
+              type="email"
+              maxLength={254}
+              placeholder="Leave blank if you don't want a receipt"
+              value={tipperEmail}
+              onChange={(e) => setTipperEmail(e.target.value)}
               className="tip-card__amount-input tip-card__name-input"
               disabled={isLocked}
             />
@@ -594,7 +613,7 @@ function StripePaymentForm({onSuccess}) {
   return (
     <form onSubmit={handlePayment} className="tip-card__payment-form">
       <div className="tip-card__payment-element">
-        <PaymentElement />
+        <PaymentElement options={{ fields: { billingDetails: { email: 'never' } } }} />
       </div>
 
       {message && <p className="tip-card__error">{message}</p>}

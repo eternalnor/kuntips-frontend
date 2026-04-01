@@ -730,7 +730,7 @@ function CreatorsDashboard() {
                     <div className="creators-dashboard-tile">
                       <h2>Last 30 days</h2>
                       <p className="creators-dashboard-number">
-                        {stats?.last30dIntendedNok ?? 0} NOK
+                        {stats?.last30dNetNok ?? 0} NOK
                       </p>
                       <p className="creators-dashboard-sub">
                         {stats?.last30dTipCount ?? 0} tip(s) in the last 30 days
@@ -738,9 +738,9 @@ function CreatorsDashboard() {
                     </div>
 
                     <div className="creators-dashboard-tile">
-                      <h2>All-time tips</h2>
+                      <h2>All-time earnings</h2>
                       <p className="creators-dashboard-number">
-                        {stats?.lifetimeIntendedNok ?? 0} NOK
+                        {stats?.lifetimeNetNok ?? 0} NOK
                       </p>
                       <p className="creators-dashboard-sub">
                         {stats?.lifetimeTipCount ?? 0} total tip(s)
@@ -921,7 +921,7 @@ function CreatorsDashboard() {
                             <thead>
                             <tr>
                               <th>Date</th>
-                              <th>Amount</th>
+                              <th>You receive</th>
                               <th>From</th>
                               <th>Status</th>
                             </tr>
@@ -942,7 +942,7 @@ function CreatorsDashboard() {
                               return (
                                   <tr key={tip.id}>
                                     <td>{dateLabel}</td>
-                                    <td>{tip.tipAmountNok} NOK</td>
+                                    <td>{tip.netAmountNok} NOK</td>
                                     <td className="tip-from-cell">
                                       {tip.tipperName
                                         ? <span className="tip-from-name">{tip.tipperName}</span>
