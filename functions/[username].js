@@ -61,6 +61,11 @@ export async function onRequest({ request, params, env }) {
     return env.ASSETS.fetch(request);
   }
 
+  // Pass through any file requests (e.g. og-image.png, favicon.ico)
+  if (username.includes(".")) {
+    return env.ASSETS.fetch(request);
+  }
+
   // Regular visitors — serve the SPA as-is
   const ua = request.headers.get("User-Agent") || "";
   if (!isCrawler(ua)) {
