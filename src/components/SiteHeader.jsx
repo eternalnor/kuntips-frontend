@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
+import { getSessionToken, fetchCurrentCreator } from "../api";
 
 export default function SiteHeader() {
   const [loggedInUsername, setLoggedInUsername] = useState(null);
@@ -30,6 +31,14 @@ export default function SiteHeader() {
       window.removeEventListener("storage", readUsername);
     };
   }, [readUsername]);
+
+  // Validate session on mount — if the token is revoked, the 401 handler
+  // in api.js clears localStorage and fires kuntips-auth-change automatically.
+  useEffect(() => {
+    if (getSessionToken()) {
+      fetchCurrentCreator().catch(() => {});
+    }
+  }, []);
 
   function handleLogout() {
     try {
