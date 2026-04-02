@@ -588,17 +588,17 @@ function StripePaymentForm({ onSuccess, tipperEmail }) {
       });
 
       if (result.error) {
-        console.error(‘Stripe payment error:’, result.error);
-        setMessage(result.error.message || ‘Payment failed. Please try again.’);
+        console.error("Stripe payment error:", result.error);
+        setMessage(result.error.message || "Payment failed. Please try again.");
       } else if (
         result.paymentIntent &&
-        result.paymentIntent.status === ‘succeeded’
+        result.paymentIntent.status === "succeeded"
       ) {
         const funMessages = [
-          ‘Thank you! Your tip was sent successfully. May your beard grow long and strong, and your hair never fall out.’,
-          ‘Thank you! Your tip was sent successfully. You just made someone\’s day a little better. ♥’,
-          ‘Thank you! Your tip was sent successfully. Great things happen to generous people. Just saying.’,
-          ‘Thank you! Your tip was sent successfully. That was a legend move. The universe owes you one.’,
+          "Thank you! Your tip was sent successfully. May your beard grow long and strong, and your hair never fall out.",
+          "Thank you! Your tip was sent successfully. You just made someone’s day a little better. \u2665",
+          "Thank you! Your tip was sent successfully. Great things happen to generous people. Just saying.",
+          "Thank you! Your tip was sent successfully. That was a legend move. The universe owes you one.",
         ];
         const random =
           funMessages[Math.floor(Math.random() * funMessages.length)];
@@ -607,17 +607,17 @@ function StripePaymentForm({ onSuccess, tipperEmail }) {
           onSuccess(random);
         }
 
-        setMessage(‘Thank you! Your tip was sent successfully.’);
+        setMessage("Thank you! Your tip was sent successfully.");
       } else if (result.paymentIntent) {
         setMessage(
           `Payment status: ${result.paymentIntent.status}. Please check your bank or try again.`,
         );
       } else {
-        setMessage(‘Unexpected payment result. Please try again.’);
+        setMessage("Unexpected payment result. Please try again.");
       }
     } catch (err) {
-      console.error(‘Unexpected payment error:’, err);
-      setMessage(‘Something went wrong. Please try again.’);
+      console.error("Unexpected payment error:", err);
+      setMessage("Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
     }
