@@ -584,7 +584,7 @@ function StripePaymentForm({ onSuccess, tipperEmail }) {
             },
           },
         },
-        redirect: ‘if_required’,
+        redirect: "if_required",
       });
 
       if (result.error) {
