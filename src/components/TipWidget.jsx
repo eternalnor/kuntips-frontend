@@ -496,6 +496,7 @@ export function TipWidget({
                   setFunMessage(randomMessage || '');
                   triggerThankYouOverlay();
                 }}
+                tipperEmail={tipperEmail}
               />
             </Elements>
           )}
@@ -557,7 +558,7 @@ export function TipWidget({
 }
 
 
-function StripePaymentForm({onSuccess}) {
+function StripePaymentForm({ onSuccess, tipperEmail }) {
   const stripe = useStripe();
   const elements = useElements();
   const [submitting, setSubmitting] = useState(false);
@@ -572,41 +573,54 @@ function StripePaymentForm({onSuccess}) {
     setSubmitting(true);
     setMessage(null);
 
-    const result = await stripe.confirmPayment({
-      elements,
-      redirect: 'if_required',
-    });
+    try {
+      const email = tipperEmail?.trim() || undefined;
+      const result = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          payment_method_data: {
+            billing_details: {
+              ...(email ? { email } : {}),
+            },
+          },
+        },
+        redirect: ‘if_required’,
+      });
 
-    if (result.error) {
-      console.error('Stripe payment error:', result.error);
-      setMessage(result.error.message || 'Payment failed. Please try again.');
-    } else if (
-      result.paymentIntent &&
-      result.paymentIntent.status === 'succeeded'
-    ) {
-      const funMessages = [
-        'Thank you! Your tip was sent successfully. May your beard grow long and strong, and your hair never fall out.',
-        'Thank you! Your tip was sent successfully. You just made someone’s day a little better. ♥',
-        'Thank you! Your tip was sent successfully. Great things happen to generous people. Just saying.',
-        'Thank you! Your tip was sent successfully. That was a legend move. The universe owes you one.',
-      ];
-      const random =
-        funMessages[Math.floor(Math.random() * funMessages.length)];
+      if (result.error) {
+        console.error(‘Stripe payment error:’, result.error);
+        setMessage(result.error.message || ‘Payment failed. Please try again.’);
+      } else if (
+        result.paymentIntent &&
+        result.paymentIntent.status === ‘succeeded’
+      ) {
+        const funMessages = [
+          ‘Thank you! Your tip was sent successfully. May your beard grow long and strong, and your hair never fall out.’,
+          ‘Thank you! Your tip was sent successfully. You just made someone\’s day a little better. ♥’,
+          ‘Thank you! Your tip was sent successfully. Great things happen to generous people. Just saying.’,
+          ‘Thank you! Your tip was sent successfully. That was a legend move. The universe owes you one.’,
+        ];
+        const random =
+          funMessages[Math.floor(Math.random() * funMessages.length)];
 
-      if (onSuccess) {
-        onSuccess(random);
+        if (onSuccess) {
+          onSuccess(random);
+        }
+
+        setMessage(‘Thank you! Your tip was sent successfully.’);
+      } else if (result.paymentIntent) {
+        setMessage(
+          `Payment status: ${result.paymentIntent.status}. Please check your bank or try again.`,
+        );
+      } else {
+        setMessage(‘Unexpected payment result. Please try again.’);
       }
-
-      setMessage('Thank you! Your tip was sent successfully.');
-    } else if (result.paymentIntent) {
-      setMessage(
-        `Payment status: ${result.paymentIntent.status}. Please check your bank or try again.`,
-      );
-    } else {
-      setMessage('Unexpected payment result. Please try again.');
+    } catch (err) {
+      console.error(‘Unexpected payment error:’, err);
+      setMessage(‘Something went wrong. Please try again.’);
+    } finally {
+      setSubmitting(false);
     }
-
-    setSubmitting(false);
   };
 
   return (
