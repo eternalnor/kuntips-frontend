@@ -626,7 +626,7 @@ function StripePaymentForm({ onSuccess, tipperEmail }) {
   return (
     <form onSubmit={handlePayment} className="tip-card__payment-form">
       <div className="tip-card__payment-element">
-        <PaymentElement options={{ fields: { billingDetails: { email: 'never' } } }} />
+        <PaymentElement />
       </div>
 
       {message && <p className="tip-card__error">{message}</p>}
