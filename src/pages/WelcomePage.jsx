@@ -28,29 +28,32 @@ export default function WelcomePage() {
           Support your favourites — no fuss.
         </p>
 
-        {stats && (
-          <div className="welcome-stats">
-            <div className="welcome-stat">
-              <span className="welcome-stat__number">
-                {stats.creators.toLocaleString("nb-NO")}+
-              </span>
-              <span className="welcome-stat__label">creators</span>
-            </div>
-            <div className="welcome-stat">
-              <span className="welcome-stat__number">
-                {stats.tipsSent.toLocaleString("nb-NO")}+
-              </span>
-              <span className="welcome-stat__label">tips sent</span>
-            </div>
-            <div className="welcome-stat">
-              <span className="welcome-stat__number">
-                {stats.totalEarnedNok.toLocaleString("nb-NO")}
-              </span>
-              <span className="welcome-stat__label">NOK earned by creators</span>
-            </div>
-          </div>
-        )}
       </section>
+
+      {stats && (
+        <div className="welcome-stats-card welcome-choices-animate">
+          <div className="welcome-stat">
+            <span className="welcome-stat__number">
+              {stats.creators.toLocaleString("nb-NO")}+
+            </span>
+            <span className="welcome-stat__label">creators</span>
+          </div>
+          <div className="welcome-stats-divider" />
+          <div className="welcome-stat">
+            <span className="welcome-stat__number">
+              {stats.tipsSent.toLocaleString("nb-NO")}+
+            </span>
+            <span className="welcome-stat__label">tips sent</span>
+          </div>
+          <div className="welcome-stats-divider" />
+          <div className="welcome-stat">
+            <span className="welcome-stat__number">
+              {stats.totalEarnedNok.toLocaleString("nb-NO")}
+            </span>
+            <span className="welcome-stat__label">NOK earned by creators</span>
+          </div>
+        </div>
+      )}
 
       <section className="welcome-search-section welcome-choices-animate">
         <CreatorSearch
