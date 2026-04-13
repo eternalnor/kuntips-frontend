@@ -64,15 +64,6 @@ export default function SiteHeader() {
         {/* Desktop nav */}
         <nav className="site-nav">
           <NavLink
-            to="/home"
-            className={({ isActive }) =>
-              "site-nav-link site-nav-link--hide-mobile" + (isActive ? " site-nav-link-active" : "")
-            }
-          >
-            How it works
-          </NavLink>
-
-          <NavLink
             to="/fans"
             className={({ isActive }) =>
               "site-nav-link site-nav-link--hide-mobile" + (isActive ? " site-nav-link-active" : "")
@@ -150,16 +141,6 @@ export default function SiteHeader() {
           <div className="site-nav-backdrop" onClick={close} aria-hidden="true" />
 
           <div className="site-nav-mobile-menu" role="dialog" aria-label="Navigation menu">
-            <NavLink
-              to="/home"
-              className={({ isActive }) =>
-                "site-nav-mobile-link" + (isActive ? " site-nav-mobile-link--active" : "")
-              }
-              onClick={close}
-            >
-              How it works
-            </NavLink>
-
             <NavLink
               to="/fans"
               className={({ isActive }) =>

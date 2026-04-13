@@ -13,6 +13,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  border-color: rgba(99, 102, 241, 0.30);
 }
 
 .creators-hero-text h1 {
@@ -22,6 +23,30 @@
 
 .creators-hero-text p {
   color: var(--text-muted);
+}
+
+.creators-hero-points {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.creators-hero-points li {
+  font-size: 1.05rem;
+  color: #e2e8f0;
+  padding-left: 1.4rem;
+  position: relative;
+}
+
+.creators-hero-points li::before {
+  content: "\2713";
+  position: absolute;
+  left: 0;
+  color: #22c55e;
+  font-weight: 700;
 }
 
 .creators-hero-actions {
@@ -58,6 +83,10 @@
   gap: 1.25rem;
 }
 
+.creators-step {
+  border-color: rgba(99, 102, 241, 0.30);
+}
+
 .creators-step h2 {
   font-size: 1.1rem;
   margin-bottom: 0.35rem;
@@ -66,6 +95,13 @@
 .creators-step p {
   color: var(--text-muted);
   font-size: 0.95rem;
+}
+
+.creators-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
 }
 
 .creators-details h2 {
@@ -362,6 +398,93 @@
   margin-top: 0.5rem;
   font-size: 0.85rem;
   color: #fca5a5; /* soft red */
+}
+
+/*  ======================== Fee comparison cards  ========================  */
+
+.creators-compare-section {
+  text-align: center;
+}
+
+.creators-compare-heading {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.creators-compare-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+@media (max-width: 540px) {
+  .creators-compare-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.creators-compare-card {
+  text-align: center;
+  border-color: rgba(99, 102, 241, 0.30);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.creators-compare-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.creators-compare-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  text-align: left;
+}
+
+.creators-compare-card li {
+  font-size: 0.92rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.creators-compare-card--kuntips {
+  border-color: rgba(99, 102, 241, 0.40);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.10) 0%, var(--bg-card) 60%);
+}
+
+.creators-compare-card--kuntips h3 {
+  color: #a5b4fc;
+}
+
+.creators-compare-card--others {
+  border-color: rgba(249, 115, 22, 0.30);
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.06) 0%, var(--bg-card) 60%);
+}
+
+.creators-compare-card--others h3 {
+  color: #fb923c;
+}
+
+.creators-compare-check {
+  color: #22c55e;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.creators-compare-x {
+  color: #f97316;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
 }
 
 /*  ======================== Creator dashboard ----------------------------- */

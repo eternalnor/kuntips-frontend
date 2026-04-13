@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-NO">
   <head>
     <!-- KunTips Fonts -->
     <link
@@ -29,6 +29,30 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://kuntips.no/og-image.png" />
     <meta name="theme-color" content="#6366f1" />
+    <link rel="canonical" href="https://kuntips.no/" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "KunTips",
+      "url": "https://kuntips.no",
+      "description": "Send private one-time tips to your favourite creators. No account needed. Creators keep 95-100%. Powered by Stripe.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Eternal AS",
+        "url": "https://kuntips.no",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://kuntips.no/og-image.png"
+        }
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://kuntips.no/{username}",
+        "query-input": "required name=username"
+      }
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,9 +1,21 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CreatorSearch from "../components/CreatorSearch.jsx";
 import { usePageTitle } from "../hooks/usePageTitle.js";
 
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
+
 export default function WelcomePage() {
-  usePageTitle(null); // just "KunTips"
+  usePageTitle(null, "Send a one-time tip to your favourite creator in seconds. No account needed. Creators keep 95\u2013100%. Private, secure, powered by Stripe.");
+  const [stats, setStats] = useState(null);
+
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/stats`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => d && setStats(d))
+      .catch(() => {});
+  }, []);
+
   return (
     <main className="welcome-stage">
       <section className="welcome-hero welcome-hero-animate">
@@ -15,6 +27,37 @@ export default function WelcomePage() {
         <p className="welcome-sub">
           Support your favourites — no fuss.
         </p>
+
+        {stats && (
+          <div className="welcome-stats">
+            <div className="welcome-stat">
+              <span className="welcome-stat__number">
+                {stats.creators.toLocaleString("nb-NO")}+
+              </span>
+              <span className="welcome-stat__label">creators</span>
+            </div>
+            <div className="welcome-stat">
+              <span className="welcome-stat__number">
+                {stats.tipsSent.toLocaleString("nb-NO")}+
+              </span>
+              <span className="welcome-stat__label">tips sent</span>
+            </div>
+            <div className="welcome-stat">
+              <span className="welcome-stat__number">
+                {stats.totalEarnedNok.toLocaleString("nb-NO")}
+              </span>
+              <span className="welcome-stat__label">NOK earned by creators</span>
+            </div>
+          </div>
+        )}
+      </section>
+
+      <section className="welcome-search-section welcome-choices-animate">
+        <CreatorSearch
+          label="Already know who you want to tip?"
+          placeholder="username"
+          buttonText="Go to tip page →"
+        />
       </section>
 
       <section className="welcome-choices welcome-choices-animate">
@@ -27,8 +70,8 @@ export default function WelcomePage() {
             </div>
 
             <div className="welcome-choice-card__cta">
-              <span className="welcome-choice-card__cta-pill">Continue</span>
-              <span className="welcome-choice-card__cta-arrow">→</span>
+              <span className="welcome-choice-card__cta-pill">See how it works</span>
+              <span className="welcome-choice-card__cta-arrow">&rarr;</span>
             </div>
           </div>
         </Link>
@@ -42,36 +85,28 @@ export default function WelcomePage() {
             </div>
 
             <div className="welcome-choice-card__cta">
-              <span className="welcome-choice-card__cta-pill">Continue</span>
-              <span className="welcome-choice-card__cta-arrow">→</span>
+              <span className="welcome-choice-card__cta-pill">Start earning</span>
+              <span className="welcome-choice-card__cta-arrow">&rarr;</span>
             </div>
           </div>
         </Link>
       </section>
 
-      <section className="welcome-search-section welcome-choices-animate">
-        <CreatorSearch
-          label="Already know who you want to tip? Enter their username:"
-          placeholder="username"
-          buttonText="Go to tip page →"
-        />
-      </section>
-
       <section className="welcome-info" id="welcome-info">
         <div className="welcome-info-grid">
           <div className="card welcome-info-card">
-            <h2>For fans</h2>
-            <p>Open a creator link, choose an amount, pay securely. No KunTips account.</p>
+            <h2>No accounts needed</h2>
+            <p>Tip anonymously — no sign-up, no donor list, no trace.</p>
           </div>
 
           <div className="card welcome-info-card">
-            <h2>For creators</h2>
-            <p>Connect Stripe once and share your KunTips link anywhere.</p>
+            <h2>Creators keep 95–100%</h2>
+            <p>The highest payout rate in the industry. No subscriptions, no hidden fees.</p>
           </div>
 
           <div className="card welcome-info-card">
-            <h2>Privacy & payouts</h2>
-            <p>Stripe processes payments. KunTips keeps data collection minimal.</p>
+            <h2>Powered by Stripe</h2>
+            <p>Your card details never touch KunTips. Payments are handled entirely by Stripe.</p>
           </div>
         </div>
       </section>

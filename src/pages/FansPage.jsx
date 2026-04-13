@@ -3,7 +3,7 @@ import CreatorSearch from "../components/CreatorSearch.jsx";
 import { usePageTitle } from "../hooks/usePageTitle.js";
 
 export default function FansPage() {
-  usePageTitle('For fans');
+  usePageTitle('Send a tip to your favourite creator', "Support creators with a private one-time tip. No account, no sign-up, no VAT. Pay securely with Stripe and the creator keeps 95\u2013100%.");
   return (
     <main className="home-page">
       <section className="card home-hero">
@@ -14,6 +14,7 @@ export default function FansPage() {
               KunTips lets you support your favourite creators with a one-time
               tip. No sign-up, no subscription, no personal details shared with
               the creator — just a clean, private payment powered by Stripe.
+              Creators keep 95–100% of your tip, and you never need an account.
             </p>
             <div className="fans-search-wrap">
               <CreatorSearch
@@ -22,6 +23,33 @@ export default function FansPage() {
                 buttonText="Go to tip page →"
               />
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="card home-section">
+        <h2>Why fans love KunTips</h2>
+        <div className="home-grid">
+          <div className="home-tile">
+            <h3>Private by default</h3>
+            <p>
+              Creators never see your payment details. Optionally leave your
+              name, or tip completely anonymously.
+            </p>
+          </div>
+          <div className="home-tile">
+            <h3>No account required</h3>
+            <p>
+              No sign-up, no login. Just pick an amount and pay with your card
+              through Stripe.
+            </p>
+          </div>
+          <div className="home-tile">
+            <h3>No VAT on tips</h3>
+            <p>
+              Tips aren't purchases, so there's no 25% MVA added. More of your
+              money goes directly to the creator.
+            </p>
           </div>
         </div>
       </section>
@@ -50,29 +78,6 @@ export default function FansPage() {
             <p>
               Enter your card details in Stripe's secure payment form. KunTips
               never sees your card number — and neither does the creator.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="card home-section">
-        <h2>Your privacy is protected</h2>
-        <div className="home-grid home-grid-two">
-          <div className="home-tile">
-            <h3>Private by default</h3>
-            <p>
-              Creators only see that a tip was received — they never see your
-              payment details. You can optionally leave your name if you want
-              the creator to know it was from you, but there's no pressure to
-              do so. No public donor list, no follow-up messages.
-            </p>
-          </div>
-          <div className="home-tile">
-            <h3>No KunTips account required</h3>
-            <p>
-              You do not need to create an account or log in. Stripe collects
-              the payment details required to process your tip, but that data
-              stays with Stripe — KunTips never stores your card number.
             </p>
           </div>
         </div>

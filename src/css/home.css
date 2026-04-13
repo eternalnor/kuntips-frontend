@@ -12,7 +12,8 @@
   background: radial-gradient(circle at top, #111827 0, #020617 52%);
   margin-top: 0;
   border-radius: 0 0 1.5rem 1.5rem;
-  margin-bottom: 1rem; /* NEW */
+  margin-bottom: 1rem;
+  border-color: rgba(99, 102, 241, 0.30);
 }
 
 .home-hero-main {
@@ -138,6 +139,7 @@
 /*  ======================== Sections & grid  ======================== */
 .home-section {
   padding: 1.25rem 1.5rem 1.5rem;
+  border-color: rgba(99, 102, 241, 0.30);
 }
 
 .home-section h2 {
@@ -165,9 +167,57 @@
   margin: 0.35rem auto 0.85rem;
 }
 
+.home-section-last .home-hero-actions {
+  justify-content: center;
+}
+
 /* Fans page search wrapper */
 .fans-search-wrap {
   margin-top: 0.5rem;
+}
+
+/* Fans tip example */
+.fans-example-section {
+  text-align: center;
+}
+
+.fans-example {
+  max-width: 320px;
+  margin: 1rem auto 0;
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid rgba(99, 102, 241, 0.20);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+
+.fans-example-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  font-size: 0.92rem;
+  color: #e2e8f0;
+}
+
+.fans-example-row--muted {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.fans-example-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 0.35rem 0;
+}
+
+.fans-example-row--total {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #f9fafb;
+}
+
+.fans-example-row--highlight {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #22c55e;
 }
 .home-grid {
   display: grid;
@@ -181,10 +231,16 @@
 
 .home-tile {
   border-radius: 0.9rem;
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(99, 102, 241, 0.14);
   background: rgba(15, 23, 42, 0.55);
   padding: 0.9rem 0.95rem;
   font-size: 0.9rem;
+  transition: border-color 0.18s ease-out, transform 0.18s ease-out;
+}
+
+.home-tile:hover {
+  border-color: rgba(99, 102, 241, 0.35);
+  transform: translateY(-2px);
 }
 
 .home-tile h3 {

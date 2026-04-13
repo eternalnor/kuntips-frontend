@@ -1,12 +1,23 @@
 import { useEffect } from "react";
 
 /**
- * Sets document.title for the current page.
- * Pass null/undefined to get just "KunTips".
+ * Sets document.title and meta description for the current page.
+ * Pass null/undefined title to get just "KunTips".
  * Pass a string to get "<title> — KunTips".
+ * Pass description to set the meta description tag.
  */
-export function usePageTitle(title) {
+export function usePageTitle(title, description) {
   useEffect(() => {
-    document.title = title ? `${title} — KunTips` : "KunTips";
-  }, [title]);
+    document.title = title ? `${title} — KunTips` : "KunTips — support your favourite creators";
+
+    if (description) {
+      let meta = document.querySelector('meta[name="description"]');
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("name", "description");
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute("content", description);
+    }
+  }, [title, description]);
 }

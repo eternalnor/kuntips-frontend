@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Routes, Route, Navigate, useLocation, useParams } from "react-router-dom";
 
-import HomePage from "./pages/HomePage.jsx";
+// HomePage removed — content merged into FansPage and CreatorsLanding
 import CreatorPage from "./pages/CreatorPage.jsx";
 import TermsPage from "./pages/TermsPage.jsx";
 import PrivacyPage from "./pages/PrivacyPage.jsx";
@@ -63,7 +63,7 @@ function AppRoutes() {
       <div className={`page-transition page-transition--${transitionStage}`}>
         <Routes location={displayLocation}>
           <Route path="/" element={<WelcomePage />} />
-          <Route path="/home" element={<HomePage />} />
+          <Route path="/home" element={<Navigate to="/" replace />} />
           <Route path="/fans" element={<FansPage />} />
           <Route path="/u/:username" element={<RedirectToUsername />} />
           <Route path="/:username" element={<CreatorPage />} />

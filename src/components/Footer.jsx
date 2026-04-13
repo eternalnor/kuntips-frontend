@@ -10,7 +10,6 @@ export default function Footer() {
           alt="KunTips"
         />
         <nav className="site-footer-nav">
-          <Link to="/home">How it works</Link>
           <Link to="/fans">For fans</Link>
           <Link to="/creators">For creators</Link>
           <Link to="/legal/terms">Terms</Link>

@@ -2,41 +2,13 @@ import { Link } from "react-router-dom";
 import { usePageTitle } from "./hooks/usePageTitle.js";
 
 function CreatorsLanding() {
-  usePageTitle('For creators');
+  usePageTitle('Receive tips from your fans', "Accept tips from fans with KunTips. Keep 95\u2013100% of every tip. No subscription, no VAT, no fan accounts needed. Connect Stripe and start earning today.");
   let loggedInUsername = null;
   if (typeof window !== "undefined" && window.localStorage) {
     loggedInUsername = window.localStorage.getItem("kuntips_creator_username");
   }
   return (
     <div className="creators-page">
-      {/* HERO */}
-      <section className="card creators-hero">
-        <div className="creators-hero-text">
-          <h1>Simple, private tipping for your fans</h1>
-          <p>
-            KunTips gives you a clean tip page you can share anywhere. Fans pay
-            in seconds — no account, no sign-up. You keep the money, we handle
-            the payment.
-          </p>
-
-          <div className="creators-hero-actions">
-            <Link to="/creators/register" className="btn btn-primary">
-              Create creator account
-            </Link>
-            <Link to="/creators/login" className="btn btn-secondary">
-              Log in to dashboard
-            </Link>
-          </div>
-        </div>
-
-        <div className="creators-hero-side">
-          <div className="creators-pill">Start at 95%, grow to 100%</div>
-          <div className="creators-pill">Fans cover Stripe fees</div>
-          <div className="creators-pill">No monthly subscription</div>
-          <div className="creators-pill">Norwegian company · Stripe</div>
-        </div>
-      </section>
-
       {loggedInUsername && (
         <section className="card creators-status">
           <p>
@@ -57,44 +29,51 @@ function CreatorsLanding() {
         </section>
       )}
 
-      {/* FEE MODEL — the main selling point */}
-      <section className="card creators-fees">
-        <div className="creators-fees-header">
-          <h2>You keep more as you earn more</h2>
-          <p className="creators-subtext">
-            No subscription. No monthly fee. Your platform fee drops
-            automatically as your tip earnings grow — you never have to pay or
-            upgrade anything.
-          </p>
-        </div>
+      {/* HERO */}
+      <section className="card creators-hero">
+        <div className="creators-hero-text">
+          <h1>Simple, private tipping for your fans</h1>
+          <ul className="creators-hero-points">
+            <li>Keep 95&ndash;100% of every tip</li>
+            <li>No fan accounts needed to tip</li>
+            <li>No subscription, no monthly fee</li>
+            <li>No VAT for fans &mdash; tips are cheaper than purchases</li>
+          </ul>
 
-        <div className="creators-fees-tiers">
-          <div className="creators-fee-tier creators-fee-tier--start">
-            <div className="creators-fee-pct">95%</div>
-            <div className="creators-fee-label">Starting rate</div>
-            <div className="creators-fee-desc">From your very first tip</div>
-          </div>
-          <div className="creators-fee-arrow">→</div>
-          <div className="creators-fee-tier">
-            <div className="creators-fee-pct">97%</div>
-            <div className="creators-fee-label">Mid tier</div>
-            <div className="creators-fee-desc">As tips accumulate</div>
-          </div>
-          <div className="creators-fee-arrow">→</div>
-          <div className="creators-fee-tier creators-fee-tier--top">
-            <div className="creators-fee-pct">100%</div>
-            <div className="creators-fee-label">Top tier</div>
-            <div className="creators-fee-desc">Keep every øre</div>
+          <div className="creators-hero-actions">
+            <Link to="/creators/register" className="btn btn-primary">
+              Create creator account
+            </Link>
+            <Link to="/creators/login" className="btn btn-ghost">
+              Log in to dashboard
+            </Link>
           </div>
         </div>
+      </section>
 
-        <ul className="creators-fees-points">
-          <li>Fans cover Stripe's card processing fee on top of the tip amount — your cut is never reduced by card costs.</li>
-          <li>Tiers are calculated automatically based on your cumulative earnings. No action needed on your part.</li>
-          <li>Another way to climb faster — refer other creators and earn a tier boost that grows with your referral count. Your referral link is in your dashboard.</li>
-          <li>Creators who join through your referral link get a free tier boost for their first 30 days.</li>
-          <li>There is no subscription, no listing fee, and no charge just for having a KunTips account.</li>
-        </ul>
+      {/* FEE COMPARISON */}
+      <section className="creators-compare-section">
+        <h2 className="creators-compare-heading">Why creators choose KunTips</h2>
+        <div className="creators-compare-cards">
+          <div className="card creators-compare-card creators-compare-card--kuntips">
+            <h3>KunTips</h3>
+            <ul>
+              <li><span className="creators-compare-check">&#10003;</span> Keep 95&ndash;100% of every tip</li>
+              <li><span className="creators-compare-check">&#10003;</span> No fan account required</li>
+              <li><span className="creators-compare-check">&#10003;</span> Free &mdash; no monthly fee</li>
+              <li><span className="creators-compare-check">&#10003;</span> No VAT on tips</li>
+            </ul>
+          </div>
+          <div className="card creators-compare-card creators-compare-card--others">
+            <h3>Typical platforms</h3>
+            <ul>
+              <li><span className="creators-compare-x">&#10005;</span> Creators keep 70&ndash;95%</li>
+              <li><span className="creators-compare-x">&#10005;</span> Fans usually need an account</li>
+              <li><span className="creators-compare-x">&#10005;</span> Often paid subscription</li>
+              <li><span className="creators-compare-x">&#10005;</span> 25% MVA added on top</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       {/* HOW IT WORKS */}
@@ -102,7 +81,7 @@ function CreatorsLanding() {
         <div className="card creators-step">
           <h2>1. Connect Stripe</h2>
           <p>
-            Onboard with Stripe — they verify your identity and handle
+            Onboard with Stripe &mdash; they verify your identity and handle
             payouts directly to your bank account. Takes about 5 minutes.
           </p>
         </div>
@@ -123,13 +102,20 @@ function CreatorsLanding() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="card creators-details">
-        <Link to="/creators/register" className="btn btn-primary">
-          Create your creator account
-        </Link>
-        <Link to="/creators/login" className="btn btn-secondary">
-          Log in to dashboard
-        </Link>
+      <section className="card home-section home-section-last">
+        <h2>Ready to start earning?</h2>
+        <p>
+          Create your account in minutes. Connect Stripe once and start
+          receiving tips the same day.
+        </p>
+        <div className="home-hero-actions">
+          <Link to="/creators/register" className="btn btn-primary">
+            Create a creator account
+          </Link>
+          <Link to="/creators/login" className="btn btn-ghost">
+            Log in to dashboard
+          </Link>
+        </div>
       </section>
     </div>
   );
