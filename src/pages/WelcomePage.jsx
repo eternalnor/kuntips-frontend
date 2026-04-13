@@ -31,7 +31,7 @@ export default function WelcomePage() {
       </section>
 
       {stats && (
-        <div className="welcome-stats-card welcome-choices-animate">
+        <div className="welcome-stats-wrap welcome-choices-animate"><div className="welcome-stats-card">
           <div className="welcome-stat">
             <span className="welcome-stat__number">
               {stats.creators.toLocaleString("nb-NO")}+
@@ -50,9 +50,9 @@ export default function WelcomePage() {
             <span className="welcome-stat__number">
               {stats.totalEarnedNok.toLocaleString("nb-NO")}
             </span>
-            <span className="welcome-stat__label">NOK earned by creators</span>
+            <span className="welcome-stat__label">NOK earned</span>
           </div>
-        </div>
+        </div></div>
       )}
 
       <section className="welcome-search-section welcome-choices-animate">
