@@ -25,6 +25,10 @@ import ResetPasswordPage from "./pages/ResetPasswordPage.jsx";
 import AdminLogin from "./pages/admin/AdminLogin.jsx";
 import AdminLayout from "./pages/admin/AdminLayout.jsx";
 import AdminOverview from "./pages/admin/AdminOverview.jsx";
+import AdminCreators from "./pages/admin/AdminCreators.jsx";
+import AdminCreatorDetail from "./pages/admin/AdminCreatorDetail.jsx";
+import AdminPlatformEvents from "./pages/admin/AdminPlatformEvents.jsx";
+import AdminReferralCodes from "./pages/admin/AdminReferralCodes.jsx";
 
 
 function RedirectToUsername() {
@@ -71,6 +75,10 @@ function AppRoutes({ isAdminRoute }) {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminOverview />} />
+            <Route path="creators" element={<AdminCreators />} />
+            <Route path="creators/:id" element={<AdminCreatorDetail />} />
+            <Route path="platform-events" element={<AdminPlatformEvents />} />
+            <Route path="referral-codes" element={<AdminReferralCodes />} />
           </Route>
           <Route path="/u/:username" element={<RedirectToUsername />} />
           <Route path="/:username" element={<CreatorPage />} />
