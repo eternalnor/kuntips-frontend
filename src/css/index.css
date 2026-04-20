@@ -5,6 +5,7 @@
 @import './creators.css';
 @import './site.css';
 @import './welcome.css';
+@import './admin.css';
 
 *,
 *::before,
@@ -61,6 +62,13 @@ body {
   max-width: 960px;
   padding-top: 56px; /* compensate for fixed header height */
   overflow-x: hidden; /* prevent any child from widening the page */
+}
+
+/* Admin routes: full-width, no top padding (no site header) */
+.app-shell--admin {
+  max-width: none;
+  padding-top: 0;
+  overflow-x: visible;
 }
 
 /*  ======================== Headings / text  ======================== */

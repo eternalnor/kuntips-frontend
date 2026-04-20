@@ -22,6 +22,9 @@ import FansPage from "./pages/FansPage.jsx";
 import VerifyEmailPage from "./pages/VerifyEmailPage.jsx";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage.jsx";
 import ResetPasswordPage from "./pages/ResetPasswordPage.jsx";
+import AdminLogin from "./pages/admin/AdminLogin.jsx";
+import AdminLayout from "./pages/admin/AdminLayout.jsx";
+import AdminOverview from "./pages/admin/AdminOverview.jsx";
 
 
 function RedirectToUsername() {
@@ -29,7 +32,7 @@ function RedirectToUsername() {
   return <Navigate to={`/${username}`} replace />;
 }
 
-function AppRoutes() {
+function AppRoutes({ isAdminRoute }) {
   const location = useLocation();
 
   // This is the location the UI is currently showing
@@ -65,6 +68,10 @@ function AppRoutes() {
           <Route path="/" element={<WelcomePage />} />
           <Route path="/home" element={<Navigate to="/" replace />} />
           <Route path="/fans" element={<FansPage />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminOverview />} />
+          </Route>
           <Route path="/u/:username" element={<RedirectToUsername />} />
           <Route path="/:username" element={<CreatorPage />} />
           <Route path="/legal/terms" element={<TermsPage />} />
@@ -103,8 +110,20 @@ function AppRoutes() {
           />
         </Routes>
 
-        <Footer />
+        {!isAdminRoute && <Footer />}
       </div>
+    </div>
+  );
+}
+
+function AppLayout() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
+  return (
+    <div className={"app-shell" + (isAdminRoute ? " app-shell--admin" : "")}>
+      {!isAdminRoute && <SiteHeader />}
+      <AppRoutes isAdminRoute={isAdminRoute} />
     </div>
   );
 }
@@ -242,10 +261,7 @@ function App() {
 
       </div>
 
-      <div className="app-shell">
-        <SiteHeader />
-        <AppRoutes />
-      </div>
+      <AppLayout />
     </div>
   );
 }

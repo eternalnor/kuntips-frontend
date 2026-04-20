@@ -4,7 +4,7 @@ const OG_IMAGE = "https://kuntips.no/og-image.png";
 // Routes that belong to the SPA — never treat these as creator usernames
 const KNOWN_ROUTES = new Set([
   "home", "fans", "legal", "support", "creators",
-  "creator-onboarding", "u", "index.html",
+  "creator-onboarding", "u", "index.html", "admin",
 ]);
 
 const CRAWLER_UA_PATTERNS = [

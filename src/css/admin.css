@@ -1,0 +1,238 @@
+/* ======================== Admin panel styles ======================== */
+
+/* Login page */
+
+.admin-login-stage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.admin-login-card {
+  width: 100%;
+  max-width: 380px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(15, 23, 42, 0.95) 60%);
+  border: 1px solid rgba(99, 102, 241, 0.40);
+  border-radius: 1rem;
+  padding: 2rem 1.75rem;
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.12),
+    0 8px 32px rgba(99, 102, 241, 0.18),
+    0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+.admin-login-card h1 {
+  margin: 0 0 0.15rem;
+  font-size: 1.6rem;
+  letter-spacing: -0.01em;
+}
+
+.admin-login-sub {
+  margin: 0 0 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.admin-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.admin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.admin-field > span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.admin-field input,
+.admin-field select,
+.admin-field textarea {
+  background: rgba(2, 6, 23, 0.85);
+  border: 1.5px solid rgba(148, 163, 184, 0.5);
+  border-radius: 0.6rem;
+  padding: 0.7rem 0.9rem;
+  color: var(--text-main);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.admin-field input:focus,
+.admin-field select:focus,
+.admin-field textarea:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
+.admin-login-error {
+  margin: 0;
+  color: #fca5a5;
+  font-size: 0.85rem;
+}
+
+.admin-loading {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* Shell + sidebar */
+
+.admin-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.admin-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: rgba(2, 6, 23, 0.7);
+  border-right: 1px solid rgba(99, 102, 241, 0.20);
+  padding: 1.2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.admin-sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 0.3rem 0.35rem;
+}
+
+.admin-sidebar__logo {
+  width: 26px;
+  height: 26px;
+}
+
+.admin-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
+}
+
+.admin-sidebar__link {
+  display: block;
+  padding: 0.55rem 0.7rem;
+  border-radius: 0.5rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.92rem;
+  transition: background 0.15s, color 0.15s;
+}
+
+.admin-sidebar__link:hover {
+  background: rgba(99, 102, 241, 0.08);
+  color: var(--text-main);
+}
+
+.admin-sidebar__link--active {
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.admin-sidebar__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+.admin-sidebar__user {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0 0.35rem;
+}
+
+.admin-sidebar__user-label {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.admin-sidebar__user-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.admin-sidebar__logout {
+  background: transparent;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  color: var(--text-muted);
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.admin-sidebar__logout:hover {
+  border-color: #f97316;
+  color: #f97316;
+}
+
+/* Main content area */
+
+.admin-main {
+  flex: 1;
+  padding: 2rem 2.5rem;
+  overflow-x: auto;
+}
+
+.admin-page {
+  max-width: 1100px;
+}
+
+.admin-page h1 {
+  margin: 0 0 0.4rem;
+  font-size: 1.6rem;
+}
+
+.admin-page-sub {
+  margin: 0 0 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* Narrow (we said desktop-only, but avoid breaking phones entirely) */
+@media (max-width: 720px) {
+  .admin-shell {
+    flex-direction: column;
+  }
+  .admin-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid rgba(99, 102, 241, 0.20);
+  }
+  .admin-sidebar__nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .admin-main {
+    padding: 1.25rem 1rem;
+  }
+}
