@@ -60,7 +60,7 @@ export default function AdminCreators() {
       <section className="admin-filters">
         <input
           type="text"
-          placeholder="Search username or email\u2026"
+          placeholder="Search username or email…"
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
@@ -108,7 +108,7 @@ export default function AdminCreators() {
         </label>
       </section>
 
-      {loading && <p className="admin-loading">Loading\u2026</p>}
+      {loading && <p className="admin-loading">Loading…</p>}
       {error && <p className="admin-login-error">{error}</p>}
 
       {data && !loading && (
@@ -148,8 +148,8 @@ export default function AdminCreators() {
                   </td>
                   <td className="admin-mono">{c.email || "—"}</td>
                   <td>T{c.current_tier}</td>
-                  <td>{c.has_stripe ? <span className="admin-good">\u2713</span> : <span className="admin-bad">\u2715</span>}</td>
-                  <td>{c.email_verified ? <span className="admin-good">\u2713</span> : <span className="admin-muted">\u2715</span>}</td>
+                  <td>{c.has_stripe ? <span className="admin-good">✓</span> : <span className="admin-bad">✕</span>}</td>
+                  <td>{c.email_verified ? <span className="admin-good">✓</span> : <span className="admin-muted">✕</span>}</td>
                   <td className="admin-mono">{c.signup_code || "—"}</td>
                   <td className="admin-muted">{formatDate(c.created_at)}</td>
                 </tr>

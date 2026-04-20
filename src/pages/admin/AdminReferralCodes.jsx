@@ -107,12 +107,12 @@ export default function AdminReferralCodes() {
           </label>
 
           <button type="submit" className="btn btn-primary" disabled={submitting}>
-            {submitting ? "Creating\u2026" : "Create"}
+            {submitting ? "Creating…" : "Create"}
           </button>
         </form>
       </section>
 
-      {loading && <p className="admin-loading">Loading\u2026</p>}
+      {loading && <p className="admin-loading">Loading…</p>}
       {error && <p className="admin-login-error">{error}</p>}
 
       {!loading && (

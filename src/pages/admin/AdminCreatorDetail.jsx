@@ -67,7 +67,7 @@ export default function AdminCreatorDetail() {
   if (loading) {
     return (
       <div className="admin-page">
-        <p className="admin-loading">Loading\u2026</p>
+        <p className="admin-loading">Loading…</p>
       </div>
     );
   }
@@ -84,7 +84,7 @@ export default function AdminCreatorDetail() {
   return (
     <div className="admin-page">
       <p className="admin-back">
-        <Link to="/admin/creators" className="admin-link">\u2190 All creators</Link>
+        <Link to="/admin/creators" className="admin-link">← All creators</Link>
       </p>
 
       <h1>
@@ -92,7 +92,7 @@ export default function AdminCreatorDetail() {
         {creator.is_seed ? <span className="admin-chip admin-chip--muted" style={{ marginLeft: "0.6rem" }}>seed</span> : null}
       </h1>
       <p className="admin-page-sub">
-        ID {creator.id} \u00b7 {creator.display_name} \u00b7 {creator.email || "(no email)"}
+        ID {creator.id} · {creator.display_name} · {creator.email || "(no email)"}
       </p>
 
       <section className="admin-stat-grid" style={{ marginTop: "0.5rem" }}>
@@ -193,7 +193,7 @@ export default function AdminCreatorDetail() {
                     disabled={resending === p.id}
                     className="admin-btn-small"
                   >
-                    {resending === p.id ? "Sending\u2026" : "Resend email"}
+                    {resending === p.id ? "Sending…" : "Resend email"}
                   </button>
                 </td>
               </tr>

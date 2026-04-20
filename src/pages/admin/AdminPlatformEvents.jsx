@@ -100,7 +100,7 @@ export default function AdminPlatformEvents() {
         Grant a temporary tier boost to every creator (e.g. a weekend promo).
       </p>
 
-      {loading && <p className="admin-loading">Loading\u2026</p>}
+      {loading && <p className="admin-loading">Loading…</p>}
       {error && <p className="admin-login-error">{error}</p>}
 
       {!loading && current && (
@@ -165,7 +165,7 @@ export default function AdminPlatformEvents() {
           </label>
 
           <button type="submit" className="btn btn-primary" disabled={submitting}>
-            {submitting ? "Creating\u2026" : "Activate event"}
+            {submitting ? "Creating…" : "Activate event"}
           </button>
         </form>
       </section>

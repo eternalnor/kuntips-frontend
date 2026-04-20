@@ -63,7 +63,7 @@ export default function AdminOverview() {
     return (
       <div className="admin-page">
         <h1>Overview</h1>
-        <p className="admin-loading">Loading\u2026</p>
+        <p className="admin-loading">Loading…</p>
       </div>
     );
   }

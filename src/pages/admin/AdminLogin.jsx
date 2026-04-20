@@ -69,7 +69,7 @@ export default function AdminLogin() {
             className="btn btn-primary"
             disabled={submitting}
           >
-            {submitting ? "Logging in\u2026" : "Log in"}
+            {submitting ? "Logging in…" : "Log in"}
           </button>
         </form>
       </div>

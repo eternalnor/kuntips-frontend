@@ -39,7 +39,7 @@ export default function AdminLayout() {
   if (checking) {
     return (
       <main className="admin-login-stage">
-        <p className="admin-loading">Checking session\u2026</p>
+        <p className="admin-loading">Checking session…</p>
       </main>
     );
   }
