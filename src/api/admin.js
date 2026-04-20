@@ -145,11 +145,12 @@ export function adminOverview() {
   return adminFetch("/admin/overview", { method: "GET" });
 }
 
-export function adminCreators({ search = "", hasStripe = "", active = "", page = 1 } = {}) {
+export function adminCreators({ search = "", hasStripe = "", active = "", includeSeeds = false, page = 1 } = {}) {
   const qs = new URLSearchParams();
   if (search) qs.set("search", search);
   if (hasStripe) qs.set("hasStripe", hasStripe);
   if (active) qs.set("active", active);
+  if (includeSeeds) qs.set("includeSeeds", "1");
   qs.set("page", String(page));
   return adminFetch(`/admin/creators?${qs.toString()}`, { method: "GET" });
 }

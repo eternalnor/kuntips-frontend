@@ -470,6 +470,19 @@
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
 }
 
+.admin-filter-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  padding: 0 0.4rem;
+}
+
+.admin-filter-check input {
+  margin: 0;
+}
+
 /* Buttons */
 
 .admin-btn-small {

@@ -25,13 +25,14 @@ export default function AdminCreators() {
   const [search, setSearch] = useState("");
   const [hasStripe, setHasStripe] = useState("");
   const [active, setActive] = useState("");
+  const [includeSeeds, setIncludeSeeds] = useState(false);
   const [page, setPage] = useState(1);
 
   // Fetch on filter changes
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    adminCreators({ search, hasStripe, active, page })
+    adminCreators({ search, hasStripe, active, includeSeeds, page })
       .then((d) => {
         if (!cancelled) {
           setData(d);
@@ -47,7 +48,7 @@ export default function AdminCreators() {
     return () => {
       cancelled = true;
     };
-  }, [search, hasStripe, active, page]);
+  }, [search, hasStripe, active, includeSeeds, page]);
 
   const totalPages = data ? Math.max(1, Math.ceil(data.total / data.pageSize)) : 1;
 
@@ -93,6 +94,18 @@ export default function AdminCreators() {
           <option value="1">Active</option>
           <option value="0">Inactive</option>
         </select>
+
+        <label className="admin-filter-check">
+          <input
+            type="checkbox"
+            checked={includeSeeds}
+            onChange={(e) => {
+              setIncludeSeeds(e.target.checked);
+              setPage(1);
+            }}
+          />
+          <span>Include seeds</span>
+        </label>
       </section>
 
       {loading && <p className="admin-loading">Loading\u2026</p>}
