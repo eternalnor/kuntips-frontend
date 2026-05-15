@@ -9,8 +9,12 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 
-const MIN_TIP = 100;
-const MAX_TIP = 2000;
+// Defaults used until the backend /settings/tips response arrives.
+// These also act as the fallback if the fetch fails for any reason.
+const DEFAULT_MIN_TIP = 50;
+const DEFAULT_MAX_TIP = 2000;
+const DEFAULT_PRESETS = [50, 100, 250, 500, 1000];
+
 const KUNTIPS_FEE_RATE = 0.05; // 5% KunTips service fee
 const PROCESSOR_FEE_RATE = 0.9675; // 3.25% Stripe processor fee
 const STRIPE_FIXED_FEE = 2; // 1.80NOK Stripe fixed fee
@@ -18,7 +22,7 @@ const STRIPE_FIXED_FEE = 2; // 1.80NOK Stripe fixed fee
 // Fallback if backend doesn't send a value yet
 const DEFAULT_CREATOR_KEPT_PERCENT = 95;
 
-const presetAmounts = [100, 250, 500, 1000, 2000];
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -27,8 +31,14 @@ export function TipWidget({
   creatorDisplayName,
   creatorKeptPercent = DEFAULT_CREATOR_KEPT_PERCENT,
 }) {
-  const [tipAmount, setTipAmount] = useState(MIN_TIP);
-  const [inputValue, setInputValue] = useState(String(MIN_TIP));
+  // Dynamic tip limits from backend (with safe defaults so the page still works
+  // if the fetch fails or hasn't returned yet).
+  const [minTip, setMinTip] = useState(DEFAULT_MIN_TIP);
+  const [maxTip, setMaxTip] = useState(DEFAULT_MAX_TIP);
+  const [presetAmounts, setPresetAmounts] = useState(DEFAULT_PRESETS);
+
+  const [tipAmount, setTipAmount] = useState(DEFAULT_MIN_TIP);
+  const [inputValue, setInputValue] = useState(String(DEFAULT_MIN_TIP));
   const [tipperName, setTipperName] = useState("");
   const [tipperEmail, setTipperEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,10 +61,33 @@ export function TipWidget({
   const overlayTimerRef = useRef(null);
   const [lastTipSummary, setLastTipSummary] = useState(null);
 
+  // Fetch tip settings once on mount. Falls back silently to defaults on failure.
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`${API_BASE_URL}/settings/tips`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (cancelled || !data) return;
+        const newMin = Number(data.min_nok) || DEFAULT_MIN_TIP;
+        const newMax = Number(data.max_nok) || DEFAULT_MAX_TIP;
+        const newPresets = Array.isArray(data.presets) && data.presets.length > 0
+          ? data.presets.map((n) => Number(n)).filter((n) => Number.isFinite(n))
+          : DEFAULT_PRESETS;
+        setMinTip(newMin);
+        setMaxTip(newMax);
+        setPresetAmounts(newPresets);
+        // Snap the initial selection to the new minimum if user hasn't typed anything yet
+        setTipAmount((prev) => (prev === DEFAULT_MIN_TIP ? newMin : prev));
+        setInputValue((prev) => (prev === String(DEFAULT_MIN_TIP) ? String(newMin) : prev));
+      })
+      .catch(() => { /* defaults already set */ });
+    return () => { cancelled = true; };
+  }, []);
+
   const safeTip = useMemo(() => {
-    if (Number.isNaN(tipAmount)) return MIN_TIP;
+    if (Number.isNaN(tipAmount)) return minTip;
     return tipAmount;
-  }, [tipAmount]);
+  }, [tipAmount, minTip]);
 
   const breakdown = useMemo(() => {
     const T = safeTip;
@@ -170,11 +203,11 @@ export function TipWidget({
     if (Number.isNaN(amount)) {
       return 'Please enter a valid number.';
     }
-    if (amount < MIN_TIP) {
-      return `Minimum tip is NOK${MIN_TIP}.`;
+    if (amount < minTip) {
+      return `Minimum tip is NOK${minTip}.`;
     }
-    if (amount > MAX_TIP) {
-      return `Maximum tip is NOK${MAX_TIP}.`;
+    if (amount > maxTip) {
+      return `Maximum tip is NOK${maxTip}.`;
     }
     return null;
   };
@@ -246,7 +279,7 @@ export function TipWidget({
 
         if (code === 'invalid_tip_amount') {
           setErrorMessage(
-            `Tip must be between NOK ${MIN_TIP} and NOK ${MAX_TIP}.`,
+            `Tip must be between NOK ${minTip} and NOK ${maxTip}.`,
           );
         } else if (code === 'creator_not_found') {
           setErrorMessage(
@@ -336,7 +369,7 @@ export function TipWidget({
             <label htmlFor="custom-amount" className="tip-card__label-row">
               <span>Custom amount</span>
               <span>
-                Min kr {MIN_TIP} · Max kr {MAX_TIP} - NOK Only
+                Min kr {minTip} · Max kr {maxTip} - NOK Only
               </span>
             </label>
 
@@ -345,8 +378,8 @@ export function TipWidget({
               <input
                 id="custom-amount"
                 type="number"
-                min={MIN_TIP}
-                max={MAX_TIP}
+                min={minTip}
+                max={maxTip}
                 step="1"
                 inputMode="decimal"
                 value={inputValue}

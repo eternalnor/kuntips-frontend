@@ -29,6 +29,7 @@ import AdminCreators from "./pages/admin/AdminCreators.jsx";
 import AdminCreatorDetail from "./pages/admin/AdminCreatorDetail.jsx";
 import AdminPlatformEvents from "./pages/admin/AdminPlatformEvents.jsx";
 import AdminReferralCodes from "./pages/admin/AdminReferralCodes.jsx";
+import AdminSettings from "./pages/admin/AdminSettings.jsx";
 
 
 function RedirectToUsername() {
@@ -79,6 +80,7 @@ function AppRoutes({ isAdminRoute }) {
             <Route path="creators/:id" element={<AdminCreatorDetail />} />
             <Route path="platform-events" element={<AdminPlatformEvents />} />
             <Route path="referral-codes" element={<AdminReferralCodes />} />
+            <Route path="settings" element={<AdminSettings />} />
           </Route>
           <Route path="/u/:username" element={<RedirectToUsername />} />
           <Route path="/:username" element={<CreatorPage />} />

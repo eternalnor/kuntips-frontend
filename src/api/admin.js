@@ -183,3 +183,14 @@ export function adminResendPayoutEmail(payoutId, creatorId) {
     body: JSON.stringify({ payoutId, creatorId }),
   });
 }
+
+export function adminGetTipsSettings() {
+  return adminFetch("/admin/settings/tips", { method: "GET" });
+}
+
+export function adminUpdateTipsSettings({ min_nok, max_nok, presets }) {
+  return adminFetch("/admin/settings/tips", {
+    method: "PUT",
+    body: JSON.stringify({ min_nok, max_nok, presets }),
+  });
+}

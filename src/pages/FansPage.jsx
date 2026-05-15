@@ -1,9 +1,19 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CreatorSearch from "../components/CreatorSearch.jsx";
 import { usePageTitle } from "../hooks/usePageTitle.js";
 
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
+
 export default function FansPage() {
   usePageTitle('Send a tip to your favourite creator', "Support creators with a private one-time tip. No account, no sign-up, no VAT. Pay securely with Stripe and the creator keeps 95\u2013100%.");
+  const [tipRange, setTipRange] = useState({ min: 50, max: 2000 });
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/settings/tips`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => d && setTipRange({ min: Number(d.min_nok), max: Number(d.max_nok) }))
+      .catch(() => {});
+  }, []);
   return (
     <main className="home-page">
       <section className="card home-hero">
@@ -68,8 +78,8 @@ export default function FansPage() {
           <div className="home-tile">
             <h3>2. Pick an amount</h3>
             <p>
-              Choose a preset amount or enter your own between 100 and 2,000
-              NOK. You'll see exactly what the creator receives before you
+              Choose a preset amount or enter your own between {tipRange.min} and {tipRange.max.toLocaleString("nb-NO")}
+              {" "}NOK. You'll see exactly what the creator receives before you
               confirm.
             </p>
           </div>

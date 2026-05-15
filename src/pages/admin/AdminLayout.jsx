@@ -90,6 +90,14 @@ export default function AdminLayout() {
           >
             Referral codes
           </NavLink>
+          <NavLink
+            to="/admin/settings"
+            className={({ isActive }) =>
+              "admin-sidebar__link" + (isActive ? " admin-sidebar__link--active" : "")
+            }
+          >
+            Settings
+          </NavLink>
         </nav>
 
         <div className="admin-sidebar__footer">
