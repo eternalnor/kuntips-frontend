@@ -125,6 +125,14 @@ export async function registerCreator(payload) {
     body.referralCode = payload.referralCode;
   }
 
+  // Consent + event id for server-side conversion tracking (Meta CAPI / TikTok)
+  if (typeof payload.marketingConsent === "boolean") {
+    body.marketingConsent = payload.marketingConsent;
+  }
+  if (payload.eventId) {
+    body.eventId = payload.eventId;
+  }
+
   const data = await fetchJson("/auth/register", {
     method: "POST",
     body: JSON.stringify(body),

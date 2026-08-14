@@ -30,6 +30,8 @@ import AdminCreatorDetail from "./pages/admin/AdminCreatorDetail.jsx";
 import AdminPlatformEvents from "./pages/admin/AdminPlatformEvents.jsx";
 import AdminReferralCodes from "./pages/admin/AdminReferralCodes.jsx";
 import AdminSettings from "./pages/admin/AdminSettings.jsx";
+import ConsentBanner from "./components/ConsentBanner.jsx";
+import TrackingScripts from "./components/TrackingScripts.jsx";
 
 
 function RedirectToUsername() {
@@ -134,6 +136,8 @@ function AppLayout() {
     <div className={"app-shell" + (isAdminRoute ? " app-shell--admin" : "")}>
       {!isAdminRoute && <SiteHeader />}
       <AppRoutes isAdminRoute={isAdminRoute} />
+      {!isAdminRoute && <ConsentBanner />}
+      {!isAdminRoute && <TrackingScripts />}
     </div>
   );
 }

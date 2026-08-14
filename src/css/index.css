@@ -6,6 +6,7 @@
 @import './site.css';
 @import './welcome.css';
 @import './admin.css';
+@import './consent.css';
 
 *,
 *::before,

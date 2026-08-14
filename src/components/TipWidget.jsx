@@ -1,6 +1,7 @@
 // src/components/TipWidget.jsx
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { containsBlockedContent } from '../utils/wordFilter.js';
+import { hasMarketingConsent } from '../consent.js';
 import { loadStripe } from '@stripe/stripe-js';
 import {
   Elements,
@@ -259,6 +260,9 @@ export function TipWidget({
           currency: 'NOK',
           tipperName: tipperName.trim() || null,
           receiptEmail: tipperEmail.trim() || null,
+          // Marketing consent captured now so the webhook can decide whether to
+          // fire the server-side Purchase conversion later.
+          marketingConsent: hasMarketingConsent(),
         }),
       });
 
@@ -530,6 +534,7 @@ export function TipWidget({
                   triggerThankYouOverlay();
                 }}
                 tipperEmail={tipperEmail}
+                tipAmountNok={safeTip}
               />
             </Elements>
           )}
@@ -631,7 +636,7 @@ function friendlyPaymentError(error) {
   }
 }
 
-function StripePaymentForm({ onSuccess, tipperEmail }) {
+function StripePaymentForm({ onSuccess, tipperEmail, tipAmountNok }) {
   const stripe = useStripe();
   const elements = useElements();
   const [submitting, setSubmitting] = useState(false);
@@ -675,6 +680,32 @@ function StripePaymentForm({ onSuccess, tipperEmail }) {
         ];
         const random =
           funMessages[Math.floor(Math.random() * funMessages.length)];
+
+        // Fire client-side Purchase conversion (consent-gated). Deduped with the
+        // server-side event via event_id = the Stripe PaymentIntent id.
+        if (hasMarketingConsent()) {
+          try {
+            const eventId = result.paymentIntent.id;
+            const value = Number(tipAmountNok) || undefined;
+            if (window.fbq) {
+              window.fbq(
+                "track",
+                "Purchase",
+                { value, currency: "NOK" },
+                { eventID: eventId },
+              );
+            }
+            if (window.ttq) {
+              window.ttq.track(
+                "CompletePayment",
+                { value, currency: "NOK" },
+                { event_id: eventId },
+              );
+            }
+          } catch {
+            // never block the success flow on tracking
+          }
+        }
 
         if (onSuccess) {
           onSuccess(random);

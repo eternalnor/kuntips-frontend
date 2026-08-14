@@ -6,16 +6,18 @@ export default function CookiesPage() {
     <main className="page page-legal card">
       <h1 className="page-title">Cookie Policy</h1>
       <div className="page-body">
-        <p>Last updated: 31 March 2026</p>
+        <p>Last updated: 21 August 2026</p>
         <p>
           This Cookie Policy explains what cookies and similar technologies
           KunTips uses, why we use them, and how you can control them.
           KunTips is operated by Eternal AS, Norway.
         </p>
         <p>
-          KunTips uses a minimal number of cookies. We do not use
-          advertising cookies, behavioural tracking cookies, or any
-          third-party marketing or profiling technologies.
+          KunTips uses essential cookies that are always active, plus optional
+          marketing cookies (Meta and TikTok) that only load if you give your
+          consent. We never load marketing or advertising technologies before
+          you opt in via the cookie banner, and you can change or withdraw your
+          choice at any time using the "Cookie settings" link in the footer.
         </p>
 
         <h2>What are cookies?</h2>
@@ -182,13 +184,87 @@ export default function CookiesPage() {
           KunTips local storage entries set.
         </p>
 
-        <h2>Analytics</h2>
+        <h2>Marketing &amp; analytics (consent required)</h2>
         <p>
-          KunTips does not currently use any analytics, tracking, or
-          performance monitoring tools beyond those already described above
-          (Cloudflare infrastructure). No personal data is shared with
-          analytics providers. If this changes in the future, this policy
-          will be updated before any analytics are enabled.
+          With your consent, KunTips loads marketing pixels from Meta
+          (Facebook/Instagram) and TikTok. These help us measure the
+          effectiveness of our advertising and reach relevant audiences. They
+          are <strong>only</strong> loaded after you click "Accept all" in the
+          cookie banner. If you choose "Necessary only", none of these are
+          loaded and no data is sent to Meta or TikTok. You can withdraw consent
+          at any time via the "Cookie settings" link in the footer.
+        </p>
+
+        <h3>Meta Pixel (third-party, marketing — consent required)</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Purpose</th>
+              <th>Duration</th>
+              <th>Party</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>_fbp</code></td>
+              <td>
+                Set by Meta to measure ad performance and attribute
+                conversions. Loaded only after marketing consent is given.
+              </td>
+              <td>Up to 90 days</td>
+              <td>Third-party (Meta)</td>
+            </tr>
+            <tr>
+              <td><code>_fbc</code></td>
+              <td>
+                Stores the click identifier from a Meta ad to attribute a later
+                conversion. Loaded only after marketing consent is given.
+              </td>
+              <td>Up to 90 days</td>
+              <td>Third-party (Meta)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>TikTok Pixel (third-party, marketing — consent required)</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Purpose</th>
+              <th>Duration</th>
+              <th>Party</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>_ttp</code></td>
+              <td>
+                Set by TikTok to measure ad performance and attribute
+                conversions. Loaded only after marketing consent is given.
+              </td>
+              <td>Up to 13 months</td>
+              <td>Third-party (TikTok)</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          To improve accuracy, KunTips also sends corresponding conversion
+          events to Meta and TikTok directly from our servers. These
+          server-side events are only sent when you have given marketing
+          consent, and personal identifiers (such as email) are hashed before
+          transmission.
+        </p>
+
+        <h3>Cloudflare Web Analytics (privacy-first, no cookies)</h3>
+        <p>
+          KunTips uses Cloudflare Web Analytics to understand aggregate traffic
+          (page views, referrers, countries). It is privacy-first: it sets no
+          cookies, does not use fingerprinting, and does not track individuals
+          across sites. Because it collects no personal data and stores nothing
+          on your device, it operates without consent as an essential,
+          privacy-preserving measurement tool.
         </p>
 
         <h2>Legal basis for essential cookies</h2>
@@ -201,6 +277,13 @@ export default function CookiesPage() {
           Creator local storage entries are used on the basis of contract
           (GDPR Article 6(1)(b)) as they are necessary to provide the
           creator dashboard service.
+        </p>
+        <p>
+          Marketing cookies and server-side conversion events (Meta, TikTok)
+          are used only on the basis of your consent (GDPR Article 6(1)(a)).
+          They are never loaded or sent before you opt in, and you may withdraw
+          consent at any time via the "Cookie settings" link in the footer, which
+          stops any further data being sent.
         </p>
 
         <h2>Managing cookies</h2>

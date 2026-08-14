@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { openConsentSettings } from "../consent.js";
 
 export default function Footer() {
   return (
@@ -17,6 +18,13 @@ export default function Footer() {
           <Link to="/legal/cookies">Cookies</Link>
           <Link to="/legal/creator-agreement">Creator Agreement</Link>
           <Link to="/support">Support</Link>
+          <button
+            type="button"
+            className="site-footer-link-btn"
+            onClick={openConsentSettings}
+          >
+            Cookie settings
+          </button>
         </nav>
         <p className="site-footer-brand">© 2026 KunTips</p>
       </div>

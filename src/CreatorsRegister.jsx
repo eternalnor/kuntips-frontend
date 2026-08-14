@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { registerCreator } from "./api";
+import { hasMarketingConsent } from "./consent.js";
 import { usePageTitle } from "./hooks/usePageTitle.js";
 import { passwordRequirements, isStrongPassword, PASSWORD_ERROR, PasswordChecklist } from "./utils/passwordUtils.jsx";
 
@@ -116,6 +117,13 @@ function CreatorsRegister() {
     setGlobalError(null);
 
     try {
+      // Shared event id lets the server-side Lead dedupe against the client one.
+      const marketingConsent = hasMarketingConsent();
+      const eventId =
+        typeof crypto !== "undefined" && crypto.randomUUID
+          ? crypto.randomUUID()
+          : `lead_${Date.now()}_${Math.floor(Math.random() * 1e6)}`;
+
       const payload = {
         email: form.email.trim(),
         username: form.username.trim().toLowerCase(),
@@ -125,9 +133,26 @@ function CreatorsRegister() {
         agreeTerms: form.agreeTerms,
         // Send the optional referrer username to the backend
         referralCode: form.referralUsername.trim() || null,
+        // Consent + event id for server-side conversion tracking (Meta/TikTok)
+        marketingConsent,
+        eventId,
       };
 
       const data = await registerCreator(payload);
+
+      // Fire client-side Lead (consent-gated), deduped with server by eventId.
+      if (marketingConsent) {
+        try {
+          if (window.fbq) {
+            window.fbq("track", "Lead", {}, { eventID: eventId });
+          }
+          if (window.ttq) {
+            window.ttq.track("CompleteRegistration", {}, { event_id: eventId });
+          }
+        } catch {
+          // never block signup on tracking
+        }
+      }
 
       // Store username/email for later convenience (mirrors CreatorLogin.jsx)
       if (typeof window !== "undefined" && window.localStorage) {
