@@ -591,6 +591,46 @@ export function TipWidget({
 }
 
 
+// Turn a Stripe payment error into a friendly, actionable message for the tipper.
+// We deliberately DON'T show Stripe's raw text (e.g. "too high risk"), which is
+// confusing and reads as accusatory for what is often a false flag. The real
+// error is still logged to the console for debugging.
+function friendlyPaymentError(error) {
+  const code = error?.code || "";
+  const declineCode = error?.decline_code || "";
+
+  switch (declineCode) {
+    case "insufficient_funds":
+      return "That card has insufficient funds. Please try a different card.";
+    case "expired_card":
+      return "That card has expired. Please try a different card.";
+    case "incorrect_cvc":
+    case "invalid_cvc":
+      return "The card's security code (CVC) looks wrong. Please check it and try again.";
+    case "lost_card":
+    case "stolen_card":
+    case "pickup_card":
+      return "Your card was declined. Please try a different card.";
+    default:
+      break;
+  }
+
+  switch (code) {
+    case "card_declined":
+      return "Your card was declined by our payment processor. This isn't a problem with KunTips — please try a different card.";
+    case "expired_card":
+      return "That card has expired. Please try a different card.";
+    case "incorrect_cvc":
+      return "The card's security code (CVC) looks wrong. Please check it and try again.";
+    case "processing_error":
+      return "Something went wrong processing that card. Please try again in a moment, or use a different card.";
+    case "authentication_required":
+      return "Your bank needs to confirm this payment. Please complete the verification and try again.";
+    default:
+      return "The payment couldn't be completed. Please try again or use a different card.";
+  }
+}
+
 function StripePaymentForm({ onSuccess, tipperEmail }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -622,7 +662,7 @@ function StripePaymentForm({ onSuccess, tipperEmail }) {
 
       if (result.error) {
         console.error("Stripe payment error:", result.error);
-        setMessage(result.error.message || "Payment failed. Please try again.");
+        setMessage(friendlyPaymentError(result.error));
       } else if (
         result.paymentIntent &&
         result.paymentIntent.status === "succeeded"
