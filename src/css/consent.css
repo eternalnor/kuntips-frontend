@@ -1,98 +1,128 @@
-/* ======================== Cookie consent banner ======================== */
+/* ======================== Cookie consent modal ======================== */
 
-.consent-banner {
+.consent-overlay {
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 200;
-  padding: 0.9rem 1rem calc(0.9rem + env(safe-area-inset-bottom, 0px));
-  background: rgba(10, 15, 31, 0.97);
-  border-top: 1px solid rgba(99, 102, 241, 0.30);
-  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
-.consent-banner__inner {
-  max-width: 1000px;
-  margin: 0 auto;
+  inset: 0;
+  z-index: 300;
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  flex-wrap: wrap;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(2, 6, 23, 0.72);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: consent-fade-in 0.2s ease-out;
 }
 
-.consent-banner__text {
-  flex: 1;
-  min-width: 260px;
+@keyframes consent-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.consent-banner__head {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.2rem;
+.consent-modal {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.14) 0%, rgba(15, 23, 42, 0.97) 60%);
+  border: 1px solid rgba(99, 102, 241, 0.40);
+  border-radius: 1rem;
+  padding: 1.75rem 1.6rem 1.5rem;
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.12),
+    0 12px 48px rgba(99, 102, 241, 0.20),
+    0 8px 40px rgba(0, 0, 0, 0.55);
+  animation: consent-pop-in 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.consent-banner__title {
-  font-size: 0.98rem;
+@keyframes consent-pop-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.consent-modal__close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.7rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.4rem;
+  transition: color 0.15s, background 0.15s;
+}
+
+.consent-modal__close:hover {
   color: var(--text-main);
+  background: rgba(255, 255, 255, 0.06);
 }
 
-.consent-banner__lang {
+.consent-modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.consent-modal__title {
+  font-size: 1.15rem;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+.consent-modal__lang {
   background: transparent;
   border: 1px solid rgba(148, 163, 184, 0.4);
   color: var(--text-muted);
   font-size: 0.72rem;
-  padding: 0.12rem 0.5rem;
+  padding: 0.14rem 0.55rem;
   border-radius: 999px;
   cursor: pointer;
+  flex-shrink: 0;
   transition: border-color 0.15s, color 0.15s;
 }
 
-.consent-banner__lang:hover {
+.consent-modal__lang:hover {
   border-color: var(--accent);
   color: var(--text-main);
 }
 
-.consent-banner__body {
-  margin: 0;
-  font-size: 0.85rem;
-  line-height: 1.5;
+.consent-modal__body {
+  margin: 0 0 0.7rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
   color: var(--text-muted);
 }
 
-.consent-banner__link {
-  color: #a5b4fc;
-  text-decoration: underline;
-  white-space: nowrap;
+.consent-modal__readmore {
+  margin: 0 0 1.25rem;
+  font-size: 0.85rem;
 }
 
-.consent-banner__link:hover {
+.consent-modal__link {
+  color: #a5b4fc;
+  text-decoration: underline;
+}
+
+.consent-modal__link:hover {
   color: #c7d2fe;
 }
 
-.consent-banner__actions {
+.consent-modal__actions {
   display: flex;
-  gap: 0.6rem;
-  flex-shrink: 0;
+  gap: 0.7rem;
 }
 
-.consent-banner__btn {
-  white-space: nowrap;
+.consent-modal__btn {
+  flex: 1;
+  justify-content: center;
 }
 
-@media (max-width: 640px) {
-  .consent-banner__inner {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.85rem;
-  }
-  .consent-banner__actions {
-    justify-content: stretch;
-  }
-  .consent-banner__btn {
-    flex: 1;
+@media (max-width: 460px) {
+  .consent-modal__actions {
+    flex-direction: column-reverse;
   }
 }
