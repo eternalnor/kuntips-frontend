@@ -85,7 +85,20 @@ function useQuery() {
 function CreatorsDashboard() {
   usePageTitle('Dashboard');
   const query = useQuery();
-  const usernameQuery = (query.get("username") || "").trim();
+  // Resolve the creator from the URL first, then fall back to the stored
+  // session. Stripe returns and verification links routinely land here without
+  // the query param, and erroring out at that point stranded the creator.
+  const usernameParam = (query.get("username") || "").trim();
+  const storedUsername = (() => {
+    try {
+      return (
+        window.localStorage.getItem("kuntips_creator_username") || ""
+      ).trim();
+    } catch {
+      return "";
+    }
+  })();
+  const usernameQuery = usernameParam || storedUsername;
   const navigate = useNavigate();
 
 
@@ -136,7 +149,9 @@ function CreatorsDashboard() {
   useEffect(() => {
     if (!usernameQuery) {
       setLoading(false);
-      setError("No creator username provided in the URL.");
+      setError(
+        "We couldn't tell which creator account to open. Please log in again and you'll be taken straight to your dashboard.",
+      );
       setPayload(null);
       return;
     }
@@ -487,13 +502,6 @@ function CreatorsDashboard() {
           Overview for{" "}
           <span className="creators-username-tag">{creatorDisplayName}</span>.
         </p>
-        {!usernameQuery && (
-          <p className="creators-error-inline">
-            Add <code>?username=&lt;your-username&gt;</code> to the URL to view
-            a dashboard. Example:{" "}
-            <code>/creators/dashboard?username=testcreator1</code>
-          </p>
-        )}
       </header>
 
       {/* EMAIL VERIFICATION BANNER */}

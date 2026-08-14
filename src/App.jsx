@@ -15,6 +15,7 @@ import CreatorsStart from "./CreatorsStart";
 import CreatorsDashboard from "./CreatorsDashboard";
 import CreatorOnboardingSuccess from "./CreatorOnboardingSuccess";
 import CreatorOnboardingError from "./CreatorOnboardingError";
+import CreatorOnboardingRefresh from "./CreatorOnboardingRefresh";
 import CreatorLogin from "./CreatorLogin";
 import CreatorsRegister from "./CreatorsRegister";
 import WelcomePage from "./pages/WelcomePage.jsx";
@@ -109,6 +110,12 @@ function AppRoutes({ isAdminRoute }) {
           <Route
             path="/creator-onboarding/error"
             element={<CreatorOnboardingError />}
+          />
+          {/* Stripe's refresh_url — hit whenever an account link goes stale.
+              Without this route Stripe drops the creator on the 404 page. */}
+          <Route
+            path="/creator-onboarding/refresh"
+            element={<CreatorOnboardingRefresh />}
           />
 
           <Route
