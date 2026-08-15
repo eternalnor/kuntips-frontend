@@ -530,24 +530,23 @@
   margin-top: 2.2rem;
 }
 
-/* Trust chips directly under the CTA — must stay above the fold */
-.welcome-chips {
-  list-style: none;
-  margin: 1.5rem 0 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.welcome-chips li {
-  font-size: 0.8rem;
+/* Invite banner — only rendered when the visitor arrived through a ?ref= link.
+   Sits above the h1 so the offer is read before the pitch, not after. */
+.welcome-invite {
+  display: inline-block;
+  margin: 0 auto 1.1rem;
+  font-size: 0.85rem;
   color: #c7d2fe;
   background: rgba(99, 102, 241, 0.12);
   border: 1px solid rgba(99, 102, 241, 0.28);
   border-radius: 999px;
-  padding: 0.32rem 0.8rem;
+  padding: 0.4rem 1rem;
+  line-height: 1.4;
+}
+
+.welcome-invite strong {
+  color: #e0e7ff;
+  font-weight: 600;
 }
 
 .welcome-h2 {

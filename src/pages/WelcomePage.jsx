@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import CreatorSearch from "../components/CreatorSearch.jsx";
 import { usePageTitle } from "../hooks/usePageTitle.js";
+import { getActiveReferral } from "../referral.js";
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
 
@@ -51,6 +52,15 @@ export default function WelcomePage() {
     "Ta imot tips fra fans. Du beholder 95–100 % av hvert tips. Ingen månedsavgift, ingen binding, og fansen trenger ingen konto. Utbetaling i kroner til norsk bankkonto.",
   );
   const [stats, setStats] = useState(null);
+  const location = useLocation();
+
+  // An invited visitor gets a 30-day boost on signup. Until now that was
+  // invisible — the code silently pre-filled a field on the register form — so
+  // people were being given an offer nobody told them about.
+  const referral = getActiveReferral(location.search);
+  const registerTo = referral
+    ? `/creators/register?ref=${encodeURIComponent(referral)}`
+    : "/creators/register";
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/stats`)
@@ -70,6 +80,12 @@ export default function WelcomePage() {
           className="welcome-logo welcome-logo--sm"
           alt="KunTips"
         />
+        {referral && (
+          <p className="welcome-invite">
+            Du er invitert – <strong>30 dager med økt andel</strong> når du
+            oppretter siden din.
+          </p>
+        )}
         <h1 className="welcome-title">
           Ta imot tips fra fans.<br />Du beholder 95–100 %.
         </h1>
@@ -79,7 +95,7 @@ export default function WelcomePage() {
         </p>
 
         <div className="welcome-cta">
-          <Link to="/creators/register" className="btn btn-primary welcome-cta__btn">
+          <Link to={registerTo} className="btn btn-primary welcome-cta__btn">
             Lag din KunTips-side
           </Link>
           <p className="welcome-cta__sub">
@@ -152,7 +168,7 @@ export default function WelcomePage() {
         </div>
 
         <div className="welcome-cta welcome-cta--repeat">
-          <Link to="/creators/register" className="btn btn-primary welcome-cta__btn">
+          <Link to={registerTo} className="btn btn-primary welcome-cta__btn">
             Lag din KunTips-side
           </Link>
           <p className="welcome-cta__sub">

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { registerCreator } from "./api";
 import { hasMarketingConsent } from "./consent.js";
+import { getActiveReferral, clearReferral } from "./referral.js";
 import { usePageTitle } from "./hooks/usePageTitle.js";
 import { passwordRequirements, isStrongPassword, PASSWORD_ERROR, PasswordChecklist } from "./utils/passwordUtils.jsx";
 
@@ -10,8 +11,10 @@ function CreatorsRegister() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const searchParams = new URLSearchParams(location.search);
-  const referralUsernameFromUrl = (searchParams.get("ref") || "")
+  // ?ref= if it's on this URL, otherwise whatever was captured earlier in the
+  // visit — someone who landed on kuntips.no/?ref=CODE and browsed before
+  // signing up still gets attributed. Backend compares codes case-insensitively.
+  const referralUsernameFromUrl = (getActiveReferral(location.search) || "")
     .trim()
     .toLowerCase();
 
@@ -139,6 +142,10 @@ function CreatorsRegister() {
       };
 
       const data = await registerCreator(payload);
+
+      // Consumed. Without this the code would sit in storage and get credited
+      // again if this browser ever registered a second account.
+      clearReferral();
 
       // Fire client-side Lead (consent-gated), deduped with server by eventId.
       if (marketingConsent) {

@@ -73,7 +73,10 @@ export default function AdminReferralCodes() {
     }
   }
 
-  const shareBase = "https://kuntips.no/creators/register?ref=";
+  // Points at the landing page, not the signup form: the code is captured on
+  // any page and carried through to registration, so a marketing link gets the
+  // full pitch and the invite banner instead of dropping a stranger on a form.
+  const shareBase = "https://kuntips.no/?ref=";
 
   return (
     <div className="admin-page">

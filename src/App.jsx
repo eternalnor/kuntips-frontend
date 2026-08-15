@@ -33,6 +33,7 @@ import AdminReferralCodes from "./pages/admin/AdminReferralCodes.jsx";
 import AdminSettings from "./pages/admin/AdminSettings.jsx";
 import ConsentBanner from "./components/ConsentBanner.jsx";
 import TrackingScripts from "./components/TrackingScripts.jsx";
+import { captureReferralFromSearch } from "./referral.js";
 
 
 function RedirectToUsername() {
@@ -138,6 +139,13 @@ function AppRoutes({ isAdminRoute }) {
 function AppLayout() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
+
+  // Capture ?ref= on whatever page it lands on, so one link shape
+  // (kuntips.no/?ref=CODE) works for every campaign instead of tracked links
+  // being forced to point straight at the signup form.
+  useEffect(() => {
+    captureReferralFromSearch(location.search);
+  }, [location.search]);
 
   return (
     <div className={"app-shell" + (isAdminRoute ? " app-shell--admin" : "")}>
