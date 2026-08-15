@@ -261,7 +261,15 @@ function CreatorsDashboard() {
       ? `${window.location.origin}/${creatorUsername}`
       : `/${creatorUsername}`;
 
+  // Three states, not two. "Started but not finished" was previously invisible:
+  // the creator was told they were done while payouts silently did not work.
   const stripeConnected = status?.stripeConnected ?? false;
+  const stripeStarted = status?.stripeStarted ?? false;
+  const stripeStalled = stripeStarted && !stripeConnected;
+  const stripeRequirementsDue = status?.stripeRequirementsDue ?? [];
+  // Receiving tips and withdrawing to a bank are separate capabilities — a
+  // creator can be able to take money while payouts are still paused.
+  const canRequestPayout = status?.canRequestPayout ?? true;
   const canReceiveTips =
     status?.canReceiveTips ?? (isActive && stripeConnected);
 
@@ -269,6 +277,8 @@ function CreatorsDashboard() {
     ? "Opening Stripe…"
     : stripeConnected
     ? "Manage Stripe account"
+    : stripeStalled
+    ? "Finish your Stripe setup"
     : "Connect Stripe payouts";
 
   async function handleProfileSave(e) {
@@ -667,32 +677,66 @@ function CreatorsDashboard() {
                           </button>.
                         </span>
                       </div>
+                    ) : stripeStalled ? (
+                      <div className="stripe-status-row">
+                        <span className="stripe-status-pill stripe-status-disconnected">
+                          ⚠ Stripe setup unfinished
+                        </span>
+                        <span className="creators-small">
+                          You started connecting Stripe but didn&rsquo;t finish, so
+                          your tip page can&rsquo;t take payments yet. It usually
+                          takes about five minutes — have your ID and bank account
+                          number ready.
+                        </span>
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          onClick={handleManageStripeClick}
+                          disabled={stripeLoading}
+                        >
+                          {stripeLoading ? "Opening Stripe…" : "Finish your Stripe setup"}
+                        </button>
+                      </div>
                     ) : (
                       <div className="stripe-status-row">
                         <span className="stripe-status-pill stripe-status-disconnected">
                           ⚠ Stripe not connected
                         </span>
                         <span className="creators-small">
-                          You need to connect Stripe before you can receive tips. Go to the{" "}
-                          <button
-                            type="button"
-                            className="creators-tab-link"
-                            onClick={() => setActiveTab("payouts")}
-                          >
-                            Payouts tab
-                          </button>{" "}
-                          to set it up.
+                          Connect Stripe to start receiving tips. Takes about five
+                          minutes — you don&rsquo;t need an organisation number.
                         </span>
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          onClick={handleManageStripeClick}
+                          disabled={stripeLoading}
+                        >
+                          {stripeLoading ? "Opening Stripe…" : "Connect Stripe payouts"}
+                        </button>
                       </div>
                     )}
                   </section>
 
                   {/* TIP LINK CARD */}
-                  <section className="card creators-tiplink-card">
+                  <section
+                    className={
+                      "card creators-tiplink-card" +
+                      (canReceiveTips ? "" : " creators-tiplink-card--inactive")
+                    }
+                  >
                     <h2>Your tip link</h2>
-                    <p className="creators-dashboard-sub">
-                      Share this link with your fans so they can send you tips — they stay private by default, or can optionally leave their name.
-                    </p>
+                    {canReceiveTips ? (
+                      <p className="creators-dashboard-sub">
+                        Share this link with your fans so they can send you tips — they stay private by default, or can optionally leave their name.
+                      </p>
+                    ) : (
+                      <p className="creators-dashboard-sub">
+                        This is your link, but it can&apos;t accept payments until
+                        your Stripe setup is finished. Don&apos;t share it yet —
+                        tips sent to it will fail.
+                      </p>
+                    )}
                     <div className="creators-tiplink-row">
                       <input
                         type="text"
@@ -1257,6 +1301,36 @@ function CreatorsDashboard() {
                             Use this button to review or update your payout details
                             (bank account, tax info, etc.) directly in Stripe.
                           </p>
+                          {!canRequestPayout && (
+                            <p className="creators-error-inline">
+                              You can receive tips, but Stripe has paused
+                              <strong> payouts</strong> on your account — so you
+                              can&apos;t withdraw to your bank yet. Your money is
+                              safe in your Stripe balance. Open Stripe below to
+                              see what&apos;s still needed.
+                            </p>
+                          )}
+                        </>
+                    ) : stripeStalled ? (
+                        <>
+                          <p className="creators-dashboard-sub">
+                            You started connecting Stripe but haven&apos;t finished, so
+                            payouts aren&apos;t active yet and your tip page can&apos;t
+                            accept payments.
+                          </p>
+                          <p className="creators-dashboard-sub">
+                            Everything you entered is saved with Stripe — you&apos;ll
+                            carry on where you left off. Have your ID (passport or
+                            driving licence) and your bank account number ready. You
+                            do <strong>not</strong> need an organisation number.
+                          </p>
+                          {stripeRequirementsDue.length > 0 && (
+                            <p className="creators-small">
+                              Stripe still needs:{" "}
+                              {stripeRequirementsDue.slice(0, 4).join(", ")}
+                              {stripeRequirementsDue.length > 4 ? "…" : ""}
+                            </p>
+                          )}
                         </>
                     ) : (
                         <>
@@ -1265,8 +1339,9 @@ function CreatorsDashboard() {
                             account to receive tips from fans.
                           </p>
                           <p className="creators-dashboard-sub">
-                            Click the button below to create or connect a Stripe
-                            account. Once finished, you&apos;ll be redirected back here.
+                            Takes about five minutes. Have your ID and bank account
+                            number ready — you don&apos;t need an organisation number,
+                            you can register as a private individual.
                           </p>
                         </>
                     )}

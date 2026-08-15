@@ -1497,3 +1497,9 @@
   .payout-history-date { grid-column: 1; grid-row: 2; }
   .payout-history-status { grid-column: 2; grid-row: 2; }
 }
+/* Tip link is not shareable until Stripe payouts actually work — dim it so a
+   creator doesn't paste a link that rejects every payment. */
+.creators-tiplink-card--inactive {
+  opacity: 0.62;
+  border-color: rgba(249, 115, 22, 0.30);
+}
