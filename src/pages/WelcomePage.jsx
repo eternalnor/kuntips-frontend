@@ -5,17 +5,17 @@ import { usePageTitle } from "../hooks/usePageTitle.js";
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
 
-// The questions that actually stop a Norwegian creator from completing Stripe's
-// KYC form. This content previously lived only on an orphaned page reachable
-// from the login screen, so no visitor ever saw it.
+// Effort, risk, discretion — in that order. Deliberately NOT a fee/payout
+// explainer: those numbers live in the facts strip, and repeating them here in
+// sentence form is what made this page read as padded.
 const OBJECTIONS = [
   {
-    q: "Hvor mye sitter jeg igjen med?",
-    a: "95 % fra første tips, og mer etter hvert som du tjener. Ingen månedsavgift og ingen bindingstid – vi tjener bare når du tjener.",
+    q: "Må fansen lage konto for å tipse?",
+    a: "Nei. De trykker på lenken, velger beløp og betaler med kort – og kan tipse anonymt hvis de vil.",
   },
   {
-    q: "Hva må jeg faktisk gjøre?",
-    a: "Lage siden din og lime lenken inn i bioen. Fansen trenger ingen konto – de trykker, velger beløp og betaler med kort.",
+    q: "Kan jeg bruke det ved siden av det jeg har?",
+    a: "Ja. Du får en lenke – den kan ligge side om side med alt annet du allerede deler.",
   },
   {
     q: "Ser fansen det juridiske navnet mitt?",
@@ -74,9 +74,8 @@ export default function WelcomePage() {
           Ta imot tips fra fans.<br />Du beholder 95–100 %.
         </h1>
         <p className="welcome-sub">
-          Du får din egen side på kuntips.no/brukernavn. Fansen betaler med kort
-          uten å opprette konto, og Stripe betaler ut i kroner til din norske
-          bankkonto.
+          Du får din egen side på kuntips.no/brukernavnet ditt. Del lenken der du
+          allerede har fansen.
         </p>
 
         <div className="welcome-cta">
@@ -89,11 +88,6 @@ export default function WelcomePage() {
           </p>
         </div>
 
-        <ul className="welcome-chips">
-          <li>Fansen trenger ingen konto</li>
-          <li>Stripe håndterer betaling og utbetaling</li>
-          <li>Utbetaling i kroner til norsk bankkonto</li>
-        </ul>
       </section>
 
       {stats && (
