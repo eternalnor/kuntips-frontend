@@ -10,20 +10,16 @@ const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "
 // from the login screen, so no visitor ever saw it.
 const OBJECTIONS = [
   {
-    q: "Må jeg ha organisasjonsnummer eller firma?",
-    a: "Nei, du kan også registrere deg som privatperson. Når Stripe spør om type virksomhet, velger du privatperson – da dukker feltet for organisasjonsnummer aldri opp. Har du enkeltpersonforetak eller AS fra før, kan du bruke det i stedet.",
+    q: "Hvor mye sitter jeg igjen med?",
+    a: "95 % fra første tips, og mer etter hvert som du tjener. Ingen månedsavgift og ingen bindingstid – vi tjener bare når du tjener.",
   },
   {
-    q: "Hva er det egentlig Stripe spør om?",
-    a: "Navn, adresse og fødselsdato, kontonummeret pengene skal til, og et bilde av legitimasjonen din – pass eller førerkort holder. Bildet tar du som regel med mobilen. Alt sendes direkte til Stripe. Vi ser aldri legitimasjonen din.",
+    q: "Hva må jeg faktisk gjøre?",
+    a: "Lage siden din og lime lenken inn i bioen. Fansen trenger ingen konto – de trykker, velger beløp og betaler med kort.",
   },
   {
-    q: "Hvor lang tid tar det?",
-    a: "Rundt fem minutter når du har legitimasjonen din og kontonummeret klart. Må du avbryte underveis, ligger alt lagret hos Stripe – du logger inn igjen og fortsetter der du slapp.",
-  },
-  {
-    q: "Hvem står bak, og hvem har pengene underveis?",
-    a: "KunTips er et norsk selskap. Pengene går rett fra fansens kort inn på din egen Stripe-konto – vi oppbevarer dem aldri. Du beholder 95 % fra første tips, og andelen øker mot 100 % etter hvert som du tjener mer. Ingen månedsavgift, ingen bindingstid.",
+    q: "Ser fansen det juridiske navnet mitt?",
+    a: "Nei. De ser bare artistnavnet og brukernavnet du velger selv.",
   },
 ];
 
@@ -88,13 +84,13 @@ export default function WelcomePage() {
             Lag din KunTips-side
           </Link>
           <p className="welcome-cta__sub">
-            Gratis, ingen binding. Du trenger ikke organisasjonsnummer, og det
-            tar rundt fem minutter.
+            Gratis, ingen månedsavgift, ingen binding. Du er klar på rundt fem
+            minutter.
           </p>
         </div>
 
         <ul className="welcome-chips">
-          <li>Du trenger ikke organisasjonsnummer</li>
+          <li>Fansen trenger ingen konto</li>
           <li>Stripe håndterer betaling og utbetaling</li>
           <li>Utbetaling i kroner til norsk bankkonto</li>
         </ul>
@@ -151,7 +147,7 @@ export default function WelcomePage() {
 
       {/* OBJECTION BLOCK — the section that has to rescue the Stripe drop-off */}
       <section className="welcome-faq welcome-choices-animate">
-        <h2 className="welcome-h2">Før du kobler til Stripe</h2>
+        <h2 className="welcome-h2">Godt å vite</h2>
         <div className="welcome-faq__list">
           {OBJECTIONS.map((o) => (
             <div className="welcome-faq__item" key={o.q}>
