@@ -7,12 +7,24 @@
 // means one link shape — kuntips.no/?ref=CODE — works for every campaign, and
 // the visitor can browse before signing up without losing the attribution.
 //
+// FIRST-TOUCH, not last: an existing code is never overwritten. The question a
+// campaign report answers is "what introduced this creator to us", and that is
+// the first thing they clicked, not the most recent.
+//
+// Storage is plain localStorage. A server-set first-party cookie was considered,
+// to dodge Safari's purge of script-writable storage after 7 days without
+// interaction — but that only affects a visitor who clicks, then doesn't touch
+// the site for over a week, then returns to sign up. It also wouldn't help the
+// case it was meant for: a click inside the Instagram app uses a separate
+// storage context, so nothing carries over to real Safari either way.
+//
 // The code is first-party functional storage, not tracking: it exists purely to
 // deliver the thing the visitor clicked a link for. It is deliberately NOT
 // gated on marketing consent, which would break referrals for anyone who
 // declines cookies.
 
 const REFERRAL_KEY = "kuntips_referral";
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
 
 // Long enough to survive "I'll look at this properly tonight", short enough
 // that a code from months ago doesn't get credit for an unrelated signup.
@@ -42,12 +54,13 @@ export function getStoredReferral() {
 }
 
 /**
- * Store a referral code. Last touch wins: if someone arrives through a second
- * campaign later, that campaign gets the credit.
+ * Store a referral code locally. First-touch: an existing, unexpired code is
+ * left alone, so a later campaign cannot claim a visitor an earlier one found.
  */
 export function storeReferral(code) {
   if (typeof window === "undefined") return;
   if (typeof code !== "string" || !VALID.test(code)) return;
+  if (getStoredReferral()) return; // first touch wins
   try {
     window.localStorage.setItem(
       REFERRAL_KEY,
@@ -59,7 +72,30 @@ export function storeReferral(code) {
 }
 
 /**
- * Pull ?ref= out of a query string and persist it.
+ * Log the visit, so campaign stats have a denominator — "3 signups" is
+ * unreadable without knowing whether that took 10 visits or 1000.
+ *
+ * Fire-and-forget: a failed ping must never affect the page.
+ */
+function pingVisit(code) {
+  if (typeof fetch === "undefined" || !API_BASE_URL) return;
+  try {
+    fetch(`${API_BASE_URL}/referral/visit`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        code,
+        path: typeof location !== "undefined" ? location.pathname : null,
+      }),
+      keepalive: true,
+    }).catch(() => {});
+  } catch {
+    // ignore
+  }
+}
+
+/**
+ * Pull ?ref= out of a query string, persist it, and log the visit.
  * @param {string} search location.search
  * @returns {string|null} the captured code, if there was one
  */
@@ -68,14 +104,28 @@ export function captureReferralFromSearch(search) {
   try {
     const code = (new URLSearchParams(search).get("ref") || "").trim();
     if (!code || !VALID.test(code)) return null;
+
+    // Only ping once per code per visit — this runs on every route change, and
+    // a re-render must not inflate the visit count the conversion rate divides
+    // by. sessionStorage resets with the tab, which is the right granularity.
+    let alreadyPinged = false;
+    try {
+      const key = `kuntips_ref_pinged_${code}`;
+      alreadyPinged = window.sessionStorage.getItem(key) === "1";
+      if (!alreadyPinged) window.sessionStorage.setItem(key, "1");
+    } catch {
+      // sessionStorage unavailable — ping anyway rather than lose the visit
+    }
+    if (!alreadyPinged) pingVisit(code);
+
     storeReferral(code);
-    return code;
+    return getStoredReferral() ?? code;
   } catch {
     return null;
   }
 }
 
-/** The code to use for a signup: whatever is in the URL, else whatever we kept. */
+/** The code to use for a signup: whatever is stored, else what's in the URL. */
 export function getActiveReferral(search) {
   return captureReferralFromSearch(search) ?? getStoredReferral();
 }

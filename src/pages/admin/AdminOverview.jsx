@@ -100,6 +100,10 @@ export default function AdminOverview() {
         <div className="admin-funnel">
           <FunnelStep label="Registered" value={funnel.registered} total={funnel.registered} />
           <FunnelStep label="Email verified" value={funnel.emailVerified} total={funnel.registered} />
+          {/* The stage creators are actually lost at. Without it the funnel
+              jumped verified → connected and made the drop look like it
+              happened somewhere else. */}
+          <FunnelStep label="Stripe started, unfinished" value={funnel.stripeStalled} total={funnel.registered} />
           <FunnelStep label="Stripe connected" value={funnel.stripeConnected} total={funnel.registered} />
           <FunnelStep label="Received first tip" value={funnel.receivedFirstTip} total={funnel.registered} />
         </div>

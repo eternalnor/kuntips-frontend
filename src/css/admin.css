@@ -547,6 +547,13 @@
   font-weight: 600;
 }
 
+/* Not an error — a number worth chasing. Used for creators who started Stripe
+   and never finished. */
+.admin-warn {
+  color: #f97316;
+  font-weight: 600;
+}
+
 .admin-bad {
   color: #f97316;
   font-weight: 600;

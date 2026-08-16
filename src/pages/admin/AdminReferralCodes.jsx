@@ -126,7 +126,10 @@ export default function AdminReferralCodes() {
               <tr>
                 <th>Code</th>
                 <th>Description</th>
+                <th>Visits</th>
                 <th>Signups</th>
+                <th>Rate</th>
+                <th>Stalled</th>
                 <th>Stripe</th>
                 <th>First tip</th>
                 <th>Volume</th>
@@ -137,7 +140,7 @@ export default function AdminReferralCodes() {
             </thead>
             <tbody>
               {codes.length === 0 && (
-                <tr><td colSpan={9} className="admin-muted">No codes yet.</td></tr>
+                <tr><td colSpan={12} className="admin-muted">No codes yet.</td></tr>
               )}
               {codes.map((c) => (
                 <tr key={c.id} style={c.is_active ? {} : { opacity: 0.55 }}>
@@ -154,7 +157,28 @@ export default function AdminReferralCodes() {
                     </div>
                   </td>
                   <td>{c.description || <span className="admin-muted">—</span>}</td>
+                  <td>
+                    {c.stats.unique_visits}
+                    {c.stats.bot_visits > 0 && (
+                      <span className="admin-muted" title="Requests with no User-Agent — near-certain bots">
+                        {" "}(+{c.stats.bot_visits} bot)
+                      </span>
+                    )}
+                  </td>
                   <td><strong>{c.stats.signups}</strong></td>
+                  {/* The number a campaign is judged on. Dash, not 0 %, when
+                      there are no visits yet — "no data" and "nobody converted"
+                      are different answers. */}
+                  <td>
+                    {c.stats.signup_rate_pct === null
+                      ? <span className="admin-muted">—</span>
+                      : `${c.stats.signup_rate_pct} %`}
+                  </td>
+                  <td>
+                    {c.stats.stripe_stalled > 0
+                      ? <span className="admin-warn">{c.stats.stripe_stalled}</span>
+                      : <span className="admin-muted">0</span>}
+                  </td>
                   <td>{c.stats.stripe_connected}</td>
                   <td>{c.stats.first_tip}</td>
                   <td>{c.stats.volume_nok.toLocaleString("nb-NO")} NOK</td>
