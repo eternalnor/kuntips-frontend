@@ -7,7 +7,7 @@ import { usePageTitle } from "./hooks/usePageTitle.js";
 import { passwordRequirements, isStrongPassword, PASSWORD_ERROR, PasswordChecklist } from "./utils/passwordUtils.jsx";
 
 function CreatorsRegister() {
-  usePageTitle('Create account');
+  usePageTitle('Opprett konto');
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -67,40 +67,40 @@ function CreatorsRegister() {
     const confirmPassword = form.confirmPassword;
 
     if (!email) {
-      nextErrors.email = "Please enter your email.";
+      nextErrors.email = "Skriv inn e-postadressen din.";
     } else if (!email.includes("@") || !email.includes(".")) {
-      nextErrors.email = "Please enter a valid email address.";
+      nextErrors.email = "Skriv inn en gyldig e-postadresse.";
     }
 
     if (!username) {
-      nextErrors.username = "Please choose a username.";
+      nextErrors.username = "Velg et brukernavn.";
     } else if (username.length < 3 || username.length > 32) {
-      nextErrors.username = "Username must be 3–32 characters.";
+      nextErrors.username = "Brukernavnet må være 3–32 tegn.";
     } else if (!/^[a-z0-9_]+$/.test(username)) {
       nextErrors.username =
-        "Use only lowercase letters, numbers and underscores.";
+        "Bruk bare små bokstaver, tall og understrek.";
     }
 
     if (!displayName) {
-      nextErrors.displayName = "Please enter a display name.";
+      nextErrors.displayName = "Skriv inn et visningsnavn.";
     }
 
     if (!password) {
-      nextErrors.password = "Please choose a password.";
+      nextErrors.password = "Velg et passord.";
     } else if (!isStrongPassword(password)) {
       nextErrors.password =
         PASSWORD_ERROR;
     }
 
     if (!confirmPassword) {
-      nextErrors.confirmPassword = "Please confirm your password.";
+      nextErrors.confirmPassword = "Bekreft passordet.";
     } else if (password !== confirmPassword) {
-      nextErrors.confirmPassword = "Passwords do not match.";
+      nextErrors.confirmPassword = "Passordene er ikke like.";
     }
 
     if (!form.agreeTerms) {
       nextErrors.agreeTerms =
-        "You must confirm that you’re 18+ and accept the Creator Agreement and Terms.";
+        "Du må bekrefte at du er over 18 år og godta skaperavtalen og vilkårene.";
     }
 
     return nextErrors;
@@ -187,41 +187,41 @@ function CreatorsRegister() {
 
       // 1) Map structured fieldErrors if backend ever adds them
       if (serverFieldErrors.email === "invalid_email") {
-        mapped.email = "Please enter a valid email address.";
+        mapped.email = "Skriv inn en gyldig e-postadresse.";
       }
       if (serverFieldErrors.username === "invalid_username_length") {
-        mapped.username = "Username must be 3–32 characters.";
+        mapped.username = "Brukernavnet må være 3–32 tegn.";
       }
       if (serverFieldErrors.username === "invalid_username_chars") {
         mapped.username =
-          "Use only lowercase letters, numbers and underscores.";
+          "Bruk bare små bokstaver, tall og understrek.";
       }
       if (serverFieldErrors.password === "password_too_weak") {
         mapped.password =
           PASSWORD_ERROR;
       }
       if (serverFieldErrors.confirmPassword === "password_mismatch") {
-        mapped.confirmPassword = "Passwords do not match.";
+        mapped.confirmPassword = "Passordene er ikke like.";
       }
       if (serverFieldErrors.agreeTerms === "terms_required") {
         mapped.agreeTerms =
-          "You must confirm that you’re 18+ and accept the Creator Agreement and Terms.";
+          "Du må bekrefte at du er over 18 år og godta skaperavtalen og vilkårene.";
       }
 
       // 2) Map our current backend messages (status + message)
       if (err.status === 409) {
         if (message.toLowerCase().includes("email is already in use")) {
-          mapped.email = "This email is already registered.";
+          mapped.email = "Denne e-postadressen er allerede registrert.";
         } else if (message.toLowerCase().includes("username is already taken")) {
-          mapped.username = "This username is already taken.";
+          mapped.username = "Dette brukernavnet er opptatt.";
         }
       }
 
       if (err.status === 400) {
         if (message.toLowerCase().includes("valid email address")) {
-          mapped.email = "Please enter a valid email address.";
+          mapped.email = "Skriv inn en gyldig e-postadresse.";
         } else if (message.toLowerCase().includes("username must be 3–32")) {
-          mapped.username = "Username must be 3–32 characters.";
+          mapped.username = "Brukernavnet må være 3–32 tegn.";
         } else if (
           message.toLowerCase().includes("must be at least 8 characters") ||
           message.toLowerCase().includes("must contain at least one letter")
@@ -237,7 +237,7 @@ function CreatorsRegister() {
         setGlobalError(
           err.data?.message ||
             err.message ||
-            "Could not create account. Please try again.",
+            "Vi fikk ikke opprettet kontoen. Vennligst prøv igjen.",
         );
       }
     } finally {
@@ -249,14 +249,12 @@ function CreatorsRegister() {
     return (
       <div className="creators-page">
         <section className="card creators-profile-card">
-          <h1>Check your email</h1>
+          <h1>Sjekk e-posten din</h1>
           <p className="creators-subtext">
-            We&apos;ve sent a verification link to <strong>{registeredEmail}</strong>.
+            Vi har sendt en bekreftelseslink til <strong>{registeredEmail}</strong>.
           </p>
           <p className="creators-small">
-            Click the link in the email to verify your account. You can still
-            access your dashboard, but you&apos;ll need to verify your email before
-            connecting Stripe and receiving payouts.
+            Trykk på linken i e-posten for å bekrefte kontoen. Du kommer inn i oversikten uansett, men e-posten må være bekreftet før du kan koble til Stripe og få utbetalinger.
           </p>
           <div className="creators-profile-actions" style={{ marginTop: "1.5rem" }}>
             <Link
@@ -267,7 +265,7 @@ function CreatorsRegister() {
               )}`}
               className="btn btn-primary"
             >
-              Go to dashboard
+              Gå til oversikten
             </Link>
           </div>
         </section>
@@ -282,30 +280,33 @@ function CreatorsRegister() {
         window.localStorage.getItem("kuntips_creator_username") && (
           <section className="card creators-status creators-status-info">
             <p>
-              You’re already logged in as{" "}
+              Du er allerede logget inn som{" "}
               <span className="creators-username-tag">
                 {window.localStorage.getItem("kuntips_creator_username")}
               </span>
               .
             </p>
             <p className="creators-small">
-              Go straight to your{" "}
+              Gå rett til{" "}
               <Link
                 to={`/creators/dashboard?username=${encodeURIComponent(
                   window.localStorage.getItem("kuntips_creator_username"),
                 )}`}
               >
-                creator dashboard
+                oversikten din
               </Link>
               .
             </p>
           </section>
         )}
       <section className="card creators-profile-card">
-        <h1>Create your KunTips creator account</h1>
+        <h1>Opprett din KunTips-konto</h1>
         <p className="creators-subtext">
-          Register once, connect Stripe, and get a clean kuntips.no/&lt;username&gt; tip
-          page you can share everywhere.
+          Registrer deg, koble til Stripe og få din egen side på kuntips.no/«ditt brukernavn» som du kan dele overalt.
+        </p>
+        <p className="creators-small">
+          For skapere i Norge: utbetaling krever norsk bankkonto og
+          Stripe-verifisering med norsk adresse.
         </p>
 
         <form className="creators-profile-form" onSubmit={handleSubmit}>
@@ -468,14 +469,14 @@ function CreatorsRegister() {
               className="btn btn-primary"
               disabled={submitting}
             >
-              {submitting ? "Creating account…" : "Create account"}
+              {submitting ? "Oppretter konto…" : "Opprett konto"}
             </button>
           </div>
         </form>
 
         <p className="creators-small creators-profile-note">
           Already have a KunTips creator account?{" "}
-          <Link to="/creators/login">Log in here</Link>.
+          <Link to="/creators/login">Logg inn her</Link>.
         </p>
       </section>
 

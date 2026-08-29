@@ -108,6 +108,28 @@ export async function loginCreator(email, password) {
   return data;
 }
 
+/**
+ * Logout: kill the server-side session BEFORE clearing local storage — the
+ * token is needed to authenticate its own deletion. Fire-and-forget: a failed
+ * network call must never trap the user in a logged-in state; the server-side
+ * session still dies at its 30-day expiry.
+ */
+export function logoutCreator() {
+  const token = getSessionToken();
+  if (token) {
+    try {
+      fetch(`${API_BASE_URL}/auth/logout`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        keepalive: true,
+      }).catch(() => {});
+    } catch {
+      // ignore
+    }
+  }
+  clearSessionToken();
+}
+
 // Register: returns { sessionToken, creator } and stores session token
 export async function registerCreator(payload) {
   const body = {
@@ -167,10 +189,7 @@ export function changePassword(currentPassword, newPassword) {
   });
 }
 
-// Clear local session only – backend token will simply expire
-export function logoutCreator() {
-  clearSessionToken();
-}
+
 
 /**
  * Creator dashboard + profile

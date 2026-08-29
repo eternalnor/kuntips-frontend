@@ -11,37 +11,37 @@ const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "
 // sentence form is what made this page read as padded.
 const OBJECTIONS = [
   {
-    q: "Må fansen lage konto for å tipse?",
-    a: "Nei. De trykker på lenken, velger beløp og betaler med kort – og kan tipse anonymt hvis de vil.",
+    q: "Må følgere lage egen konto for å tipse?",
+    a: "Nei. De trykker på linken, velger beløp og betaler med kort – og kan tipse anonymt hvis de vil.",
   },
   {
     q: "Kan jeg bruke det ved siden av det jeg har?",
-    a: "Ja. Du får en lenke – den kan ligge side om side med alt annet du allerede deler.",
+    a: "Ja. Du får en link – den kan ligge side om side med alt annet du allerede deler.",
   },
   {
-    q: "Ser fansen det juridiske navnet mitt?",
-    a: "Nei. De ser bare artistnavnet og brukernavnet du velger selv.",
+    q: "Ser følgerne det ekte navnet mitt?",
+    a: "Nei. De ser bare brukernavnet du velger selv.",
   },
 ];
 
 const STEPS = [
   {
     t: "Opprett kontoen din",
-    d: "Du velger brukernavn og får siden kuntips.no/brukernavnet ditt.",
+    d: "Du velger brukernavn og får din egen side på kuntips.no.",
   },
   {
     t: "Koble til Stripe",
     d: "Én verifisering, så er utbetalingene klare. Rundt fem minutter.",
   },
   {
-    t: "Del lenken din",
-    d: "I bio, i beskrivelsen, i en fastpinnet post – hvor du enn har fansen.",
+    t: "Del linken din",
+    d: "I bio, i beskrivelsen, i en fastpinnet post – hvor du enn har dine følgere.",
   },
 ];
 
 const FACTS = [
   ["95–100 %", "går til deg"],
-  ["50–2000 kr", "per tips"],
+  ["50–2 000 kr", "per tips"],
   ["0 kr", "i månedsavgift"],
   ["NOK", "til norsk bankkonto"],
 ];
@@ -49,7 +49,7 @@ const FACTS = [
 export default function WelcomePage() {
   usePageTitle(
     null,
-    "Ta imot tips fra fans. Du beholder 95–100 % av hvert tips. Ingen månedsavgift, ingen binding, og fansen trenger ingen konto. Utbetaling i kroner til norsk bankkonto.",
+    "Ta imot tips fra følgerne dine. Du beholder 95–100 % av hvert tips. Ingen månedsavgift, ingen binding, og tipsere trenger ingen konto. Utbetaling i kroner til norsk bankkonto.",
   );
   const [stats, setStats] = useState(null);
   const location = useLocation();
@@ -82,16 +82,16 @@ export default function WelcomePage() {
         />
         {referral && (
           <p className="welcome-invite">
-            Du er invitert – <strong>30 dager med økt andel</strong> når du
+            Du er invitert! <strong>30 dager med økt andel</strong> når du
             oppretter siden din.
           </p>
         )}
         <h1 className="welcome-title">
-          Ta imot tips fra fans.<br />Du beholder 95–100 %.
+          Ta imot tips fra følgerne dine.<br />Behold 95–100 % av beløpet selv!
         </h1>
         <p className="welcome-sub">
-          Du får din egen side på kuntips.no/brukernavnet ditt. Del lenken der du
-          allerede har fansen.
+          Du får din egen side på kuntips.no. Del linken der du allerede
+          har følgerne dine.
         </p>
 
         <div className="welcome-cta">
@@ -99,8 +99,7 @@ export default function WelcomePage() {
             Lag din KunTips-side
           </Link>
           <p className="welcome-cta__sub">
-            Gratis, ingen månedsavgift, ingen binding. Du er klar på rundt fem
-            minutter.
+            Gratis, ingen månedsavgift, ingen binding. Du er klar på rundt fem minutter.
           </p>
         </div>
 
@@ -172,7 +171,7 @@ export default function WelcomePage() {
             Lag din KunTips-side
           </Link>
           <p className="welcome-cta__sub">
-            Gratis, ingen binding. Rundt fem minutter.
+            Gratis, ingen binding. Tar rundt 5 minutter.
           </p>
         </div>
       </section>
@@ -180,12 +179,12 @@ export default function WelcomePage() {
       {/* FAN PATH — demoted, but still reachable */}
       <section className="welcome-fanpath welcome-choices-animate">
         <CreatorSearch
-          label="Er du fan og vil sende et tips? Søk opp brukernavnet."
+          label="Vil du sende et tips? Søk opp brukernavnet."
           placeholder="brukernavn"
           buttonText="Gå til tipssiden →"
         />
         <p className="welcome-fanpath__more">
-          <Link to="/fans">Slik fungerer det for fans</Link>
+          <Link to="/fans">Slik fungerer det for følgere</Link>
           <span aria-hidden="true"> · </span>
           <Link to="/creators">Mer om utbetaling og nivåer</Link>
         </p>

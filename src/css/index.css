@@ -229,6 +229,37 @@ p {
 
 /* ======================== Legal pages  ======================== */
 
+/* Language switch on legal pages — same quiet pill as the tip card. */
+.legal-lang {
+  float: right;
+  margin: 0 0 0.75rem 1rem;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #c7d2fe;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.28);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.legal-lang:hover {
+  background: rgba(99, 102, 241, 0.22);
+  color: #e0e7ff;
+}
+
+/* "Translation for readability; English prevails" note on Norwegian versions. */
+.legal-convenience-note {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--text-muted, #94a3b8);
+  border-left: 3px solid rgba(99, 102, 241, 0.4);
+  padding-left: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
 .page-legal {
   max-width: 960px;
   margin: 0 auto;

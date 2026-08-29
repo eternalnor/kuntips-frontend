@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
-import { getSessionToken, fetchCurrentCreator } from "../api";
+import { getSessionToken, fetchCurrentCreator, logoutCreator } from "../api";
 
 export default function SiteHeader() {
   const [loggedInUsername, setLoggedInUsername] = useState(null);
@@ -41,6 +41,9 @@ export default function SiteHeader() {
   }, []);
 
   function handleLogout() {
+    // Invalidate the server-side session first — after localStorage is cleared
+    // the token is gone and can no longer authenticate its own deletion.
+    logoutCreator();
     try {
       window.localStorage.removeItem("kuntips_creator_session");
       window.localStorage.removeItem("kuntips_creator_username");
@@ -69,7 +72,7 @@ export default function SiteHeader() {
               "site-nav-link site-nav-link--hide-mobile" + (isActive ? " site-nav-link-active" : "")
             }
           >
-            For fans
+            For tipsere
           </NavLink>
 
           <NavLink
@@ -78,7 +81,7 @@ export default function SiteHeader() {
               "site-nav-link site-nav-link--hide-mobile" + (isActive ? " site-nav-link-active" : "")
             }
           >
-            For creators
+            For skapere
           </NavLink>
 
           <NavLink
@@ -99,13 +102,13 @@ export default function SiteHeader() {
                   (isActive ? " site-nav-link-active" : "")
                 }
               >
-                Dashboard
+                Oversikt
               </NavLink>
               <button
                 onClick={handleLogout}
                 className="site-nav-link site-nav-link--logout site-nav-link--hide-mobile"
               >
-                Log out
+                Logg ut
               </button>
             </>
           ) : (
@@ -116,7 +119,7 @@ export default function SiteHeader() {
                 (isActive ? " site-nav-link-active" : "")
               }
             >
-              Log in
+              Logg inn
             </NavLink>
           )}
 
@@ -124,7 +127,7 @@ export default function SiteHeader() {
           <button
             className={"site-nav-menu-btn" + (menuOpen ? " site-nav-menu-btn--open" : "")}
             onClick={() => setMenuOpen((v) => !v)}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-label={menuOpen ? "Lukk meny" : "Åpne meny"}
             aria-expanded={menuOpen}
           >
             <span className="site-nav-menu-btn__bar" />
@@ -140,7 +143,7 @@ export default function SiteHeader() {
           {/* Backdrop — tap anywhere outside to close */}
           <div className="site-nav-backdrop" onClick={close} aria-hidden="true" />
 
-          <div className="site-nav-mobile-menu" role="dialog" aria-label="Navigation menu">
+          <div className="site-nav-mobile-menu" role="dialog" aria-label="Meny">
             <NavLink
               to="/fans"
               className={({ isActive }) =>
@@ -148,7 +151,7 @@ export default function SiteHeader() {
               }
               onClick={close}
             >
-              For fans
+              For tipsere
             </NavLink>
 
             <NavLink
@@ -158,7 +161,7 @@ export default function SiteHeader() {
               }
               onClick={close}
             >
-              For creators
+              For skapere
             </NavLink>
 
             <NavLink
@@ -183,13 +186,13 @@ export default function SiteHeader() {
                   }
                   onClick={close}
                 >
-                  Dashboard
+                  Oversikt
                 </NavLink>
                 <button
                   onClick={() => { handleLogout(); close(); }}
                   className="site-nav-mobile-link site-nav-mobile-link--muted"
                 >
-                  Log out
+                  Logg ut
                 </button>
               </>
             ) : (
@@ -201,7 +204,7 @@ export default function SiteHeader() {
                 }
                 onClick={close}
               >
-                Log in
+                Logg inn
               </NavLink>
             )}
           </div>

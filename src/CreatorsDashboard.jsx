@@ -51,12 +51,12 @@ function useCountdown(isoString) {
 
 // ── Chart helpers ────────────────────────────────────────────────────────────
 const MILESTONES_DEF = [
-  { key: "firstTip",  icon: "🎯", label: "First tip",      desc: "Received your first tip" },
-  { key: "nok1k",     icon: "💫", label: "1,000 NOK",      desc: "1,000 NOK earned lifetime" },
-  { key: "nok5k",     icon: "⭐", label: "5,000 NOK",      desc: "5,000 NOK earned lifetime" },
-  { key: "nok10k",    icon: "🌟", label: "10,000 NOK",     desc: "10,000 NOK earned lifetime" },
-  { key: "nok50k",    icon: "💎", label: "50,000 NOK",     desc: "50,000 NOK earned lifetime" },
-  { key: "nok100k",   icon: "👑", label: "100,000 NOK",    desc: "100,000 NOK earned lifetime" },
+  { key: "firstTip",  icon: "🎯", label: "Første tips",    desc: "Du har fått ditt første tips" },
+  { key: "nok1k",     icon: "💫", label: "1 000 kr",      desc: "1 000 kr tjent totalt" },
+  { key: "nok5k",     icon: "⭐", label: "5 000 kr",      desc: "5 000 kr tjent totalt" },
+  { key: "nok10k",    icon: "🌟", label: "10 000 kr",     desc: "10 000 kr tjent totalt" },
+  { key: "nok50k",    icon: "💎", label: "50 000 kr",     desc: "50 000 kr tjent totalt" },
+  { key: "nok100k",   icon: "👑", label: "100 000 kr",    desc: "100 000 kr tjent totalt" },
 ];
 
 function fmtChartDate(dateStr) {
@@ -83,7 +83,7 @@ function useQuery() {
 }
 
 function CreatorsDashboard() {
-  usePageTitle('Dashboard');
+  usePageTitle('Oversikt');
   const query = useQuery();
   // Resolve the creator from the URL first, then fall back to the stored
   // session. Stripe returns and verification links routinely land here without
@@ -150,7 +150,7 @@ function CreatorsDashboard() {
     if (!usernameQuery) {
       setLoading(false);
       setError(
-        "We couldn't tell which creator account to open. Please log in again and you'll be taken straight to your dashboard.",
+        "Vi kunne ikke se hvilken konto vi skulle åpne. Vennligst logg inn på nytt, så kommer du rett til din oversikt.",
       );
       setPayload(null);
       return;
@@ -162,7 +162,7 @@ function CreatorsDashboard() {
     if (!sessionToken) {
       setLoading(false);
       setError(
-        "You need to log in to view your creator dashboard. Please go to the Creator login page and sign in with your email and password.",
+        "Du må logge inn for å se oversikten din. Vennligst gå til innloggingssiden og logg inn med e-postadressen og passordet ditt.",
       );
       setPayload(null);
       return;
@@ -185,7 +185,7 @@ function CreatorsDashboard() {
         setError(
           err.data?.message ||
             err.message ||
-            "Could not load dashboard data. Please try again.",
+            "Vi fikk ikke lastet oversikten. Vennligst prøv igjen.",
         );
         setLoading(false);
       });
@@ -243,7 +243,7 @@ function CreatorsDashboard() {
 
   const nextTierText =
     tier && tier.nextTier && nextTierNumber
-      ? `Tip ${tier.nextTier.missingVolumeNok} NOK more in the next 30 days to reach Tier ${nextTierNumber}.`
+      ? `Få ${tier.nextTier.missingVolumeNok} kr mer i tips de neste 30 dagene for å nå nivå ${nextTierNumber}.`
       : null;
 
 
@@ -274,19 +274,19 @@ function CreatorsDashboard() {
     status?.canReceiveTips ?? (isActive && stripeConnected);
 
   const stripeButtonLabel = stripeLoading
-    ? "Opening Stripe…"
+    ? "Åpner Stripe…"
     : stripeConnected
-    ? "Manage Stripe account"
+    ? "Administrer Stripe-kontoen"
     : stripeStalled
-    ? "Finish your Stripe setup"
-    : "Connect Stripe payouts";
+    ? "Fullfør Stripe-oppsettet"
+    : "Connect Stripe-utbetalinger";
 
   async function handleProfileSave(e) {
     e.preventDefault();
     if (!creatorUsername || profileSaving) return;
 
     if (containsBlockedContent(bioInput)) {
-      setProfileError("Your bio contains content that isn't allowed. Please revise it.");
+      setProfileError("Din bio inneholder noe som ikke er tillatt. Vennligst endre teksten.");
       return;
     }
 
@@ -319,7 +319,7 @@ function CreatorsDashboard() {
       setProfileError(
         err.data?.message ||
           err.message ||
-          "Could not save profile. Please try again.",
+          "Vi fikk ikke lagret profilen. Vennligst prøv igjen.",
       );
     } finally {
       setProfileSaving(false);
@@ -351,7 +351,7 @@ function CreatorsDashboard() {
     setStripeError(
       err.data?.message ||
         err.message ||
-        "Could not open Stripe. Please try again.",
+        "Vi fikk ikke åpnet Stripe. Vennligst prøv igjen.",
     );
   } finally {
     setStripeLoading(false);
@@ -366,12 +366,12 @@ function CreatorsDashboard() {
     setSecuritySuccess("");
 
     if (!currentPassword || !newPassword || !confirmPassword) {
-      setSecurityError("Please fill in all password fields.");
+      setSecurityError("Vennligst fyll ut alle passordfeltene.");
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      setSecurityError("New password and confirmation do not match.");
+      setSecurityError("De to passordene er ikke like.");
       return;
     }
 
@@ -383,7 +383,7 @@ function CreatorsDashboard() {
     setSecuritySaving(true);
     try {
       await changePassword(currentPassword, newPassword);
-      setSecuritySuccess("Password updated successfully.");
+      setSecuritySuccess("Passordet er oppdatert.");
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
@@ -392,7 +392,7 @@ function CreatorsDashboard() {
       setSecurityError(
         err.data?.message ||
           err.message ||
-          "Could not update password. Please try again.",
+          "Vi fikk ikke oppdatert passordet. Vennligst prøv igjen.",
       );
     } finally {
       setSecuritySaving(false);
@@ -441,7 +441,7 @@ function CreatorsDashboard() {
       })
       .catch((err) => {
         if (cancelled) return;
-        setPayoutError(err.data?.message || err.message || "Could not load payout info.");
+        setPayoutError(err.data?.message || err.message || "Vi fikk ikke lastet utbetalingsinformasjonen.");
         setPayoutLoading(false);
       });
 
@@ -473,14 +473,14 @@ function CreatorsDashboard() {
 
     try {
       await requestPayout(creatorUsername);
-      setPayoutRequestSuccess("Payout requested successfully. It will be processed by Stripe shortly.");
+      setPayoutRequestSuccess("Utbetalingen ble startet. Stripe gjennomfører den om kort tid.");
       fetchPayoutPreview(creatorUsername)
         .then(setPayoutPreview)
         .catch(() => {
-          setPayoutError("Preview could not refresh automatically — your payout was still requested. Reload the page to see updated figures.");
+          setPayoutError("Forhåndsvisningen ble ikke oppdatert automatisk, men utbetalingen er bestilt. Last siden på nytt for å se oppdaterte tall.");
         });
     } catch (err) {
-      setPayoutRequestError(err.data?.message || err.message || "Could not request payout. Please try again.");
+      setPayoutRequestError(err.data?.message || err.message || "Vi fikk ikke sendt utbetalingen. Vennligst prøv igjen.");
     } finally {
       setPayoutRequesting(false);
     }
@@ -492,10 +492,10 @@ function CreatorsDashboard() {
     setResendVerificationMsg(null);
     try {
       await resendVerificationEmail();
-      setResendVerificationMsg("Verification email sent — check your inbox.");
+      setResendVerificationMsg("Bekreftelsen er sendt – sjekk innboksen.");
     } catch (err) {
       setResendVerificationMsg(
-        err.data?.message || err.message || "Could not send verification email."
+        err.data?.message || err.message || "Vi fikk ikke sendt bekreftelsen."
       );
     } finally {
       setResendingVerification(false);
@@ -507,7 +507,7 @@ function CreatorsDashboard() {
     <div className="creators-page">
       {/* HEADER */}
       <header className="creators-dashboard-header">
-        <h1>Creator dashboard</h1>
+        <h1>Oversikt</h1>
         <p className="creators-subtext">
           Overview for{" "}
           <span className="creators-username-tag">{creatorDisplayName}</span>.
@@ -518,7 +518,7 @@ function CreatorsDashboard() {
       {payload && !payload.creator.emailVerified && (
         <section className="card creators-status creators-status-warning">
           <p>
-            <strong>Please verify your email address</strong> — check your inbox
+            <strong>Bekreft e-postadressen din</strong> – sjekk innboksen din
             for a verification link from KunTips.
           </p>
           <p className="creators-small">
@@ -534,7 +534,7 @@ function CreatorsDashboard() {
               onClick={handleResendVerification}
               disabled={resendingVerification}
             >
-              {resendingVerification ? "Sending…" : "Resend verification email"}
+              {resendingVerification ? "Sender…" : "Send bekreftelsen på nytt"}
             </button>
           )}
         </section>
@@ -543,7 +543,7 @@ function CreatorsDashboard() {
       {/* STATUS / ERRORS */}
       {loading && (
         <section className="card creators-status">
-          <p>Loading dashboard data…</p>
+          <p>Laster oversikt…</p>
         </section>
       )}
 
@@ -581,7 +581,7 @@ function CreatorsDashboard() {
               <p className="event-banner-title">
                 {globalEvent.label
                   ? globalEvent.label
-                  : "Platform Bonus Active!"}
+                  : "Plattformbonus aktiv"}
               </p>
               <p className="event-banner-subtitle">
                 All creators receive{" "}
@@ -694,7 +694,7 @@ function CreatorsDashboard() {
                           onClick={handleManageStripeClick}
                           disabled={stripeLoading}
                         >
-                          {stripeLoading ? "Opening Stripe…" : "Finish your Stripe setup"}
+                          {stripeLoading ? "Åpner Stripe…" : "Fullfør Stripe-oppsettet"}
                         </button>
                       </div>
                     ) : (
@@ -712,7 +712,7 @@ function CreatorsDashboard() {
                           onClick={handleManageStripeClick}
                           disabled={stripeLoading}
                         >
-                          {stripeLoading ? "Opening Stripe…" : "Connect Stripe payouts"}
+                          {stripeLoading ? "Åpner Stripe…" : "Koble til Stripe-utbetalinger"}
                         </button>
                       </div>
                     )}
@@ -725,7 +725,7 @@ function CreatorsDashboard() {
                       (canReceiveTips ? "" : " creators-tiplink-card--inactive")
                     }
                   >
-                    <h2>Your tip link</h2>
+                    <h2>KunTips-linken din</h2>
                     {canReceiveTips ? (
                       <p className="creators-dashboard-sub">
                         Share this link with your fans so they can send you tips — they stay private by default, or can optionally leave their name.
@@ -750,7 +750,7 @@ function CreatorsDashboard() {
                         className={`btn ${tipLinkCopied ? "btn-success" : "btn-primary"} creators-tiplink-copy`}
                         onClick={handleCopyTipLink}
                       >
-                        {tipLinkCopied ? "Copied!" : "Copy link"}
+                        {tipLinkCopied ? "Kopiert" : "Kopier link"}
                       </button>
                     </div>
                     <a
@@ -766,7 +766,7 @@ function CreatorsDashboard() {
                   {/* STATS GRID */}
                   <section className="card creators-dashboard-grid">
                     <div className="creators-dashboard-tile">
-                      <h2>Awaiting payout</h2>
+                      <h2>Venter på utbetaling</h2>
                       <p className="creators-dashboard-number">
                         {payoutPreview
                           ? `${Math.round(payoutPreview.eligible_creator_net_minor / 100)} NOK`
@@ -780,7 +780,7 @@ function CreatorsDashboard() {
                     </div>
 
                     <div className="creators-dashboard-tile">
-                      <h2>Last 30 days</h2>
+                      <h2>Siste 30 dager</h2>
                       <p className="creators-dashboard-number">
                         {stats?.last30dNetNok ?? 0} NOK
                       </p>
@@ -790,7 +790,7 @@ function CreatorsDashboard() {
                     </div>
 
                     <div className="creators-dashboard-tile">
-                      <h2>All-time earnings</h2>
+                      <h2>Total inntjening</h2>
                       <p className="creators-dashboard-number">
                         {stats?.lifetimeNetNok ?? 0} NOK
                       </p>
@@ -805,7 +805,7 @@ function CreatorsDashboard() {
                     <section className="card creators-chart-card">
                       <div className="creators-chart-header">
                         <div>
-                          <h2>Last 30 days</h2>
+                          <h2>Siste 30 dager</h2>
                           {charts.daily.length > 0 && (
                             <p className="creators-small">
                               {fmtChartDate(charts.daily[0].date)} – {fmtChartDate(charts.daily[charts.daily.length - 1].date)}
@@ -914,45 +914,45 @@ function CreatorsDashboard() {
                   {/* TIER / FEE INFO */}
                   <section className={`card creators-dashboard-tier${globalEventBoostTiers > 0 ? " tier-card-event" : ""}${globalEventBoostTiers > 0 && isEasterEvent ? " tier-card-event--easter" : ""}`}>
                     <div className="creators-dashboard-tier-main">
-                      <h2>Your KunTips tier</h2>
+                      <h2>KunTips-nivået ditt</h2>
                       {tier ? (
                           <>
                             {globalEventBoostTiers > 0 ? (
                               <div className="tier-display-event">
                                 <div className="tier-display-event-number">
-                                  <span className="tier-event-word">Tier</span>
+                                  <span className="tier-event-word">Nivå</span>
                                   <span className="tier-event-digit">{tier.currentTier}</span>
                                 </div>
                                 <span className="tier-event-badge">
-                                  ✦ EVENT BOOST ACTIVE ✦
+                                  ✦ BONUS AKTIV ✦
                                 </span>
                                 {tier.baseTier !== tier.currentTier && (
                                   <p className="tier-event-note">
-                                    Boosted from Tier {tier.baseTier} — you keep{" "}
-                                    <strong>{keptPercentLabel}</strong> of every tip
-                                    during this event.
+                                    Løftet fra nivå {tier.baseTier} – du beholder{" "}
+                                    <strong>{keptPercentLabel}</strong> av hvert tips
+                                    så lenge bonusen varer.
                                   </p>
                                 )}
                               </div>
                             ) : (
                               <p className="creators-dashboard-number">
-                                Tier {tier.currentTier}
+                                Nivå {tier.currentTier}
                               </p>
                             )}
                             <p className="creators-dashboard-sub">
-                              You currently keep {keptPercentLabel} of each tip. Fans
-                              cover payment fees. Stripe only charges a small fixed
-                              payout fee (2.75 NOK) each time you transfer your
-                              balance to your bank.
+                              Du beholder {keptPercentLabel} av hvert tips. Følgerne
+                              dekker betalingsgebyrene. Stripe tar bare et lite fast
+                              gebyr (2,75 kr) hver gang du overfører saldoen til
+                              banken din.
                             </p>
                             <p className="creators-dashboard-sub">
-                              Last 30 days volume: {tier.volume30dNok} NOK.
+                              Tips siste 30 dager: {tier.volume30dNok} kr.
                             </p>
                             <p className="creators-dashboard-sub">{nextTierText}</p>
                           </>
                       ) : (
                           <p className="creators-dashboard-sub">
-                            Tier information is not available yet.
+                            Nivåinformasjon er ikke tilgjengelig ennå.
                           </p>
                       )}
                     </div>
@@ -961,7 +961,7 @@ function CreatorsDashboard() {
                   {/* RECENT TIPS TABLE */}
                   <section className="card creators-dashboard-table-wrapper">
                     <div className="creators-dashboard-table-header">
-                      <h2>Recent tips</h2>
+                      <h2>Siste tips</h2>
                       <p className="creators-dashboard-sub">
                         Latest 20 tips for this creator.
                       </p>
@@ -977,9 +977,9 @@ function CreatorsDashboard() {
                           <table className="creators-dashboard-table">
                             <thead>
                             <tr>
-                              <th>Date</th>
-                              <th>You receive</th>
-                              <th>From</th>
+                              <th>Dato</th>
+                              <th>Du får</th>
+                              <th>Fra</th>
                               <th>Status</th>
                             </tr>
                             </thead>
@@ -1003,7 +1003,7 @@ function CreatorsDashboard() {
                                     <td className="tip-from-cell">
                                       {tip.tipperName
                                         ? <span className="tip-from-name">{tip.tipperName}</span>
-                                        : <span className="tip-from-anon">Anonymous</span>}
+                                        : <span className="tip-from-anon">Anonym</span>}
                                     </td>
                                     <td>
                                       <span className={`status-pill status-${String(tip.status || "").toLowerCase()}`}>
@@ -1031,7 +1031,7 @@ function CreatorsDashboard() {
                 <>
                   {/* PUBLIC PROFILE */}
                   <section className="card creators-profile-card">
-                    <h2>Public profile</h2>
+                    <h2>Offentlig profil</h2>
                     <p className="creators-dashboard-sub">
                       This is what fans see on your KunTips page (
                       <code>kuntips.no/{creatorUsername}</code>).
@@ -1105,7 +1105,7 @@ function CreatorsDashboard() {
                             className="btn btn-primary"
                             disabled={profileSaving || !displayNameInput.trim()}
                         >
-                          {profileSaving ? "Saving…" : "Save changes"}
+                          {profileSaving ? "Lagrer…" : "Lagre endringer"}
                         </button>
                       </div>
                     </form>
@@ -1119,7 +1119,7 @@ function CreatorsDashboard() {
                   {/* REFERRAL PROGRAM */}
                   <section className="card creators-dashboard-tier">
                     <div className="creators-dashboard-tier-main">
-                      <h2>Referral program</h2>
+                      <h2>Vervekampanje</h2>
 
                       {creatorUsername ? (
                           <>
@@ -1145,7 +1145,7 @@ function CreatorsDashboard() {
                                         className={`btn ${referralLinkCopied ? "btn-success" : "btn-primary"} creators-tiplink-copy`}
                                         onClick={handleCopyReferralLink}
                                     >
-                                      {referralLinkCopied ? "Copied!" : "Copy link"}
+                                      {referralLinkCopied ? "Kopiert" : "Kopier link"}
                                     </button>
                                   </div>
                                   <p className="creators-small">
@@ -1206,7 +1206,7 @@ function CreatorsDashboard() {
 
                   {/* SECURITY */}
                   <section className="card creators-security-card">
-                    <h2>Account security</h2>
+                    <h2>Sikkerhet</h2>
                     <p className="creators-dashboard-sub">
                       Change your password and log out of this browser.
                     </p>
@@ -1268,7 +1268,7 @@ function CreatorsDashboard() {
                             className="btn btn-primary"
                             disabled={securitySaving}
                         >
-                          {securitySaving ? "Updating…" : "Update password"}
+                          {securitySaving ? "Oppdaterer…" : "Oppdater passord"}
                         </button>
                         <button
                             type="button"
@@ -1288,7 +1288,7 @@ function CreatorsDashboard() {
                 {/* STRIPE CONNECTION */}
                 <section className="card creators-stripe-card">
                   <div className="creators-stripe-main">
-                    <h2>Stripe payouts</h2>
+                    <h2>Stripe-utbetalinger</h2>
                     {stripeConnected ? (
                         <>
                           <p className="creators-dashboard-sub">
@@ -1298,16 +1298,17 @@ function CreatorsDashboard() {
                             Stripe fees and the KunTips platform fee.
                           </p>
                           <p className="creators-dashboard-sub">
-                            Use this button to review or update your payout details
-                            (bank account, tax info, etc.) directly in Stripe.
+                            Bruk denne knappen til å se eller oppdatere
+                            utbetalingsopplysningene dine (bankkonto m.m.)
+                            direkte i Stripe.
                           </p>
                           {!canRequestPayout && (
                             <p className="creators-error-inline">
-                              You can receive tips, but Stripe has paused
-                              <strong> payouts</strong> on your account — so you
-                              can&apos;t withdraw to your bank yet. Your money is
-                              safe in your Stripe balance. Open Stripe below to
-                              see what&apos;s still needed.
+                              Du kan ta imot tips, men Stripe har satt
+                              <strong> utbetalinger</strong> på pause for kontoen
+                              din – så du får ikke tatt ut penger til banken
+                              ennå. Pengene ligger trygt i Stripe-saldoen din.
+                              Åpne Stripe nedenfor for å se hva som gjenstår.
                             </p>
                           )}
                         </>
@@ -1335,13 +1336,11 @@ function CreatorsDashboard() {
                     ) : (
                         <>
                           <p className="creators-dashboard-sub">
-                            Stripe payouts are not connected yet. You need a Stripe
-                            account to receive tips from fans.
+                            Stripe-utbetalinger er ikke koblet til ennå. Du trenger en
+                            Stripe-konto for å ta imot tips.
                           </p>
                           <p className="creators-dashboard-sub">
-                            Takes about five minutes. Have your ID and bank account
-                            number ready — you don&apos;t need an organisation number,
-                            you can register as a private individual.
+                            Det tar rundt fem minutter. Ha kontonummeret klart.
                           </p>
                         </>
                     )}
@@ -1371,7 +1370,7 @@ function CreatorsDashboard() {
 
                 {/* PAYOUT PREVIEW */}
                 <section className="card creators-payouts-card">
-                  <h2>Payout balance</h2>
+                  <h2>Saldo</h2>
                   <p className="creators-dashboard-sub">
                     Tips are held for 7 days before becoming eligible for payout.
                     When you request a payout, eligible tips are sent to your connected Stripe account.
@@ -1389,7 +1388,7 @@ function CreatorsDashboard() {
                     <>
                       <div className="creators-dashboard-grid">
                         <div className="creators-dashboard-tile">
-                          <h2>Ready to pay out</h2>
+                          <h2>Klar til utbetaling</h2>
                           <p className="creators-dashboard-number">
                             {(payoutPreview.eligible_creator_net_minor / 100).toFixed(2)} NOK
                           </p>
@@ -1398,7 +1397,7 @@ function CreatorsDashboard() {
                           </p>
                         </div>
                         <div className="creators-dashboard-tile">
-                          <h2>Pending</h2>
+                          <h2>Venter</h2>
                           <p className="creators-dashboard-number">
                             {payoutPreview.pending_tip_count}
                           </p>
@@ -1437,7 +1436,7 @@ function CreatorsDashboard() {
                           disabled={!payoutPreview.eligible || payoutRequesting}
                           onClick={handleRequestPayout}
                         >
-                          {payoutRequesting ? "Requesting…" : "Request payout"}
+                          {payoutRequesting ? "Sender…" : "Be om utbetaling"}
                         </button>
                       </div>
 
@@ -1453,7 +1452,7 @@ function CreatorsDashboard() {
                 {/* PAYOUT HISTORY */}
                 {payoutHistory.length > 0 && (
                   <section className="card creators-payouts-card">
-                    <h2>Payout history</h2>
+                    <h2>Utbetalingshistorikk</h2>
                     <p className="creators-dashboard-sub">
                       Your last {payoutHistory.length} payout{payoutHistory.length !== 1 ? "s" : ""}.
                       Click a row to see the itemised tip breakdown.
@@ -1499,7 +1498,7 @@ function CreatorsDashboard() {
                                 {stmt && stmt !== "loading" && stmt !== "error" && (
                                   <>
                                     <div className="payout-statement-meta">
-                                      <span>Reference: <strong>{stmt.reference}</strong></span>
+                                      <span>Referanse: <strong>{stmt.reference}</strong></span>
                                       {stmt.stripePayoutId && (
                                         <span className="payout-statement-stripe-id">
                                           Stripe ID: {stmt.stripePayoutId}
@@ -1517,18 +1516,18 @@ function CreatorsDashboard() {
                                       <table className="payout-statement-table">
                                         <thead>
                                           <tr>
-                                            <th>Date</th>
-                                            <th>From</th>
-                                            <th>Tip</th>
-                                            <th>Platform fee</th>
-                                            <th>You received</th>
+                                            <th>Dato</th>
+                                            <th>Fra</th>
+                                            <th>Tips</th>
+                                            <th>Gebyr</th>
+                                            <th>Du fikk</th>
                                           </tr>
                                         </thead>
                                         <tbody>
                                           {stmt.items.map((item) => (
                                             <tr key={item.tipId}>
                                               <td>{new Date(item.tippedAt).toLocaleDateString("nb-NO")}</td>
-                                              <td>{item.tipperName || <em>Anonymous</em>}</td>
+                                              <td>{item.tipperName || <em>Anonym</em>}</td>
                                               <td>{item.tipAmountNok} NOK</td>
                                               <td>{item.platformFeeNok} NOK</td>
                                               <td><strong>{item.creatorNetNok} NOK</strong></td>
@@ -1537,7 +1536,7 @@ function CreatorsDashboard() {
                                         </tbody>
                                         <tfoot>
                                           <tr>
-                                            <td colSpan="4"><strong>Total paid out</strong></td>
+                                            <td colSpan="4"><strong>Utbetalt totalt</strong></td>
                                             <td><strong>{p.payoutAmountNok.toLocaleString("nb-NO")} NOK</strong></td>
                                           </tr>
                                         </tfoot>

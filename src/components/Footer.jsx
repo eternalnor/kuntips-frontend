@@ -11,19 +11,19 @@ export default function Footer() {
           alt="KunTips"
         />
         <nav className="site-footer-nav">
-          <Link to="/fans">For fans</Link>
-          <Link to="/creators">For creators</Link>
-          <Link to="/legal/terms">Terms</Link>
-          <Link to="/legal/privacy">Privacy</Link>
-          <Link to="/legal/cookies">Cookies</Link>
-          <Link to="/legal/creator-agreement">Creator Agreement</Link>
+          <Link to="/fans">For tipsere</Link>
+          <Link to="/creators">For skapere</Link>
+          <Link to="/legal/terms">Vilkår</Link>
+          <Link to="/legal/privacy">Personvern</Link>
+          <Link to="/legal/cookies">Informasjonskapsler</Link>
+          <Link to="/legal/creator-agreement">Skaperavtale</Link>
           <Link to="/support">Support</Link>
           <button
             type="button"
             className="site-footer-link-btn"
             onClick={openConsentSettings}
           >
-            Cookie settings
+            Innstillinger for informasjonskapsler
           </button>
         </nav>
         <p className="site-footer-brand">© 2026 KunTips</p>

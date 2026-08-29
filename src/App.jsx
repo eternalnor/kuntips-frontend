@@ -123,8 +123,8 @@ function AppRoutes({ isAdminRoute }) {
             path="*"
             element={
               <main className="page-legal">
-                <h1 className="page-title">Page not found</h1>
-                <p>The page you’re looking for doesn’t exist.</p>
+                <h1 className="page-title">Siden finnes ikke</h1>
+                <p>Vi fant ikke siden du lette etter.</p>
               </main>
             }
           />

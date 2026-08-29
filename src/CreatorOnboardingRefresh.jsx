@@ -14,7 +14,7 @@ import { usePageTitle } from "./hooks/usePageTitle.js";
 import { createStripeAccountLink, getSessionToken } from "./api";
 
 export default function CreatorOnboardingRefresh() {
-  usePageTitle("Resuming setup");
+  usePageTitle("Fortsetter oppsettet");
   const [failed, setFailed] = useState(null); // null | "no_session" | "error"
   const [retrying, setRetrying] = useState(false);
 

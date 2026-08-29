@@ -6,7 +6,7 @@ import { usePageTitle } from "../hooks/usePageTitle.js";
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
 
 export default function FansPage() {
-  usePageTitle('Send a tip to your favourite creator', "Support creators with a private one-time tip. No account, no sign-up, no VAT. Pay securely with Stripe and the creator keeps 95\u2013100%.");
+  usePageTitle('Send et tips til din favoritt-skaper!', "Støtt skapere med et privat engangstips. Ingen konto, ingen registrering, ingen MVA. Betal trygt med Stripe – skaperen beholder 95–100 %.");
   const [tipRange, setTipRange] = useState({ min: 50, max: 2000 });
   useEffect(() => {
     fetch(`${API_BASE_URL}/settings/tips`)
@@ -19,18 +19,15 @@ export default function FansPage() {
       <section className="card home-hero">
         <div className="home-hero-main">
           <div className="home-hero-text">
-            <h1>Send a tip — no account, no fuss.</h1>
+            <h1>Send tips – uten konto, uten styr.</h1>
             <p className="home-hero-sub">
-              KunTips lets you support your favourite creators with a one-time
-              tip. No sign-up, no subscription, no personal details shared with
-              the creator — just a clean, private payment powered by Stripe.
-              Creators keep 95–100% of your tip, and you never need an account.
+              Med KunTips kan du støtte favorittene dine med tips. Ingen registrering, ingen abonnementer, og skaperen får aldri se opplysningene dine – bare en enkel og privat betaling gjennom Stripe. Du trenger ingen konto, og 95–100 % av tipset går rett til skaperen.
             </p>
             <div className="fans-search-wrap">
               <CreatorSearch
-                label="Know who you want to tip? Enter their username:"
+                label="Vet du hvem du vil tipse? Skriv inn brukernavnet."
                 placeholder="username"
-                buttonText="Go to tip page →"
+                buttonText="Gå til tipssiden →"
               />
             </div>
           </div>
@@ -38,74 +35,66 @@ export default function FansPage() {
       </section>
 
       <section className="card home-section">
-        <h2>Why fans love KunTips</h2>
+        <h2>Derfor bruker følgere KunTips</h2>
         <div className="home-grid">
           <div className="home-tile">
-            <h3>Private by default</h3>
+            <h3>Privat som utgangspunkt</h3>
             <p>
-              Creators never see your payment details. Optionally leave your
-              name, or tip completely anonymously.
+              Skaperen ser aldri betalingsopplysningene dine. Du kan legge igjen navnet ditt hvis du vil – eller tipse helt anonymt.
             </p>
           </div>
           <div className="home-tile">
-            <h3>No account required</h3>
+            <h3>Du trenger ingen konto</h3>
             <p>
-              No sign-up, no login. Just pick an amount and pay with your card
-              through Stripe.
+              Ingen registrering, ingen innlogging. Du velger et beløp og betaler med kort gjennom Stripe.
             </p>
           </div>
           <div className="home-tile">
-            <h3>No VAT on tips</h3>
+            <h3>Ingen MVA på tips</h3>
             <p>
-              Tips aren't purchases, so there's no 25% MVA added. More of your
-              money goes directly to the creator.
+              Et tips er ikke regnet som et kjøp, så det kommer ingen 25 % MVA i tillegg. Mer av pengene går rett til skaperen.
             </p>
           </div>
         </div>
       </section>
 
       <section className="card home-section">
-        <h2>How tipping works</h2>
+        <h2>Slik sender du tips</h2>
         <div className="home-grid">
           <div className="home-tile">
-            <h3>1. Open a creator's link</h3>
+            <h3>1. Åpne linken til en skaper</h3>
             <p>
-              Creators share a personal KunTips link — something like
-              kuntips.no/theirname. Click it and you're taken straight to
-              their tip page.
+              Skapere deler en egen KunTips-link, for eksempel kuntips.no/«brukernavn». Trykker du på den, havner du rett på tipssiden.
             </p>
           </div>
           <div className="home-tile">
-            <h3>2. Pick an amount</h3>
+            <h3>2. Velg beløp</h3>
             <p>
-              Choose a preset amount or enter your own between {tipRange.min} and {tipRange.max.toLocaleString("nb-NO")}
-              {" "}NOK. You'll see exactly what the creator receives before you
-              confirm.
+              Velg et eksisterende beløp, eller skriv inn ditt eget mellom {tipRange.min} og {tipRange.max.toLocaleString("nb-NO")}
+              {" "}kr. Du ser nøyaktig hva skaperen sitter igjen med før du
+              bekrefter.
             </p>
           </div>
           <div className="home-tile">
-            <h3>3. Pay securely with Stripe</h3>
+            <h3>3. Betal sikkert med Stripe</h3>
             <p>
-              Enter your card details in Stripe's secure payment form. KunTips
-              never sees your card number — and neither does the creator.
+              Du fyller inn kortopplysningene i Stripes betalingsløsning. Verken KunTips eller skaperen ser kortinformasjonen din.
             </p>
           </div>
         </div>
       </section>
 
       <section className="card home-section home-section-last">
-        <h2>Are you a creator?</h2>
+        <h2>Er du selv en skaper?</h2>
         <p>
-          Set up a KunTips page in minutes. Connect Stripe once, share your
-          link, and let fans support you — no platform fees eating into every
-          tip.
+          Sett opp din egen KunTips-side på få minutter. Koble til Stripe, del linken din, og la følgerne dine støtte deg.
         </p>
         <div className="home-hero-actions">
           <Link to="/creators/register" className="btn btn-primary">
-            Create a creator account
+            Opprett din KunTips-konto
           </Link>
           <Link to="/creators" className="btn btn-ghost">
-            Learn more →
+            Les mer →
           </Link>
         </div>
       </section>

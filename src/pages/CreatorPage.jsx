@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TipWidget } from '../components/TipWidget.jsx';
+import { useTipLang } from '../hooks/useTipLang.js';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -15,6 +16,7 @@ function setMetaTag(property, content) {
 }
 
 export default function CreatorPage() {
+  const { t, tf } = useTipLang();
   const { username } = useParams();
   const [creator, setCreator] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -47,7 +49,7 @@ export default function CreatorPage() {
       } catch (err) {
         console.error('Error fetching creator', err);
         setError(
-          'Something went wrong while loading this creator. Please try again in a moment.',
+          t.errorBody,
         );
         setCreator(null);
       } finally {
@@ -91,7 +93,7 @@ export default function CreatorPage() {
   if (loading) {
     return (
       <main className="card status-block">
-        <p>Loading profile…</p>
+        <p>{t.loadingProfile}</p>
       </main>
     );
   }
@@ -99,9 +101,9 @@ export default function CreatorPage() {
   if (notFound) {
     return (
       <main className="card status-block">
-        <h1>Creator not found</h1>
+        <h1>{t.notFoundTitle}</h1>
         <p>
-          No active creator with username <strong>{username}</strong> was found.
+          {tf('notFoundBody', { name: username })}
         </p>
       </main>
     );
@@ -110,7 +112,7 @@ export default function CreatorPage() {
   if (error) {
     return (
       <main className="card status-block">
-        <h1>Something went wrong</h1>
+        <h1>{t.errorTitle}</h1>
         <p className="text-muted">{error}</p>
       </main>
     );
@@ -143,9 +145,9 @@ export default function CreatorPage() {
         </header>
 
         <section className="creator-section">
-          <h2 className="creator-section-title">About</h2>
+          <h2 className="creator-section-title">{t.about}</h2>
           <p className="text-muted">
-            {creator.bio || 'This creator has not written a bio yet.'}
+            {creator.bio || t.noBio}
           </p>
         </section>
 
@@ -158,16 +160,16 @@ export default function CreatorPage() {
             />
           ) : stripeConnected ? (
             <>
-              <h2>Tips are temporarily unavailable</h2>
+              <h2>{t.tempUnavailableTitle}</h2>
               <p className="text-muted">
-                This creator is currently not able to receive tips. Please try again later.
+                {t.tempUnavailableBody}
               </p>
             </>
           ) : (
             <>
-              <h2>Tips are not available yet</h2>
+              <h2>{t.notReadyTitle}</h2>
               <p className="text-muted">
-                This creator hasn’t finished setting up payouts yet. Please try again later.
+                {t.notReadyBody}
               </p>
             </>
           )}

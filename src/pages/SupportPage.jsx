@@ -1,17 +1,135 @@
 import { Link } from 'react-router-dom';
 import { usePageTitle } from '../hooks/usePageTitle.js';
+import { useTipLang } from '../hooks/useTipLang.js';
+import LegalLangToggle from '../components/LegalLangToggle.jsx';
+
+// Bilingual, same shared language state as the tip and legal pages.
+// Contact section is deliberately slim: full company details (address, org.nr)
+// live in Terms §19, which satisfies ehandelsloven §5's easy-access requirement
+// without printing the street address on every help page.
 
 export default function SupportPage() {
-  usePageTitle('Support');
+  const { lang, toggle } = useTipLang();
+  usePageTitle(lang === 'no' ? 'Support' : 'Support');
+
   return (
     <main className="page page-legal card">
+      <LegalLangToggle
+        lang={lang}
+        toggle={toggle}
+        labels={
+          lang === 'no'
+            ? { switchTo: 'English', ariaLabel: 'Switch to English' }
+            : { switchTo: 'Norsk', ariaLabel: 'Bytt til norsk' }
+        }
+      />
+      {lang === 'no' ? <NorwegianSupport /> : <EnglishSupport />}
+    </main>
+  );
+}
+
+function NorwegianSupport() {
+  return (
+    <>
       <h1 className="page-title">Support</h1>
       <div className="page-body">
+        <p>
+          Trenger du hjelp? Skriv til oss på{' '}
+          <a href="mailto:support@kuntips.no">support@kuntips.no</a>. Vi
+          svarer normalt innen 48 timer på virkedager.
+        </p>
 
+        <h2>For tipsere</h2>
+        <p>
+          Du trenger ingen KunTips-konto for å sende et tips. Har du
+          spørsmål om en betaling du har gjort, kontakt oss med omtrentlig
+          dato og beløp, så undersøker vi saken.
+        </p>
+        <ul>
+          <li>
+            <strong>Jeg ble belastet, men noe gikk galt</strong> – kontakt
+            oss med dato, beløp og skaperens brukernavn. Vi undersøker
+            saken og refunderer dersom det er grunnlag for det.
+          </li>
+          <li>
+            <strong>Jeg vil finne en skaper</strong> – du trenger det
+            eksakte KunTips-brukernavnet. Skapere deler linken sin selv.
+            Du kan også søke opp et brukernavn på{' '}
+            <Link to="/">forsiden</Link>.
+          </li>
+          <li>
+            <strong>Jeg vil rapportere en skaper</strong> – send oss en
+            e-post med brukernavnet og en beskrivelse av saken. Vi tar
+            alle henvendelser på alvor.
+          </li>
+        </ul>
+
+        <h2>For skapere</h2>
+        <ul>
+          <li>
+            <strong>Komme i gang</strong> – se siden{' '}
+            <Link to="/creators">For skapere</Link>, eller gå rett til{' '}
+            <Link to="/creators/register">registrering</Link>.
+          </li>
+          <li>
+            <strong>Problemer med Stripe-registreringen</strong> – Stripe
+            håndterer identitetskontrollen på selvstendig grunnlag. Avslår
+            Stripe registreringen din, må du kontakte Stripes support
+            direkte. KunTips kan ikke overprøve Stripes avgjørelser.
+          </li>
+          <li>
+            <strong>Spørsmål om utbetaling</strong> – utbetalinger bestilles
+            fra oversikten din. Tips holdes tilbake i minst 7 dager før de
+            blir tilgjengelige. Gjeldende saldo ser du i oversikten.
+          </li>
+          <li>
+            <strong>Suspendert konto og klage</strong> – mener du at kontoen
+            din er suspendert ved en feil, send oss en e-post på{' '}
+            <a href="mailto:support@kuntips.no">support@kuntips.no</a> med
+            en beskrivelse av situasjonen. Vi svarer innen 10 virkedager.
+          </li>
+          <li>
+            <strong>Avslutte kontoen</strong> – kontakt oss på e-post.
+            Utestående tilgjengelig saldo utbetales før kontoen avsluttes.
+          </li>
+        </ul>
+
+        <h2>Juridisk</h2>
+        <p>
+          Informasjon om hvordan KunTips fungerer, rettighetene dine og
+          retningslinjene våre:
+        </p>
+        <ul>
+          <li><Link to="/legal/terms">Vilkår for bruk</Link></li>
+          <li><Link to="/legal/privacy">Personvernerklæring</Link></li>
+          <li><Link to="/legal/cookies">Informasjonskapsler</Link></li>
+          <li><Link to="/legal/creator-agreement">Skaperavtale</Link></li>
+        </ul>
+
+        <h2>Kontakt</h2>
+        <p>
+          Eternal AS<br />
+          E-post: <a href="mailto:support@kuntips.no">support@kuntips.no</a><br />
+          Svartid: innen 48 timer på virkedager
+        </p>
+        <p>
+          Fullstendige selskapsopplysninger finner du i{' '}
+          <Link to="/legal/terms">vilkårene</Link>.
+        </p>
+      </div>
+    </>
+  );
+}
+
+function EnglishSupport() {
+  return (
+    <>
+      <h1 className="page-title">Support</h1>
+      <div className="page-body">
         <p>
           Need help? You can reach us at{' '}
           <a href="mailto:support@kuntips.no">support@kuntips.no</a>.
-          We aim to respond within 48 hours.
+          We aim to respond within 48 hours on business days.
         </p>
 
         <h2>For fans</h2>
@@ -84,13 +202,15 @@ export default function SupportPage() {
 
         <h2>Contact</h2>
         <p>
-          Eternal AS · Org.nr. 926 462 237<br />
-          Johan Berentsens vei 41, 5160 Laksevåg, Norway<br />
+          Eternal AS<br />
           Email: <a href="mailto:support@kuntips.no">support@kuntips.no</a><br />
           Response time: within 48 hours on business days
         </p>
-
+        <p>
+          Full company details are available in the{' '}
+          <Link to="/legal/terms">Terms of Service</Link>.
+        </p>
       </div>
-    </main>
+    </>
   );
 }

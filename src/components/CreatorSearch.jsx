@@ -9,14 +9,14 @@ export default function CreatorSearch({ label, placeholder, buttonText }) {
   function handleSubmit(e) {
     e.preventDefault();
     // Strip leading @ (habit from social media), lowercase, trim
-    const username = value.trim().replace(/^@/, "").toLowerCase();
+    const brukernavn = value.trim().replace(/^@/, "").toLowerCase();
 
     if (!username) {
-      setError("Please enter a creator username.");
+      setError("Skriv inn et brukernavn.");
       return;
     }
     if (!/^[a-z0-9_]+$/.test(username)) {
-      setError("Usernames can only contain letters, numbers and underscores.");
+      setError("Brukernavn kan bare inneholde bokstaver, tall og understrek.");
       return;
     }
 
@@ -41,7 +41,7 @@ export default function CreatorSearch({ label, placeholder, buttonText }) {
           />
         </div>
         <button type="submit" className="btn btn-primary creator-search__btn">
-          {buttonText || "Go to tip page"}
+          {buttonText || "Gå til tipssiden"}
         </button>
       </form>
       {error && <p className="creator-search__error">{error}</p>}

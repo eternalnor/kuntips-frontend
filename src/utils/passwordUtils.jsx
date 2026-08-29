@@ -20,21 +20,21 @@ export function isStrongPassword(password) {
 }
 
 export const PASSWORD_HINT =
-  "At least 8 characters, with an uppercase letter, a lowercase letter, a number, and a special character.";
+  "Minst 8 tegn, med stor bokstav, liten bokstav, tall og spesialtegn.";
 
 export const PASSWORD_ERROR =
-  "Password must be at least 8 characters and include an uppercase letter, a lowercase letter, a number, and a special character.";
+  "Passordet må være minst 8 tegn og inneholde stor bokstav, liten bokstav, tall og spesialtegn.";
 
 /** Renders a live requirements checklist. Pass the current password value. */
 export function PasswordChecklist({ password }) {
   if (!password) return null;
   const r = passwordRequirements(password);
   const items = [
-    { label: "At least 8 characters",          met: r.length  },
-    { label: "One uppercase letter (A\u2013Z)", met: r.upper   },
-    { label: "One lowercase letter (a\u2013z)", met: r.lower   },
-    { label: "One number (0\u20139)",           met: r.digit   },
-    { label: "One special character (!@#$ etc.)", met: r.special },
+    { label: "Minst 8 tegn",                    met: r.length  },
+    { label: "\u00c9n stor bokstav (A\u2013\u00c5)",      met: r.upper   },
+    { label: "\u00c9n liten bokstav (a\u2013\u00e5)",     met: r.lower   },
+    { label: "Ett tall (0\u20139)",             met: r.digit   },
+    { label: "Ett spesialtegn (!@#$ osv.)",     met: r.special },
   ];
   return (
     <ul className="password-requirements">

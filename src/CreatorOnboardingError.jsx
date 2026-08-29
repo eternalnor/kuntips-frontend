@@ -3,29 +3,27 @@ import { Link } from "react-router-dom";
 import { usePageTitle } from "./hooks/usePageTitle.js";
 
 export default function CreatorOnboardingError() {
-  usePageTitle("Onboarding error");
+  usePageTitle("Oppsettet ble ikke fullført");
   return (
     <div className="page-shell">
       <div className="page-content">
-        <h1 className="page-title">We couldn’t complete your Stripe setup</h1>
+        <h1 className="page-title">Vi kunne ikke fullføre Stripe-oppsettet</h1>
         <p className="page-lead">
-          The Stripe Connect onboarding flow did not finish successfully.
+          Stripe-tilkoblingen ble ikke fullført.
         </p>
         <p className="page-body">
-          This can happen if you closed the Stripe window, used the back
-          button, or something went wrong during the verification steps.
+          Dette kan skje om du lukket Stripe-vinduet, trykket på tilbakeknappen, eller noe gikk galt under verifiseringsstegene.
         </p>
         <p className="page-body">
-          You can safely try again — Stripe won’t create duplicate accounts,
-          you’ll just pick up where you left off.
+          Du kan trygt prøve igjen. Stripe lager ikke duplikat-kontoer, så du fortsetter der du slapp.
         </p>
 
         <div className="page-actions">
           <Link to="/creators/login" className="btn btn-primary">
-            Go to login
+            Logg inn
           </Link>
           <Link to="/support" className="btn btn-secondary">
-            Contact support
+            Kontakt support
           </Link>
         </div>
       </div>

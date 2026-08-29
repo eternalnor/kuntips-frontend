@@ -4,7 +4,7 @@ import { usePageTitle } from "../hooks/usePageTitle.js";
 import { forgotPassword } from "../api";
 
 function ForgotPasswordPage() {
-  usePageTitle("Forgot password");
+  usePageTitle("Glemt passord");
 
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -33,21 +33,21 @@ function ForgotPasswordPage() {
       <section className="card creators-profile-card">
         {submitted ? (
           <>
-            <h1>Check your email</h1>
+            <h1>Sjekk e-posten din</h1>
             <p className="creators-subtext">
-              If <strong>{email}</strong> is registered, you&apos;ll receive a
-              password reset link shortly. Check your inbox (and spam folder).
+              Hvis <strong>{email}</strong> er registrert hos oss, kommer det en
+              link for å tilbakestille passord, om kort tid. Sjekk
+              innboksen – og søppelposten.
             </p>
             <p className="creators-small" style={{ marginTop: "1rem" }}>
-              <Link to="/creators/login">Back to login</Link>
+              <Link to="/creators/login">Tilbake til innlogging</Link>
             </p>
           </>
         ) : (
           <>
-            <h1>Forgot password</h1>
+            <h1>Glemt passord</h1>
             <p className="creators-subtext">
-              Enter your email address and we&apos;ll send you a link to reset your
-              password.
+              Skriv inn e-postadressen din, så sender vi deg en link for å lage nytt passord.
             </p>
 
             <form className="creators-profile-form" onSubmit={handleSubmit}>
@@ -76,13 +76,13 @@ function ForgotPasswordPage() {
                   className="btn btn-primary"
                   disabled={submitting || !email}
                 >
-                  {submitting ? "Sending…" : "Send reset link"}
+                  {submitting ? "Sender…" : "Send link for å tilbakestille passord"}
                 </button>
               </div>
             </form>
 
             <p className="creators-small creators-profile-note">
-              <Link to="/creators/login">Back to login</Link>
+              <Link to="/creators/login">Tilbake til innlogging</Link>
             </p>
           </>
         )}

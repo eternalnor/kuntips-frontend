@@ -5,7 +5,7 @@ import { resetPassword } from "../api";
 import { isStrongPassword, PASSWORD_ERROR, PasswordChecklist } from "../utils/passwordUtils.jsx";
 
 function ResetPasswordPage() {
-  usePageTitle("Reset password");
+  usePageTitle("Nytt passord");
   const location = useLocation();
   const token = new URLSearchParams(location.search).get("token") || "";
 
@@ -22,14 +22,14 @@ function ResetPasswordPage() {
 
     const errs = {};
     if (!newPassword) {
-      errs.newPassword = "Please enter a new password.";
+      errs.newPassword = "Skriv inn et nytt passord.";
     } else if (!isStrongPassword(newPassword)) {
       errs.newPassword = PASSWORD_ERROR;
     }
     if (!confirmPassword) {
-      errs.confirmPassword = "Please confirm your password.";
+      errs.confirmPassword = "Bekreft passordet.";
     } else if (newPassword !== confirmPassword) {
-      errs.confirmPassword = "Passwords do not match.";
+      errs.confirmPassword = "Passordene er ikke like.";
     }
 
     if (Object.keys(errs).length > 0) {
@@ -48,7 +48,7 @@ function ResetPasswordPage() {
       setError(
         err.data?.message ||
           err.message ||
-          "Could not reset password. The link may have expired.",
+          "Vi fikk ikke tilbakestilt passordet. Linken kan ha utløpt.",
       );
     } finally {
       setSubmitting(false);
@@ -59,12 +59,12 @@ function ResetPasswordPage() {
     return (
       <div className="creators-page">
         <section className="card creators-profile-card">
-          <h1>Invalid link</h1>
+          <h1>Ugyldig link</h1>
           <p className="creators-subtext">
-            This password reset link is invalid or has expired.
+            Denne linken for tilbakestilling av passord er ugyldig eller har utløpt.
           </p>
           <p className="creators-small" style={{ marginTop: "1rem" }}>
-            <Link to="/creators/forgot-password">Request a new reset link</Link>
+            <Link to="/creators/forgot-password">Be om en ny link</Link>
           </p>
         </section>
       </div>
@@ -76,29 +76,29 @@ function ResetPasswordPage() {
       <section className="card creators-profile-card">
         {success ? (
           <>
-            <h1>Password reset!</h1>
+            <h1>Passordet er tilbakestilt</h1>
             <p className="creators-subtext">
-              Your password has been updated. You can now log in with your new
-              password.
+              Passordet ditt er oppdatert. Du kan nå logge inn med det nye
+              passordet.
             </p>
             <div
               className="creators-profile-actions"
               style={{ marginTop: "1.5rem" }}
             >
               <Link to="/creators/login" className="btn btn-primary">
-                Log in
+                Logg inn
               </Link>
             </div>
           </>
         ) : (
           <>
-            <h1>Reset your password</h1>
-            <p className="creators-subtext">Choose a new password below.</p>
+            <h1>Tilbakestill passordet ditt</h1>
+            <p className="creators-subtext">Velg et nytt passord nedenfor.</p>
 
             <form className="creators-profile-form" onSubmit={handleSubmit}>
               <div className="form-field creators-form-group">
                 <label className="creators-label" htmlFor="newPassword">
-                  New password
+                  Nytt passord
                 </label>
                 <input
                   id="newPassword"
@@ -121,7 +121,7 @@ function ResetPasswordPage() {
 
               <div className="form-field creators-form-group">
                 <label className="creators-label" htmlFor="confirmPassword">
-                  Confirm new password
+                  Bekreft nytt passord
                 </label>
                 <input
                   id="confirmPassword"
@@ -152,7 +152,7 @@ function ResetPasswordPage() {
                   className="btn btn-primary"
                   disabled={submitting}
                 >
-                  {submitting ? "Resetting…" : "Reset password"}
+                  {submitting ? "Tilbakestiller…" : "Tilbakestill passord"}
                 </button>
               </div>
             </form>

@@ -5,7 +5,7 @@ import { loginCreator } from "./api";
 import { usePageTitle } from "./hooks/usePageTitle.js";
 
 function CreatorLogin() {
-  usePageTitle('Creator login');
+  usePageTitle('Logg inn');
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -48,7 +48,7 @@ function CreatorLogin() {
       setError(
         err.data?.message ||
           err.message ||
-          "Could not log in. Please check your details and try again.",
+          "Vi fikk ikke logget deg inn. Sjekk opplysningene og prøv igjen.",
       );
     } finally {
       setSubmitting(false);
@@ -58,10 +58,9 @@ function CreatorLogin() {
   return (
     <div className="creators-page">
       <div className="creators-page-header">
-        <h1>Creator login</h1>
+        <h1>Logg inn</h1>
         <p className="creators-subtext">
-          Log in with your KunTips creator email and password to access your
-          dashboard.
+          Logg inn med e-postadressen og passordet ditt.
         </p>
       </div>
 
@@ -70,20 +69,20 @@ function CreatorLogin() {
         window.localStorage.getItem("kuntips_creator_username") && (
           <section className="card creators-status creators-status-info">
             <p>
-              You’re already logged in as{" "}
+              Du er allerede logget inn som{" "}
               <span className="creators-username-tag">
                 {window.localStorage.getItem("kuntips_creator_username")}
               </span>
               .
             </p>
             <p className="creators-small">
-              Go straight to your{" "}
+              Gå rett til{" "}
               <Link
                 to={`/creators/dashboard?username=${encodeURIComponent(
                   window.localStorage.getItem("kuntips_creator_username"),
                 )}`}
               >
-                creator dashboard
+                oversikten din
               </Link>
               .
             </p>
@@ -94,7 +93,7 @@ function CreatorLogin() {
         <form className="creators-profile-form" onSubmit={handleSubmit}>
           <div className="form-field creators-form-group">
             <label className="creators-label" htmlFor="email">
-              Email
+              E-post
             </label>
             <input
               id="email"
@@ -109,7 +108,7 @@ function CreatorLogin() {
 
           <div className="form-field creators-form-group">
             <label className="creators-label" htmlFor="password">
-              Password
+              Passord
             </label>
             <input
               id="password"
@@ -134,23 +133,23 @@ function CreatorLogin() {
               className="btn btn-primary"
               disabled={submitting || !email || !password}
             >
-              {submitting ? "Logging in…" : "Log in"}
+              {submitting ? "Logger inn…" : "Logg inn"}
             </button>
           </div>
 
           <p className="creators-small" style={{ marginTop: "0.75rem", textAlign: "center" }}>
-            <Link to="/creators/forgot-password">Forgot your password?</Link>
+            <Link to="/creators/forgot-password">Glemt passordet?</Link>
           </p>
         </form>
 
         <p className="creators-small creators-profile-note">
-          If you haven’t finished your creator onboarding yet, start here:{" "}
-          <Link to="/creators/start">KunTips creator onboarding</Link>.
+          Har du ikke fullført oppsettet ennå, starter du her:{" "}
+          <Link to="/creators/start">kom i gang</Link>.
         </p>
       </section>
 
       <p className="creators-backlink">
-        <Link to="/creators">← Back to creator information</Link>
+        <Link to="/creators">← Tilbake til informasjon for skapere</Link>
       </p>
     </div>
   );

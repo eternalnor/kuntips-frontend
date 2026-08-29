@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { usePageTitle } from "./hooks/usePageTitle.js";
 
 function CreatorsLanding() {
-  usePageTitle('Receive tips from your fans', "Accept tips from fans with KunTips. Keep 95\u2013100% of every tip. No subscription, no VAT, no fan accounts needed. Connect Stripe and start earning today.");
+  usePageTitle('Ta imot tips fra følgerne dine', "Ta imot tips fra følgerne dine med KunTips. Du beholder 95–100 % av hvert tips. Ingen abonnement, ingen MVA, og følgerne trenger ingen konto. Koble til Stripe og kom i gang i dag.");
   let loggedInUsername = null;
   if (typeof window !== "undefined" && window.localStorage) {
     loggedInUsername = window.localStorage.getItem("kuntips_creator_username");
@@ -12,17 +12,17 @@ function CreatorsLanding() {
       {loggedInUsername && (
         <section className="card creators-status">
           <p>
-            You're logged in as{" "}
+            Du er logget inn som{" "}
             <span className="creators-username-tag">{loggedInUsername}</span>.
           </p>
           <p className="creators-small">
-            Go straight to your{" "}
+            Gå rett til{" "}
             <Link
               to={`/creators/dashboard?username=${encodeURIComponent(
                 loggedInUsername,
               )}`}
             >
-              creator dashboard
+              oversikten din
             </Link>
             .
           </p>
@@ -32,20 +32,20 @@ function CreatorsLanding() {
       {/* HERO */}
       <section className="card creators-hero">
         <div className="creators-hero-text">
-          <h1>Simple, private tipping for your fans</h1>
+          <h1>Enkel og diskré tipping for dine følgere</h1>
           <ul className="creators-hero-points">
-            <li>Keep 95&ndash;100% of every tip</li>
-            <li>No fan accounts needed to tip</li>
-            <li>No subscription, no monthly fee</li>
-            <li>No VAT for fans &mdash; tips are cheaper than purchases</li>
+            <li>Du beholder 95–100 % av hvert tips</li>
+            <li>Tipsere trenger ingen konto</li>
+            <li>Ingen abonnement, ingen månedsavgift</li>
+            <li>Ingen MVA for følgerne – et tips koster derfor mindre enn et kjøp</li>
           </ul>
 
           <div className="creators-hero-actions">
             <Link to="/creators/register" className="btn btn-primary">
-              Create creator account
+              Opprett din KunTips-konto
             </Link>
             <Link to="/creators/login" className="btn btn-ghost">
-              Log in to dashboard
+              Logg inn
             </Link>
           </div>
         </div>
@@ -53,24 +53,24 @@ function CreatorsLanding() {
 
       {/* FEE COMPARISON */}
       <section className="creators-compare-section">
-        <h2 className="creators-compare-heading">Why creators choose KunTips</h2>
+        <h2 className="creators-compare-heading">Derfor velger skapere KunTips</h2>
         <div className="creators-compare-cards">
           <div className="card creators-compare-card creators-compare-card--kuntips">
             <h3>KunTips</h3>
             <ul>
-              <li><span className="creators-compare-check">&#10003;</span> Keep 95&ndash;100% of every tip</li>
-              <li><span className="creators-compare-check">&#10003;</span> No fan account required</li>
-              <li><span className="creators-compare-check">&#10003;</span> Free &mdash; no monthly fee</li>
-              <li><span className="creators-compare-check">&#10003;</span> No VAT on tips</li>
+              <li><span className="creators-compare-check">&#10003;</span> Du beholder 95–100 % av hvert tips</li>
+              <li><span className="creators-compare-check">&#10003;</span> Tipsere trenger ingen konto</li>
+              <li><span className="creators-compare-check">&#10003;</span> Gratis – ingen månedsavgift</li>
+              <li><span className="creators-compare-check">&#10003;</span> Ingen MVA på tips</li>
             </ul>
           </div>
           <div className="card creators-compare-card creators-compare-card--others">
-            <h3>Typical platforms</h3>
+            <h3>Andre plattformer</h3>
             <ul>
-              <li><span className="creators-compare-x">&#10005;</span> Creators keep 70&ndash;95%</li>
-              <li><span className="creators-compare-x">&#10005;</span> Fans usually need an account</li>
-              <li><span className="creators-compare-x">&#10005;</span> Often paid subscription</li>
-              <li><span className="creators-compare-x">&#10005;</span> 25% MVA added on top</li>
+              <li><span className="creators-compare-x">&#10005;</span> Skaperen beholder 70–95 %</li>
+              <li><span className="creators-compare-x">&#10005;</span> Tipsere må som regel lage konto</li>
+              <li><span className="creators-compare-x">&#10005;</span> Ofte betalt abonnement</li>
+              <li><span className="creators-compare-x">&#10005;</span> 25 % MVA i tillegg</li>
             </ul>
           </div>
         </div>
@@ -79,41 +79,37 @@ function CreatorsLanding() {
       {/* HOW IT WORKS */}
       <section className="creators-grid">
         <div className="card creators-step">
-          <h2>1. Connect Stripe</h2>
+          <h2>1. Koble til Stripe</h2>
           <p>
-            Onboard with Stripe &mdash; they verify your identity and handle
-            payouts directly to your bank account. Takes about 5 minutes.
+            Koble deg til Stripe. De verifiserer deg og håndterer betalinger til bankkontoen din. Oppsettet tar ca. fem minutter.
           </p>
         </div>
         <div className="card creators-step">
-          <h2>2. Share your tip link</h2>
+          <h2>2. Del KunTips-linken din</h2>
           <p>
-            You get a clean kuntips.no/&lt;username&gt; page. Drop it in
-            your bio, social profiles, or anywhere you talk to fans.
+            Du får din egen side på kuntips.no/«ditt brukernavn». Legg den i bioen din, på profilene dine, eller der du ellers snakker med dine følgere.
           </p>
         </div>
         <div className="card creators-step">
-          <h2>3. Receive payouts</h2>
+          <h2>3. Motta utbetalinger</h2>
           <p>
-            Fans pick an amount and pay via Stripe in seconds. Request a
-            payout from your dashboard whenever your balance is ready.
+            Følgerne velger beløp og betaler på sekunder. Du ber om utbetaling fra oversikten din når saldoen er klar.
           </p>
         </div>
       </section>
 
       {/* FINAL CTA */}
       <section className="card home-section home-section-last">
-        <h2>Ready to start earning?</h2>
+        <h2>Klar til å sette i gang?</h2>
         <p>
-          Create your account in minutes. Connect Stripe once and start
-          receiving tips the same day.
+          Opprett kontoen din. Koble til Stripe. Motta tips samme dag.
         </p>
         <div className="home-hero-actions">
           <Link to="/creators/register" className="btn btn-primary">
-            Create a creator account
+            Opprett din KunTips-konto
           </Link>
           <Link to="/creators/login" className="btn btn-ghost">
-            Log in to dashboard
+            Logg inn
           </Link>
         </div>
       </section>

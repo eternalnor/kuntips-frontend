@@ -4,7 +4,7 @@ import { usePageTitle } from "../hooks/usePageTitle.js";
 import { verifyEmail, createStripeAccountLink, getSessionToken } from "../api";
 
 function VerifyEmailPage() {
-  usePageTitle("Verify email");
+  usePageTitle("Bekreft e-post");
   const location = useLocation();
   const token = new URLSearchParams(location.search).get("token") || "";
 
@@ -29,7 +29,7 @@ function VerifyEmailPage() {
     if (!token) {
       setStatus("error");
       setMessage(
-        "No verification token found. Please check the link in your email.",
+        "Mangler verifiseringskode. Vennligst sjekk linken i e-posten du fikk.",
       );
       return;
     }
@@ -43,7 +43,7 @@ function VerifyEmailPage() {
         setMessage(
           err.data?.message ||
             err.message ||
-            "Verification failed. The link may have expired.",
+            "Verifiseringen mislyktes. Linken kan ha utløpt.",
         );
       });
   }, [token]);
@@ -61,10 +61,10 @@ function VerifyEmailPage() {
         window.location.href = data.url;
         return;
       }
-      setStripeError("Could not open Stripe. Please try again.");
+      setStripeError("Vi fikk ikke åpnet Stripe. Vennligst prøv igjen.");
     } catch (err) {
       setStripeError(
-        err.data?.message || err.message || "Could not open Stripe. Please try again.",
+        err.data?.message || err.message || "Vi fikk ikke åpnet Stripe. Vennligst prøv igjen.",
       );
     } finally {
       setStripeLoading(false);
@@ -76,22 +76,19 @@ function VerifyEmailPage() {
       <section className="card creators-profile-card">
         {status === "loading" && (
           <>
-            <h1>Verifying your email&hellip;</h1>
-            <p className="creators-subtext">Please wait.</p>
+            <h1>Bekrefter e-postadressen din&hellip;</h1>
+            <p className="creators-subtext">Vennligst vent…</p>
           </>
         )}
 
         {status === "success" && (
           <>
-            <h1>Email verified!</h1>
+            <h1>E-postadressen er bekreftet</h1>
             <p className="creators-subtext">
-              One step left: connect Stripe so you can actually receive tips.
-              It takes about 5 minutes.
+              Ett steg gjenstår: koble til Stripe, slik at du kan ta imot tips. Det tar rundt fem minutter.
             </p>
             <p className="creators-small" style={{ marginTop: "0.75rem" }}>
-              Have your ID and bank account number ready. You do <strong>not</strong>{" "}
-              need an organisation number — you can register as a private
-              individual.
+              Ha kontonummeret klart.
             </p>
 
             <div
@@ -105,11 +102,11 @@ function VerifyEmailPage() {
                   onClick={handleConnectStripe}
                   disabled={stripeLoading}
                 >
-                  {stripeLoading ? "Opening Stripe…" : "Connect payouts — about 5 min"}
+                  {stripeLoading ? "Åpner Stripe…" : "Koble til utbetaling"}
                 </button>
               ) : (
                 <Link to="/creators/login" className="btn btn-primary">
-                  Log in to finish setup
+                  Logg inn for å fullføre oppsettet
                 </Link>
               )}
             </div>
@@ -121,18 +118,17 @@ function VerifyEmailPage() {
             )}
 
             <p className="creators-small" style={{ marginTop: "1rem" }}>
-              <Link to={dashboardUrl}>Skip for now and go to the dashboard</Link>
+              <Link to={dashboardUrl}>Hopp over og gå til oversikten</Link>
             </p>
           </>
         )}
 
         {status === "error" && (
           <>
-            <h1>Verification failed</h1>
+            <h1>Verifisering mislyktes</h1>
             <p className="creators-subtext">{message}</p>
             <p className="creators-small" style={{ marginTop: "1rem" }}>
-              If you have already verified this address, the link simply
-              won&rsquo;t work a second time — just log in as normal.
+              Har du allerede bekreftet adressen, virker ikke linken en gang til. Da logger du bare inn som vanlig.
             </p>
             <div
               className="creators-profile-actions"

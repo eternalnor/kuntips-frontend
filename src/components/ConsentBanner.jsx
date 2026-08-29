@@ -11,7 +11,7 @@ import { hasDecided, setConsent, OPEN_CONSENT_EVENT } from "../consent.js";
 const COPY = {
   no: {
     title: "Vi bruker informasjonskapsler",
-    body: "Vi bruker nødvendige informasjonskapsler for at siden skal fungere. Med ditt samtykke bruker vi også markedsføringsverktøy (Meta og TikTok) for å måle og forbedre annonsene våre. Du kan endre valget når som helst.",
+    body: "Vi bruker nødvendige informasjonskapsler for at siden skal virke. Med ditt samtykke bruker vi også markedsføringsverktøy (Meta og TikTok) for å måle og forbedre annonsene våre. Du kan endre valget når som helst.",
     acceptAll: "Godta alle",
     necessaryOnly: "Kun nødvendige",
     readMore: "Les mer i vår cookie-policy",

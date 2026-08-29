@@ -1,8 +1,9 @@
-// src/components/TipWidget.jsx
+// src/components/TipsWidget.jsx
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { containsBlockedContent } from '../utils/wordFilter.js';
+import { useTipLang } from '../hooks/useTipLang.js';
 import { hasMarketingConsent } from '../consent.js';
-import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js/pure';
 import {
   Elements,
   PaymentElement,
@@ -25,13 +26,25 @@ const DEFAULT_CREATOR_KEPT_PERCENT = 95;
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+// Lazy: Stripe.js must only load when a tip page actually renders. A top-level
+// loadStripe would fetch js.stripe.com (and let it set cookies) on every route
+// of the SPA — which would make the Cookie Policy's "only loads on tip pages"
+// disclosure false. Deliberately initialised on first TipWidget mount instead.
+let stripePromise = null;
+function getStripePromise() {
+  if (!stripePromise) {
+    stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+  }
+  return stripePromise;
+}
 
 export function TipWidget({
   creatorUsername,
   creatorDisplayName,
   creatorKeptPercent = DEFAULT_CREATOR_KEPT_PERCENT,
 }) {
+  const { t, tf, lang, toggle } = useTipLang();
+
   // Dynamic tip limits from backend (with safe defaults so the page still works
   // if the fetch fails or hasn't returned yet).
   const [minTip, setMinTip] = useState(DEFAULT_MIN_TIP);
@@ -202,7 +215,7 @@ export function TipWidget({
 
   const validateAmount = (amount) => {
     if (Number.isNaN(amount)) {
-      return 'Please enter a valid number.';
+      return t.invalidAmount;
     }
     if (amount < minTip) {
       return `Minimum tip is NOK${minTip}.`;
@@ -226,7 +239,7 @@ export function TipWidget({
     }
 
     if (tipperName.trim() && containsBlockedContent(tipperName)) {
-      setErrorMessage("That name isn't allowed. Please use a different name or tip anonymously.");
+      setErrorMessage(t.nameNotAllowed);
       return;
     }
 
@@ -242,7 +255,7 @@ export function TipWidget({
       if (!apiBase) {
         console.error('VITE_API_BASE_URL is not set');
         setErrorMessage(
-          'Configuration error: payment backend is not available. Please try again later.',
+          t.configError,
         );
         setIsSubmitting(false);
         return;
@@ -287,15 +300,15 @@ export function TipWidget({
           );
         } else if (code === 'creator_not_found') {
           setErrorMessage(
-            'This creator could not be found or is not active right now.',
+            t.creatorNotFound,
           );
         } else if (code === 'creator_not_connected') {
           setErrorMessage(
-            'This creator has not finished setting up payouts yet. Please try again later.',
+            t.payoutsNotSetUp,
           );
         } else {
           setErrorMessage(
-            'Something went wrong starting the payment. Please try again in a moment.',
+            t.startFailed,
           );
         }
 
@@ -306,7 +319,7 @@ export function TipWidget({
       if (!data || !data.clientSecret) {
         console.error('Tip session response missing clientSecret', data);
         setErrorMessage(
-          'We could not start the payment session. Please try again in a moment.',
+          t.sessionFailed,
         );
         setIsSubmitting(false);
         return;
@@ -319,7 +332,7 @@ export function TipWidget({
     } catch (err) {
       console.error('Unexpected error creating tip session', err);
       setErrorMessage(
-        'Something went wrong starting the payment. Please try again in a moment.',
+        t.startFailed,
       );
       setIsSubmitting(false);
     }
@@ -332,10 +345,20 @@ export function TipWidget({
   return (
     <section aria-label="Tip widget" className="tip-card">
       <div className="tip-card__header">
-        <h2 className="tip-card__title">Support {displayName}</h2>
-        <p className="tip-card__subtitle">
-          Private by default — no account needed. You choose the amount and whether to leave your name.
-        </p>
+        {/* Language switch. The page picks Norwegian or English from the
+            browser, but a Norwegian abroad on an English phone — or the other
+            way round — needs to be able to override it in one tap. */}
+        <button
+          type="button"
+          className="tip-card__lang"
+          onClick={toggle}
+          aria-label={t.langLabel}
+          lang={lang === "no" ? "en" : "no"}
+        >
+          {t.langSwitch}
+        </button>
+        <h2 className="tip-card__title">{tf('heading', { name: displayName })}</h2>
+        <p className="tip-card__subtitle">{t.intro}</p>
       </div>
 
       {/* Tip selection area (presets + amount + breakdown + CTA) */}
@@ -368,12 +391,12 @@ export function TipWidget({
         </div>
 
         <form onSubmit={handleSubmit} className="tip-card__form">
-          {/* Custom amount */}
+          {/* Egendefinert beløp */}
           <div className="tip-card__field">
             <label htmlFor="custom-amount" className="tip-card__label-row">
-              <span>Custom amount</span>
+              <span>{t.customAmount}</span>
               <span>
-                Min kr {minTip} · Max kr {maxTip} - NOK Only
+                {tf('minMax', { min: minTip, max: maxTip })}
               </span>
             </label>
 
@@ -398,15 +421,15 @@ export function TipWidget({
           {/* Breakdown */}
           <div className="tip-card__breakdown">
             <div className="tip-card__row">
-              <span>Tip</span>
+              <span>{t.rowTip}</span>
               <span className="tip-card__value">kr {breakdown.tip}</span>
             </div>
             <div className="tip-card__row">
-              <span>Service fee</span>
+              <span>{t.rowFee}</span>
               <span>kr {breakdown.processorFee}</span>
             </div>
             <div className="tip-card__row">
-              <span>Total charged</span>
+              <span>{t.rowTotal}</span>
               <span className="tip-card__value tip-card__value--strong">
                 kr {breakdown.totalCharged}
               </span>
@@ -416,7 +439,7 @@ export function TipWidget({
 
             <div className="tip-card__row">
               <span className="tip-card__label-muted">
-                Creator receives {breakdown.creatorPercentage}% of your tip
+                {tf('creatorReceives', { pct: breakdown.creatorPercentage })}
               </span>
               <span className="tip-card__value tip-card__value--success">
                 kr {breakdown.creatorReceives}
@@ -424,21 +447,20 @@ export function TipWidget({
             </div>
 
             <p className="tip-card__footnote">
-              The service fee covers Stripe’s card processing and a small
-              KunTips fee — paid by you, not deducted from the creator.
+              {t.feeNote}
             </p>
           </div>
 
           {/* Optional tipper name */}
           <div className="tip-card__field">
             <label htmlFor="tipper-name" className="tip-card__label-row">
-              <span>Your name <span className="tip-card__optional">(optional)</span></span>
+              <span>{t.yourName} <span className="tip-card__optional">{t.optional}</span></span>
             </label>
             <input
               id="tipper-name"
               type="text"
               maxLength={60}
-              placeholder="Leave it blank to tip anonymously"
+              placeholder={t.namePlaceholder}
               value={tipperName}
               onChange={(e) => setTipperName(e.target.value)}
               className="tip-card__amount-input tip-card__name-input"
@@ -449,13 +471,13 @@ export function TipWidget({
           {/* Optional receipt email */}
           <div className="tip-card__field">
             <label htmlFor="tipper-email" className="tip-card__label-row">
-              <span>Email for receipt <span className="tip-card__optional">(optional)</span></span>
+              <span>{t.emailForReceipt} <span className="tip-card__optional">{t.optional}</span></span>
             </label>
             <input
               id="tipper-email"
               type="email"
               maxLength={254}
-              placeholder="Leave blank if you don't want a receipt"
+              placeholder={t.emailPlaceholder}
               value={tipperEmail}
               onChange={(e) => setTipperEmail(e.target.value)}
               className="tip-card__amount-input tip-card__name-input"
@@ -475,19 +497,19 @@ export function TipWidget({
               className="tip-card__cta"
             >
               {isSubmitting
-                ? 'Starting secure payment…'
+                ? t.startingPayment
                 : tipperName.trim()
-                ? `Tip as ${tipperName.trim()}`
-                : 'Tip anonymously'}
+                ? tf('tipAs', { name: tipperName.trim() })
+                : t.tipAnonymously}
             </button>
             <p className="tip-card__secure-note">
-              Payments are handled entirely by Stripe. KunTips never sees your card details.
+              {t.secureNote}
             </p>
             <p className="tip-card__legal-note">
-              By paying you agree to the{" "}
-              <a href="/legal/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-              {" "}and{" "}
-              <a href="/legal/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+              {t.legalPre}
+              <a href="/legal/terms" target="_blank" rel="noopener noreferrer">{t.legalTerms}</a>
+              {t.legalAnd}
+              <a href="/legal/privacy" target="_blank" rel="noopener noreferrer">{t.legalPrivacy}</a>.
             </p>
           </div>
         </form>
@@ -526,7 +548,7 @@ export function TipWidget({
               </button>
             </div>
           ) : (
-            <Elements stripe={stripePromise} options={{ clientSecret }}>
+            <Elements stripe={getStripePromise()} options={{ clientSecret }}>
               <StripePaymentForm
                 onSuccess={(randomMessage) => {
                   setTipCompleted(true);
@@ -600,43 +622,44 @@ export function TipWidget({
 // We deliberately DON'T show Stripe's raw text (e.g. "too high risk"), which is
 // confusing and reads as accusatory for what is often a false flag. The real
 // error is still logged to the console for debugging.
-function friendlyPaymentError(error) {
+function friendlyPaymentError(error, t) {
   const code = error?.code || "";
   const declineCode = error?.decline_code || "";
 
   switch (declineCode) {
     case "insufficient_funds":
-      return "That card has insufficient funds. Please try a different card.";
+      return t.cardInsufficient;
     case "expired_card":
-      return "That card has expired. Please try a different card.";
+      return t.cardExpired;
     case "incorrect_cvc":
     case "invalid_cvc":
-      return "The card's security code (CVC) looks wrong. Please check it and try again.";
+      return t.cardCvc;
     case "lost_card":
     case "stolen_card":
     case "pickup_card":
-      return "Your card was declined. Please try a different card.";
+      return t.cardDeclined;
     default:
       break;
   }
 
   switch (code) {
     case "card_declined":
-      return "Your card was declined by our payment processor. This isn't a problem with KunTips — please try a different card.";
+      return t.cardDeclinedProcessor;
     case "expired_card":
-      return "That card has expired. Please try a different card.";
+      return t.cardExpired;
     case "incorrect_cvc":
-      return "The card's security code (CVC) looks wrong. Please check it and try again.";
+      return t.cardCvc;
     case "processing_error":
-      return "Something went wrong processing that card. Please try again in a moment, or use a different card.";
+      return t.cardProcessing;
     case "authentication_required":
-      return "Your bank needs to confirm this payment. Please complete the verification and try again.";
+      return t.bankConfirm;
     default:
-      return "The payment couldn't be completed. Please try again or use a different card.";
+      return t.notCompleted;
   }
 }
 
 function StripePaymentForm({ onSuccess, tipperEmail, tipAmountNok }) {
+  const { t, tf } = useTipLang();
   const stripe = useStripe();
   const elements = useElements();
   const [submitting, setSubmitting] = useState(false);
@@ -667,17 +690,12 @@ function StripePaymentForm({ onSuccess, tipperEmail, tipAmountNok }) {
 
       if (result.error) {
         console.error("Stripe payment error:", result.error);
-        setMessage(friendlyPaymentError(result.error));
+        setMessage(friendlyPaymentError(result.error, t));
       } else if (
         result.paymentIntent &&
         result.paymentIntent.status === "succeeded"
       ) {
-        const funMessages = [
-          "Thank you! Your tip was sent successfully. May your beard grow long and strong, and your hair never fall out.",
-          "Thank you! Your tip was sent successfully. You just made someone’s day a little better. \u2665",
-          "Thank you! Your tip was sent successfully. Great things happen to generous people. Just saying.",
-          "Thank you! Your tip was sent successfully. That was a legend move. The universe owes you one.",
-        ];
+        const funMessages = t.quips.map((q) => `${t.thanks} ${q}`);
         const random =
           funMessages[Math.floor(Math.random() * funMessages.length)];
 
@@ -711,17 +729,15 @@ function StripePaymentForm({ onSuccess, tipperEmail, tipAmountNok }) {
           onSuccess(random);
         }
 
-        setMessage("Thank you! Your tip was sent successfully.");
+        setMessage(t.thanks);
       } else if (result.paymentIntent) {
-        setMessage(
-          `Payment status: ${result.paymentIntent.status}. Please check your bank or try again.`,
-        );
+        setMessage(tf("pendingStatus", { status: result.paymentIntent.status }));
       } else {
-        setMessage("Unexpected payment result. Please try again.");
+        setMessage(t.unexpectedResult);
       }
     } catch (err) {
       console.error("Unexpected payment error:", err);
-      setMessage("Something went wrong. Please try again.");
+      setMessage(t.genericError);
     } finally {
       setSubmitting(false);
     }
@@ -740,14 +756,11 @@ function StripePaymentForm({ onSuccess, tipperEmail, tipAmountNok }) {
         disabled={!stripe || submitting}
         className="tip-card__cta tip-card__cta--secondary"
       >
-        {submitting ? 'Processing…' : 'Pay securely'}
+        {submitting ? t.processing : t.paySecurely}
       </button>
 
       {/* Secure-payment note now lives directly under the Pay button */}
-      <p className="tip-card__secure-note">
-        Payments are processed securely by Stripe. KunTips never stores your
-        card details.
-      </p>
+      <p className="tip-card__secure-note">{t.secureNote}</p>
     </form>
   );
 }

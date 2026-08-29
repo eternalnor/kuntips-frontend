@@ -3,33 +3,32 @@ import { Link } from "react-router-dom";
 import { usePageTitle } from "./hooks/usePageTitle.js";
 
 function CreatorsStart() {
-  usePageTitle("Get started");
+  usePageTitle("Kom i gang");
   return (
     <div className="creators-page">
       <section className="card creators-start">
-        <h1>What you need to get started</h1>
+        <h1>Dette trenger du for å komme i gang</h1>
         <p>
-          Stripe handles identity verification and payouts — you&apos;ll need a
-          few minutes and the following:
+          Stripe står for verifisering og utbetaling. Sett av noen minutter, og ha dette klart:
         </p>
 
         <ul className="creators-list">
-          <li>A Stripe account — created automatically if you don&apos;t have one yet.</li>
-          <li>Basic identity info required by Stripe (name, address, bank details).</li>
-          <li>A username and short bio for your KunTips tip page.</li>
+          <li>En Stripe-konto – den opprettes automatisk hvis du ikke har en.</li>
+          <li>Opplysningene Stripe krever: navn, adresse og kontonummer.</li>
+          <li>Et brukernavn og en kort bio til KunTips-siden din.</li>
         </ul>
 
         <div className="creators-cta-row">
           <Link to="/creators/register" className="btn btn-primary">
-            Create creator account
+            Opprett din KunTips-konto
           </Link>
           <Link to="/creators/login" className="btn btn-secondary">
-            Log in to dashboard
+            Logg inn
           </Link>
         </div>
 
         <p className="creators-backlink">
-          <Link to="/creators">← Back to creator information</Link>
+          <Link to="/creators">← Tilbake til informasjon for skapere</Link>
         </p>
       </section>
     </div>
