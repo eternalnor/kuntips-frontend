@@ -11,6 +11,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { usePageTitle } from "./hooks/usePageTitle.js";
+import { DASH } from "./dashStrings.js";
 import { createStripeAccountLink, getSessionToken } from "./api";
 
 export default function CreatorOnboardingRefresh() {
@@ -67,9 +68,9 @@ export default function CreatorOnboardingRefresh() {
     return (
       <div className="page-shell">
         <div className="page-content">
-          <h1 className="page-title">Taking you back to Stripe&hellip;</h1>
+          <h1 className="page-title">{DASH.refreshTitle}</h1>
           <p className="page-lead">
-            One moment — we&rsquo;re picking up your setup where you left off.
+            {DASH.refreshLead}
           </p>
         </div>
       </div>
@@ -79,25 +80,22 @@ export default function CreatorOnboardingRefresh() {
   return (
     <div className="page-shell">
       <div className="page-content">
-        <h1 className="page-title">Let&rsquo;s finish your setup</h1>
+        <h1 className="page-title">{DASH.refreshFinishTitle}</h1>
         {failed === "no_session" ? (
           <>
             <p className="page-lead">
-              You&rsquo;ve been signed out, so we couldn&rsquo;t reopen Stripe
-              automatically. Log back in and you can carry on where you left off
-              — nothing you entered is lost.
+              {DASH.refreshNoSession}
             </p>
             <div className="page-actions">
               <Link to="/creators/login" className="btn btn-primary">
-                Log in to continue
+                {DASH.refreshLoginBtn}
               </Link>
             </div>
           </>
         ) : (
           <>
             <p className="page-lead">
-              We couldn&rsquo;t reopen Stripe just then. Your progress is saved —
-              try again, or head to your dashboard and pick it up from there.
+              {DASH.refreshFailed}
             </p>
             <div className="page-actions">
               <button
@@ -106,7 +104,7 @@ export default function CreatorOnboardingRefresh() {
                 onClick={resume}
                 disabled={retrying}
               >
-                {retrying ? "Opening Stripe…" : "Try again"}
+                {retrying ? DASH.refreshOpening : DASH.refreshRetry}
               </button>
               <Link to={dashboardPath} className="btn btn-ghost">
                 Go to dashboard

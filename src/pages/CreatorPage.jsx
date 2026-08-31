@@ -76,10 +76,10 @@ export default function CreatorPage() {
 
     const siteUrl = window.location.href;
     const desc = creator.bio
-      ? `${creator.bio} — Send a tip to ${displayName} on KunTips.`
-      : `Send a tip to ${displayName} on KunTips. No account needed.`;
+      ? `${creator.bio} — ${tf('ogDescTail', { name: displayName })}`
+      : tf('ogDescNoBio', { name: displayName });
 
-    setMetaTag('og:title', `Support ${displayName} on KunTips`);
+    setMetaTag('og:title', tf('ogTitle', { name: displayName }));
     setMetaTag('og:description', desc);
     setMetaTag('og:url', siteUrl);
     setMetaTag('og:type', 'website');

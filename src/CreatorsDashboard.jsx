@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { usePageTitle } from "./hooks/usePageTitle.js";
+import { DASH } from "./dashStrings.js";
 import { containsBlockedContent } from "./utils/wordFilter.js";
 import { isStrongPassword, PASSWORD_ERROR, PasswordChecklist } from "./utils/passwordUtils.jsx";
 import {
@@ -519,11 +520,10 @@ function CreatorsDashboard() {
         <section className="card creators-status creators-status-warning">
           <p>
             <strong>Bekreft e-postadressen din</strong> – sjekk innboksen din
-            for a verification link from KunTips.
+            {DASH.verifyBannerTail}
           </p>
           <p className="creators-small">
-            You need a verified email before you can connect Stripe and receive
-            payouts.
+            {DASH.verifyBannerSub}
           </p>
           {resendVerificationMsg ? (
             <p className="creators-small">{resendVerificationMsg}</p>
@@ -551,9 +551,7 @@ function CreatorsDashboard() {
         <section className="card creators-status creators-status-error">
           <p>{error}</p>
           <p className="creators-small">
-            If you believe this is a mistake, make sure you’re logged in with
-            the correct creator email and that the username in the URL matches
-            your KunTips creator username.
+            {DASH.errorHint}
           </p>
         </section>
       )}
@@ -680,13 +678,10 @@ function CreatorsDashboard() {
                     ) : stripeStalled ? (
                       <div className="stripe-status-row">
                         <span className="stripe-status-pill stripe-status-disconnected">
-                          ⚠ Stripe setup unfinished
+                          {DASH.pillUnfinished}
                         </span>
                         <span className="creators-small">
-                          You started connecting Stripe but didn&rsquo;t finish, so
-                          your tip page can&rsquo;t take payments yet. It usually
-                          takes about five minutes — have your ID and bank account
-                          number ready.
+                          {DASH.stalledShort}
                         </span>
                         <button
                           type="button"
@@ -700,11 +695,10 @@ function CreatorsDashboard() {
                     ) : (
                       <div className="stripe-status-row">
                         <span className="stripe-status-pill stripe-status-disconnected">
-                          ⚠ Stripe not connected
+                          {DASH.pillNotConnected}
                         </span>
                         <span className="creators-small">
-                          Connect Stripe to start receiving tips. Takes about five
-                          minutes — you don&rsquo;t need an organisation number.
+                          {DASH.connectShort}
                         </span>
                         <button
                           type="button"
@@ -728,13 +722,11 @@ function CreatorsDashboard() {
                     <h2>KunTips-linken din</h2>
                     {canReceiveTips ? (
                       <p className="creators-dashboard-sub">
-                        Share this link with your fans so they can send you tips — they stay private by default, or can optionally leave their name.
+                        {DASH.tipLinkShare}
                       </p>
                     ) : (
                       <p className="creators-dashboard-sub">
-                        This is your link, but it can&apos;t accept payments until
-                        your Stripe setup is finished. Don&apos;t share it yet —
-                        tips sent to it will fail.
+                        {DASH.tipLinkInactive}
                       </p>
                     )}
                     <div className="creators-tiplink-row">
@@ -963,14 +955,13 @@ function CreatorsDashboard() {
                     <div className="creators-dashboard-table-header">
                       <h2>Siste tips</h2>
                       <p className="creators-dashboard-sub">
-                        Latest 20 tips for this creator.
+                        {DASH.recentSub}
                       </p>
                     </div>
 
                     {recentTips.length === 0 ? (
                         <p className="creators-dashboard-sub">
-                          No tips found yet. Once fans start tipping, you’ll see them
-                          listed here.
+                          {DASH.noTips}
                         </p>
                     ) : (
                         <div className="creators-dashboard-table-scroll">
@@ -1019,9 +1010,7 @@ function CreatorsDashboard() {
                     )}
 
                     <p className="creators-small">
-                      Payouts themselves are handled by Stripe. KunTips shows you
-                      aggregated stats here, while Stripe provides detailed payout
-                      reports for your accounting.
+                      {DASH.payoutsNote}
                     </p>
                   </section>
                 </>
@@ -1033,7 +1022,7 @@ function CreatorsDashboard() {
                   <section className="card creators-profile-card">
                     <h2>Offentlig profil</h2>
                     <p className="creators-dashboard-sub">
-                      This is what fans see on your KunTips page (
+                      {DASH.profileSubPre}
                       <code>kuntips.no/{creatorUsername}</code>).
                     </p>
 
@@ -1054,7 +1043,7 @@ function CreatorsDashboard() {
                     <form className="creators-profile-form" onSubmit={handleProfileSave}>
                       <div className="form-field creators-form-group">
                         <label className="creators-label" htmlFor="displayName">
-                          Display name
+                          {DASH.labelDisplayName}
                         </label>
                         <input
                             id="displayName"
@@ -1065,7 +1054,7 @@ function CreatorsDashboard() {
                             maxLength={80}
                         />
                         <p className="creators-small">
-                          Shown on your KunTips page and in dashboards.
+                          {DASH.displayNameHelp}
                         </p>
                       </div>
 
@@ -1082,7 +1071,7 @@ function CreatorsDashboard() {
                             maxLength={160}
                         />
                         <p className="creators-small" style={{ display: "flex", justifyContent: "space-between" }}>
-                          <span>A short description shown on your tip page.</span>
+                          <span>{DASH.bioHelp}</span>
                           <span style={{ color: bioInput.length >= 150 ? "#f87171" : "inherit" }}>
                             {bioInput.length}/160
                           </span>
@@ -1094,8 +1083,7 @@ function CreatorsDashboard() {
                       )}
                       {profileSaved && !profileError && (
                           <p className="creators-success-inline">
-                            Profile saved. Your public page will reflect these changes
-                            shortly.
+                            {DASH.profileSaved}
                           </p>
                       )}
 
@@ -1111,8 +1099,7 @@ function CreatorsDashboard() {
                     </form>
 
                     <p className="creators-small creators-profile-note">
-                      Profile editing currently lets you change your display name and
-                      bio. Avatar and additional branding options will be added later.
+                      {DASH.profileNote}
                     </p>
                   </section>
 
@@ -1124,9 +1111,7 @@ function CreatorsDashboard() {
                       {creatorUsername ? (
                           <>
                             <p className="creators-dashboard-sub">
-                              Share this link with other creators. When they sign up and start
-                              receiving tips, you get a permanent referral bonus on your tier
-                              (up to Tier 6).
+                              {DASH.referralSub}
                             </p>
 
                             {referralLink && (
@@ -1149,56 +1134,54 @@ function CreatorsDashboard() {
                                     </button>
                                   </div>
                                   <p className="creators-small">
-                                    New creators who register through it will count towards your referral boosts.
+                                    {DASH.referralCount}
                                   </p>
                                 </div>
                             )}
 
                             <p className="creators-dashboard-sub">
-                              Creators referred in the last 365 days:{" "}
+                              {DASH.referred365}{" "}
                               <strong>{totalReferralsLast365d}</strong>
                             </p>
 
                             {referralBoostTiers > 0 && (
                                 <p className="creators-dashboard-sub">
-                                  Referral boost:{" "}
-                                  <strong>+{referralBoostTiers} tier{referralBoostTiers > 1 ? "s" : ""}</strong>{" "}
-                                  applied to your effective tier right now.
+                                  {DASH.boostReferralPre}
+                                  <strong>+{referralBoostTiers} nivå</strong>
+                                  {DASH.boostReferralPost}
                                 </p>
                             )}
                             {joinBoostTiers > 0 && (
                                 <p className="creators-dashboard-sub">
-                                  Join boost:{" "}
-                                  <strong>+{joinBoostTiers} tier{joinBoostTiers > 1 ? "s" : ""}</strong>{" "}
-                                  because you recently joined KunTips. Temporary, stacked on top of your base tier.
+                                  {DASH.boostJoinPre}
+                                  <strong>+{joinBoostTiers} nivå</strong>
+                                  {DASH.boostJoinPost}
                                 </p>
                             )}
                             {temporaryBoostTiers > 0 && (
                                 <p className="creators-dashboard-sub">
-                                  Temporary promo boost:{" "}
-                                  <strong>+{temporaryBoostTiers} tier{temporaryBoostTiers > 1 ? "s" : ""}</strong>{" "}
-                                  currently active.
+                                  {DASH.boostTempPre}
+                                  <strong>+{temporaryBoostTiers} nivå</strong>
+                                  {DASH.boostTempPost}
                                 </p>
                             )}
                             {globalEventBoostTiers > 0 && (
                                 <p className="creators-dashboard-sub">
-                                  🎉 Platform event boost:{" "}
-                                  <strong>+{globalEventBoostTiers} tier{globalEventBoostTiers > 1 ? "s" : ""}</strong>{" "}
-                                  — a special KunTips promotion is active for all creators right now!
+                                  {DASH.boostEventPre}
+                                  <strong>+{globalEventBoostTiers} nivå</strong>
+                                  {DASH.boostEventPost}
                                 </p>
                             )}
                             {referralBoostTiers === 0 && joinBoostTiers === 0 &&
                              temporaryBoostTiers === 0 && globalEventBoostTiers === 0 && (
                                 <p className="creators-dashboard-sub">
-                                  You don't have any extra boosts yet. Once you reach 10 referred
-                                  creators in a 12-month period, you get +1 tier. At 35, +2 tiers;
-                                  and 100 gives +3 tiers – always capped at Tier 6.
+                                  {DASH.noBoosts}
                                 </p>
                             )}
                           </>
                       ) : (
                           <p className="creators-dashboard-sub">
-                            Referral details will appear here when your username is available.
+                            {DASH.referralUnavailable}
                           </p>
                       )}
                     </div>
@@ -1208,7 +1191,7 @@ function CreatorsDashboard() {
                   <section className="card creators-security-card">
                     <h2>Sikkerhet</h2>
                     <p className="creators-dashboard-sub">
-                      Change your password and log out of this browser.
+                      {DASH.securitySub}
                     </p>
 
                     <form
@@ -1217,7 +1200,7 @@ function CreatorsDashboard() {
                     >
                       <div className="form-field creators-form-group">
                         <label className="creators-label" htmlFor="currentPassword">
-                          Current password
+                          {DASH.labelCurrentPassword}
                         </label>
                         <input
                             id="currentPassword"
@@ -1230,7 +1213,7 @@ function CreatorsDashboard() {
 
                       <div className="form-field creators-form-group">
                         <label className="creators-label" htmlFor="newPassword">
-                          New password
+                          {DASH.labelNewPassword}
                         </label>
                         <input
                             id="newPassword"
@@ -1244,7 +1227,7 @@ function CreatorsDashboard() {
 
                       <div className="form-field creators-form-group">
                         <label className="creators-label" htmlFor="confirmPassword">
-                          Confirm new password
+                          {DASH.labelConfirmPassword}
                         </label>
                         <input
                             id="confirmPassword"
@@ -1275,7 +1258,7 @@ function CreatorsDashboard() {
                             className="btn btn-secondary"
                             onClick={handleLogoutClick}
                         >
-                          Log out of this browser
+                          {DASH.logoutBtn}
                         </button>
                       </div>
                     </form>
@@ -1292,10 +1275,9 @@ function CreatorsDashboard() {
                     {stripeConnected ? (
                         <>
                           <p className="creators-dashboard-sub">
-                            Your Stripe account is connected. KunTips uses Stripe to
-                            handle all payouts. You keep{" "}
-                            {keptPercentLabel || "95%"} of each tip; fans cover
-                            Stripe fees and the KunTips platform fee.
+                            {DASH.connectedSubPre}
+                            {keptPercentLabel || "95 %"}
+                            {DASH.connectedSubPost}
                           </p>
                           <p className="creators-dashboard-sub">
                             Bruk denne knappen til å se eller oppdatere
@@ -1315,19 +1297,14 @@ function CreatorsDashboard() {
                     ) : stripeStalled ? (
                         <>
                           <p className="creators-dashboard-sub">
-                            You started connecting Stripe but haven&apos;t finished, so
-                            payouts aren&apos;t active yet and your tip page can&apos;t
-                            accept payments.
+                            {DASH.stalledPayout1}
                           </p>
                           <p className="creators-dashboard-sub">
-                            Everything you entered is saved with Stripe — you&apos;ll
-                            carry on where you left off. Have your ID (passport or
-                            driving licence) and your bank account number ready. You
-                            do <strong>not</strong> need an organisation number.
+                            {DASH.stalledPayout2}
                           </p>
                           {stripeRequirementsDue.length > 0 && (
                             <p className="creators-small">
-                              Stripe still needs:{" "}
+                              {DASH.stripeStillNeeds}
                               {stripeRequirementsDue.slice(0, 4).join(", ")}
                               {stripeRequirementsDue.length > 4 ? "…" : ""}
                             </p>
@@ -1362,8 +1339,7 @@ function CreatorsDashboard() {
                       {stripeButtonLabel}
                     </button>
                     <p className="creators-small creators-stripe-note">
-                      This opens Stripe in a new session. When you&apos;re done,
-                      come back here to see your updated stats and tip readiness.
+                      {DASH.opensNewSession}
                     </p>
                   </div>
                 </section>
@@ -1372,12 +1348,11 @@ function CreatorsDashboard() {
                 <section className="card creators-payouts-card">
                   <h2>Saldo</h2>
                   <p className="creators-dashboard-sub">
-                    Tips are held for 7 days before becoming eligible for payout.
-                    When you request a payout, eligible tips are sent to your connected Stripe account.
+                    {DASH.balanceSub}
                   </p>
 
                   {payoutLoading && (
-                    <p className="creators-dashboard-sub">Loading payout info…</p>
+                    <p className="creators-dashboard-sub">{DASH.loadingPayout}</p>
                   )}
 
                   {payoutError && (
@@ -1393,7 +1368,7 @@ function CreatorsDashboard() {
                             {(payoutPreview.eligible_creator_net_minor / 100).toFixed(2)} NOK
                           </p>
                           <p className="creators-dashboard-sub">
-                            {payoutPreview.eligible_tip_count} tip(s) eligible
+                            {payoutPreview.eligible_tip_count}{DASH.eligibleSuffix}
                           </p>
                         </div>
                         <div className="creators-dashboard-tile">
@@ -1402,23 +1377,23 @@ function CreatorsDashboard() {
                             {payoutPreview.pending_tip_count}
                           </p>
                           <p className="creators-dashboard-sub">
-                            {payoutPreview.pending_tip_count === 1 ? "tip" : "tips"} in 7-day hold
+                            {DASH.pendingHold}
                           </p>
                         </div>
                       </div>
 
                       {payoutPreview.pending_tip_count > 0 && payoutPreview.next_tip_becomes_eligible_at && (
                         <p className="creators-dashboard-sub">
-                          Next pending tip clears on{" "}
+                          {DASH.nextClearsPre}
                           {new Date(payoutPreview.next_tip_becomes_eligible_at).toLocaleDateString("no-NO")}.
                         </p>
                       )}
 
                       {payoutPreview.creator_debt_minor > 0 && (
                         <p className="creators-dashboard-sub">
-                          Note: you have an outstanding platform fee balance of{" "}
-                          <strong>{(payoutPreview.creator_debt_minor / 100).toFixed(2)} NOK</strong>{" "}
-                          that will be deducted from your next payout.
+                          {DASH.debtPre}
+                          <strong>{(payoutPreview.creator_debt_minor / 100).toFixed(2)} NOK</strong>
+                          {DASH.debtPost}
                         </p>
                       )}
 
@@ -1442,7 +1417,7 @@ function CreatorsDashboard() {
 
                       {!payoutPreview.eligible && payoutPreview.eligible_tip_count === 0 && (
                         <p className="creators-small">
-                          No eligible tips yet. Tips become eligible 7 days after the fan&apos;s payment clears.
+                          {DASH.noEligible}
                         </p>
                       )}
                     </>
@@ -1454,18 +1429,17 @@ function CreatorsDashboard() {
                   <section className="card creators-payouts-card">
                     <h2>Utbetalingshistorikk</h2>
                     <p className="creators-dashboard-sub">
-                      Your last {payoutHistory.length} payout{payoutHistory.length !== 1 ? "s" : ""}.
-                      Click a row to see the itemised tip breakdown.
+                      {DASH.historySubPre}{payoutHistory.length}{DASH.historySubPost}
                     </p>
                     <div className="payout-history-list">
                       {payoutHistory.map((p) => {
                         const isExpanded = expandedPayoutId === p.id;
                         const stmt = statementData[p.id];
                         const statusLabel =
-                          p.status === "paid" ? "✅ Paid"
-                          : p.status === "processing" ? "⏳ Processing"
-                          : p.status === "failed" ? "❌ Failed"
-                          : p.status === "cancelled" ? "— Cancelled"
+                          p.status === "paid" ? DASH.statusPaid
+                          : p.status === "processing" ? DASH.statusProcessing
+                          : p.status === "failed" ? DASH.statusFailed
+                          : p.status === "cancelled" ? DASH.statusCancelled
                           : p.status;
 
                         return (
@@ -1490,10 +1464,10 @@ function CreatorsDashboard() {
                             {isExpanded && (
                               <div className="payout-history-detail">
                                 {stmt === "loading" && (
-                                  <p className="creators-dashboard-sub">Loading statement…</p>
+                                  <p className="creators-dashboard-sub">{DASH.loadingStatement}</p>
                                 )}
                                 {stmt === "error" && (
-                                  <p className="creators-error-inline">Could not load statement.</p>
+                                  <p className="creators-error-inline">{DASH.couldNotLoadStatement}</p>
                                 )}
                                 {stmt && stmt !== "loading" && stmt !== "error" && (
                                   <>
@@ -1511,7 +1485,7 @@ function CreatorsDashboard() {
                                       )}
                                     </div>
                                     {stmt.items.length === 0 ? (
-                                      <p className="creators-dashboard-sub">No tips in this payout.</p>
+                                      <p className="creators-dashboard-sub">{DASH.noTipsInPayout}</p>
                                     ) : (
                                       <table className="payout-statement-table">
                                         <thead>

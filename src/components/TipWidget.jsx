@@ -575,7 +575,7 @@ export function TipWidget({
           >
 
             <div className="tip-overlay__card">
-              <h3 className="tip-overlay__title">Thank you for your tip!</h3>
+              <h3 className="tip-overlay__title">{t.overlayTitle}</h3>
 
               <p className="tip-overlay__line">
                 You just sent{' '}
@@ -607,8 +607,7 @@ export function TipWidget({
 
 
               <p className="tip-overlay__hint">
-                This window will also close if you scroll or click anywhere after
-                a few seconds.
+                {t.overlayAutoClose}
               </p>
             </div>
           </div>

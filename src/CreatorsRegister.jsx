@@ -344,8 +344,8 @@ function CreatorsRegister() {
               autoComplete="username"
             />
             <p className="creators-small">
-              This becomes your public link: <code>kuntips.no/&lt;username&gt;</code>.
-              Use only lowercase letters, numbers and underscores.
+              Dette blir den offentlige linken din: <code>kuntips.no/&lt;brukernavn&gt;</code>.
+              Bruk bare små bokstaver, tall og understrek.
             </p>
             {errors.username && (
               <p className="creators-error-inline">{errors.username}</p>
@@ -367,7 +367,7 @@ function CreatorsRegister() {
               autoComplete="name"
             />
             <p className="creators-small">
-              Shown on your KunTips page and in your dashboard.
+              Vises på KunTips-siden din og i oversikten.
             </p>
             {errors.displayName && (
               <p className="creators-error-inline">{errors.displayName}</p>
@@ -429,7 +429,7 @@ function CreatorsRegister() {
               onChange={handleChange}
             />
             <p className="creators-small">
-              If another creator referred you, enter their username here so they get referral credit.
+              Har en annen skaper vervet deg, skriver du inn brukernavnet deres her, så får de vervekreditt.
             </p>
           </div>
 
