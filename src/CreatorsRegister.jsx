@@ -481,7 +481,7 @@ function CreatorsRegister() {
       </section>
 
       <p className="creators-backlink">
-        <Link to="/creators">← Back to creator information</Link>
+        <Link to="/creators">← Tilbake til informasjon for skapere</Link>
       </p>
     </div>
   );

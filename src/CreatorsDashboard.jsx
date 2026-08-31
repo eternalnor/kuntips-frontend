@@ -62,7 +62,7 @@ const MILESTONES_DEF = [
 
 function fmtChartDate(dateStr) {
   const d = new Date(dateStr + "T00:00:00");
-  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+  return d.toLocaleDateString("nb-NO", { day: "numeric", month: "short" });
 }
 
 function ChartTooltip({ active, payload, label }) {
@@ -209,7 +209,7 @@ function CreatorsDashboard() {
 
   const creatorUsername = payload?.creator?.username || usernameQuery;
   const creatorDisplayName =
-    payload?.creator?.displayName || creatorUsername || "unknown creator";
+    payload?.creator?.displayName || creatorUsername || "ukjent skaper";
   const creatorBio = payload?.creator?.bio || "";
 
   const stats = payload?.stats;
@@ -280,7 +280,7 @@ function CreatorsDashboard() {
     ? "Administrer Stripe-kontoen"
     : stripeStalled
     ? "Fullfør Stripe-oppsettet"
-    : "Connect Stripe-utbetalinger";
+    : "Koble til Stripe-utbetalinger";
 
   async function handleProfileSave(e) {
     e.preventDefault();
@@ -510,7 +510,7 @@ function CreatorsDashboard() {
       <header className="creators-dashboard-header">
         <h1>Oversikt</h1>
         <p className="creators-subtext">
-          Overview for{" "}
+          {DASH.overviewFor}{" "}
           <span className="creators-username-tag">{creatorDisplayName}</span>.
         </p>
       </header>
@@ -602,7 +602,7 @@ function CreatorsDashboard() {
                   <span className="event-countdown-number">
                     {String(eventCountdown.hours).padStart(2, "0")}
                   </span>
-                  <span className="event-countdown-label">hr</span>
+                  <span className="event-countdown-label">t</span>
                 </div>
                 <div className="event-countdown-block">
                   <span className="event-countdown-number">
@@ -614,7 +614,7 @@ function CreatorsDashboard() {
                   <span className="event-countdown-number">
                     {String(eventCountdown.seconds).padStart(2, "0")}
                   </span>
-                  <span className="event-countdown-label">sec</span>
+                  <span className="event-countdown-label">sek</span>
                 </div>
               </div>
             ) : (
@@ -635,21 +635,21 @@ function CreatorsDashboard() {
                 className={activeTab === "overview" ? "creators-tab-button is-active" : "creators-tab-button"}
                 onClick={() => setActiveTab("overview")}
             >
-              Overview
+              {DASH.tabOverview}
             </button>
             <button
                 type="button"
                 className={activeTab === "profile" ? "creators-tab-button is-active" : "creators-tab-button"}
                 onClick={() => setActiveTab("profile")}
             >
-              Profile
+              {DASH.tabProfile}
             </button>
             <button
                 type="button"
                 className={activeTab === "payouts" ? "creators-tab-button is-active" : "creators-tab-button"}
                 onClick={() => setActiveTab("payouts")}
             >
-              Payouts
+              {DASH.tabPayouts}
             </button>
           </div>
 
@@ -787,7 +787,7 @@ function CreatorsDashboard() {
                         {stats?.lifetimeNetNok ?? 0} NOK
                       </p>
                       <p className="creators-dashboard-sub">
-                        {stats?.lifetimeTipCount ?? 0} total tip(s)
+                        {stats?.lifetimeTipCount ?? 0}{DASH.totalTipsSuffix}
                       </p>
                     </div>
                   </section>
@@ -805,19 +805,19 @@ function CreatorsDashboard() {
                           )}
                           {stats?.last30dNetNok > 0 && (
                             <p className="creators-chart-total">
-                              {stats.last30dNetNok.toLocaleString("nb-NO")} NOK earned
+                              {stats.last30dNetNok.toLocaleString("nb-NO")}{DASH.earnedSuffix}
                             </p>
                           )}
                         </div>
                         <div className="creators-chart-meta">
                           {percentileRank !== null && (
                             <span className="chart-percentile-badge">
-                              Top {percentileRank}% of creators
+                              {DASH.topPercentPre}{percentileRank}{DASH.topPercentPost}
                             </span>
                           )}
                           {charts.changePercent !== null && (
                             <span className={`chart-change-badge ${charts.changePercent >= 0 ? "chart-change-up" : "chart-change-down"}`}>
-                              {charts.changePercent >= 0 ? "↑" : "↘"} {Math.abs(charts.changePercent)}% vs prev. 30 days
+                              {charts.changePercent >= 0 ? "↑" : "↘"} {Math.abs(charts.changePercent)}{DASH.vsPrev30}
                             </span>
                           )}
                         </div>
@@ -866,22 +866,22 @@ function CreatorsDashboard() {
                         <div className="creators-insights-bar">
                           {insights.streakDays > 0 && (
                             <span className="insight-chip">
-                              🔥 {insights.streakDays}-day streak
+                              🔥 {insights.streakDays}{DASH.streakSuffix}
                             </span>
                           )}
                           {insights.projectedMonthNok !== null && (
                             <span className="insight-chip">
-                              📈 On pace for ~{insights.projectedMonthNok.toLocaleString()} NOK this month
+                              {DASH.onPacePre}{insights.projectedMonthNok.toLocaleString("nb-NO")}{DASH.onPacePost}
                             </span>
                           )}
                           {insights.bestDayNok > 0 && (
                             <span className="insight-chip">
-                              🏆 Best day: {insights.bestDayNok.toLocaleString()} NOK
+                              {DASH.bestDayPre}{insights.bestDayNok.toLocaleString("nb-NO")}{DASH.krSuffix}
                             </span>
                           )}
                           {insights.bestMonthNok > 0 && insights.bestMonthLabel && (
                             <span className="insight-chip">
-                              📅 Best month: {insights.bestMonthNok.toLocaleString()} NOK ({insights.bestMonthLabel})
+                              {DASH.bestMonthPre}{insights.bestMonthNok.toLocaleString("nb-NO")}{DASH.krSuffix} ({insights.bestMonthLabel})
                             </span>
                           )}
                         </div>
@@ -932,10 +932,8 @@ function CreatorsDashboard() {
                               </p>
                             )}
                             <p className="creators-dashboard-sub">
-                              Du beholder {keptPercentLabel} av hvert tips. Følgerne
-                              dekker betalingsgebyrene. Stripe tar bare et lite fast
-                              gebyr (2,75 kr) hver gang du overfører saldoen til
-                              banken din.
+                              {DASH.tierKeepPre}{keptPercentLabel}{DASH.tierKeepPost}
+                              {DASH.tierFeeText}
                             </p>
                             <p className="creators-dashboard-sub">
                               Tips siste 30 dager: {tier.volume30dNok} kr.
@@ -998,7 +996,7 @@ function CreatorsDashboard() {
                                     </td>
                                     <td>
                                       <span className={`status-pill status-${String(tip.status || "").toLowerCase()}`}>
-                                        {tip.status}
+                                        {DASH.tipStatus[String(tip.status || "").toLowerCase()] || tip.status}
                                       </span>
                                     </td>
                                   </tr>
@@ -1535,7 +1533,7 @@ function CreatorsDashboard() {
           )}
 
           <p className="creators-backlink">
-            <Link to="/creators">← Back to creator information</Link>
+            <Link to="/creators">{DASH.backToCreators}</Link>
           </p>
           </div>
       );
