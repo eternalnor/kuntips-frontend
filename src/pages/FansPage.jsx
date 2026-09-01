@@ -26,7 +26,7 @@ export default function FansPage() {
             <div className="fans-search-wrap">
               <CreatorSearch
                 label="Vet du hvem du vil tipse? Skriv inn brukernavnet."
-                placeholder="username"
+                placeholder="brukernavn"
                 buttonText="Gå til tipssiden →"
               />
             </div>

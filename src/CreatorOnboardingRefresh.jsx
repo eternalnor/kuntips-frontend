@@ -107,7 +107,7 @@ export default function CreatorOnboardingRefresh() {
                 {retrying ? DASH.refreshOpening : DASH.refreshRetry}
               </button>
               <Link to={dashboardPath} className="btn btn-ghost">
-                Go to dashboard
+                {DASH.refreshDashBtn}
               </Link>
             </div>
           </>

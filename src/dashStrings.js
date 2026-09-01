@@ -102,6 +102,7 @@ export const DASH_STRINGS = {
     refreshNoSession:
       "Du er logget ut, så vi fikk ikke åpnet Stripe automatisk. Logg inn igjen, så fortsetter du der du slapp – ingenting du la inn er tapt.",
     refreshLoginBtn: "Logg inn for å fortsette",
+    refreshDashBtn: "Gå til oversikten",
     refreshFailed:
       "Vi fikk ikke åpnet Stripe akkurat nå. Fremdriften din er lagret – prøv igjen, eller gå til oversikten og fortsett derfra.",
     refreshRetry: "Prøv igjen",
@@ -121,6 +122,17 @@ export const DASH_STRINGS = {
     bestDayPre: "🏆 Beste dag: ",
     bestMonthPre: "📅 Beste måned: ",
     krSuffix: " kr",
+    pillConnected: "● Stripe tilkoblet",
+    connectedPre: "Utbetalingskontoen din er aktiv. Administrer den i ",
+    connectedTab: "Utbetalinger-fanen",
+    previewPage: "Forhåndsvis siden din →",
+    last30Suffix: " tips siste 30 dager",
+    eventAllPre: "Alle skapere får ",
+    eventTierOne: "nivå",
+    eventTierMany: "nivåer",
+    eventAllPost: " så lenge bonusen varer.",
+    endingSoon: "Slutter snart…",
+    debtDeductedPre: "Trukket gjeld: −",
     tierFeeText:
       "Tipserne dekker gebyrene. Stripe tar et fast gebyr på kr 2,75 hver gang du overfører saldoen til banken din.",
     tierKeepPre: "Du beholder nå ",
@@ -222,6 +234,7 @@ export const DASH_STRINGS = {
     refreshNoSession:
       "You've been signed out, so we couldn't reopen Stripe automatically. Log back in and you can carry on where you left off — nothing you entered is lost.",
     refreshLoginBtn: "Log in to continue",
+    refreshDashBtn: "Go to dashboard",
     refreshFailed:
       "We couldn't reopen Stripe just then. Your progress is saved — try again, or head to your dashboard and pick it up from there.",
     refreshRetry: "Try again",
@@ -241,6 +254,17 @@ export const DASH_STRINGS = {
     bestDayPre: "🏆 Best day: ",
     bestMonthPre: "📅 Best month: ",
     krSuffix: " NOK",
+    pillConnected: "● Stripe connected",
+    connectedPre: "Your payout account is active. Manage it in the ",
+    connectedTab: "Payouts tab",
+    previewPage: "Preview your page →",
+    last30Suffix: " tip(s) in the last 30 days",
+    eventAllPre: "All creators receive ",
+    eventTierOne: "tier",
+    eventTierMany: "tiers",
+    eventAllPost: " for the duration of this event.",
+    endingSoon: "Ending soon…",
+    debtDeductedPre: "Debt deducted: −",
     tierFeeText:
       "Tippers cover the fees. Stripe charges a flat NOK 2.75 fee each time you transfer your balance to your bank.",
     tierKeepPre: "You now keep ",

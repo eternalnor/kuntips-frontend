@@ -135,10 +135,10 @@ function VerifyEmailPage() {
               style={{ marginTop: "1.25rem" }}
             >
               <Link to="/creators/login" className="btn btn-primary">
-                Log in
+                Logg inn
               </Link>
               <Link to={dashboardUrl} className="btn btn-ghost">
-                Go to dashboard
+                Gå til oversikten
               </Link>
             </div>
           </>

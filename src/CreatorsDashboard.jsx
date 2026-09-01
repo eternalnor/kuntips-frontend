@@ -70,7 +70,7 @@ function ChartTooltip({ active, payload, label }) {
   return (
     <div className="chart-tooltip">
       <p className="chart-tooltip-date">{fmtChartDate(label)}</p>
-      <p className="chart-tooltip-value">{payload[0].value} NOK</p>
+      <p className="chart-tooltip-value">{payload[0].value}{DASH.krSuffix}</p>
     </div>
   );
 }
@@ -582,12 +582,14 @@ function CreatorsDashboard() {
                   : "Plattformbonus aktiv"}
               </p>
               <p className="event-banner-subtitle">
-                All creators receive{" "}
+                {DASH.eventAllPre}
                 <strong>
-                  +{globalEventBoostTiers} tier
-                  {globalEventBoostTiers > 1 ? "s" : ""}
-                </strong>{" "}
-                for the duration of this event.
+                  +{globalEventBoostTiers}{" "}
+                  {globalEventBoostTiers > 1
+                    ? DASH.eventTierMany
+                    : DASH.eventTierOne}
+                </strong>
+                {DASH.eventAllPost}
               </p>
             </div>
             {eventCountdown ? (
@@ -619,7 +621,7 @@ function CreatorsDashboard() {
               </div>
             ) : (
               <p className="event-banner-subtitle" style={{ fontStyle: "italic" }}>
-                Ending soon…
+                {DASH.endingSoon}
               </p>
             )}
           </div>
@@ -662,16 +664,16 @@ function CreatorsDashboard() {
                     {stripeConnected ? (
                       <div className="stripe-status-row">
                         <span className="stripe-status-pill stripe-status-connected">
-                          ● Stripe connected
+                          {DASH.pillConnected}
                         </span>
                         <span className="creators-small">
-                          Your payout account is active. Manage it in the{" "}
+                          {DASH.connectedPre}
                           <button
                             type="button"
                             className="creators-tab-link"
                             onClick={() => setActiveTab("payouts")}
                           >
-                            Payouts tab
+                            {DASH.connectedTab}
                           </button>.
                         </span>
                       </div>
@@ -751,7 +753,7 @@ function CreatorsDashboard() {
                       rel="noopener noreferrer"
                       className="creators-small creators-tiplink-preview"
                     >
-                      Preview your page →
+                      {DASH.previewPage}
                     </a>
                   </section>
 
@@ -761,30 +763,30 @@ function CreatorsDashboard() {
                       <h2>Venter på utbetaling</h2>
                       <p className="creators-dashboard-number">
                         {payoutPreview
-                          ? `${Math.round(payoutPreview.eligible_creator_net_minor / 100)} NOK`
+                          ? `${Math.round(payoutPreview.eligible_creator_net_minor / 100)}${DASH.krSuffix}`
                           : "—"}
                       </p>
                       <p className="creators-dashboard-sub">
                         {payoutPreview
-                          ? `${payoutPreview.pending_tip_count} tip(s) in 7‑day hold`
-                          : payoutLoading ? "Loading…" : "—"}
+                          ? `${payoutPreview.pending_tip_count} ${DASH.pendingHold}`
+                          : payoutLoading ? DASH.loadingPayout : "—"}
                       </p>
                     </div>
 
                     <div className="creators-dashboard-tile">
                       <h2>Siste 30 dager</h2>
                       <p className="creators-dashboard-number">
-                        {stats?.last30dNetNok ?? 0} NOK
+                        {stats?.last30dNetNok ?? 0}{DASH.krSuffix}
                       </p>
                       <p className="creators-dashboard-sub">
-                        {stats?.last30dTipCount ?? 0} tip(s) in the last 30 days
+                        {stats?.last30dTipCount ?? 0}{DASH.last30Suffix}
                       </p>
                     </div>
 
                     <div className="creators-dashboard-tile">
                       <h2>Total inntjening</h2>
                       <p className="creators-dashboard-number">
-                        {stats?.lifetimeNetNok ?? 0} NOK
+                        {stats?.lifetimeNetNok ?? 0}{DASH.krSuffix}
                       </p>
                       <p className="creators-dashboard-sub">
                         {stats?.lifetimeTipCount ?? 0}{DASH.totalTipsSuffix}
@@ -988,7 +990,7 @@ function CreatorsDashboard() {
                               return (
                                   <tr key={tip.id}>
                                     <td>{dateLabel}</td>
-                                    <td>{tip.netAmountNok} NOK</td>
+                                    <td>{tip.netAmountNok}{DASH.krSuffix}</td>
                                     <td className="tip-from-cell">
                                       {tip.tipperName
                                         ? <span className="tip-from-name">{tip.tipperName}</span>
@@ -1363,7 +1365,7 @@ function CreatorsDashboard() {
                         <div className="creators-dashboard-tile">
                           <h2>Klar til utbetaling</h2>
                           <p className="creators-dashboard-number">
-                            {(payoutPreview.eligible_creator_net_minor / 100).toFixed(2)} NOK
+                            {(payoutPreview.eligible_creator_net_minor / 100).toFixed(2)}{DASH.krSuffix}
                           </p>
                           <p className="creators-dashboard-sub">
                             {payoutPreview.eligible_tip_count}{DASH.eligibleSuffix}
@@ -1390,7 +1392,7 @@ function CreatorsDashboard() {
                       {payoutPreview.creator_debt_minor > 0 && (
                         <p className="creators-dashboard-sub">
                           {DASH.debtPre}
-                          <strong>{(payoutPreview.creator_debt_minor / 100).toFixed(2)} NOK</strong>
+                          <strong>{(payoutPreview.creator_debt_minor / 100).toFixed(2)}{DASH.krSuffix}</strong>
                           {DASH.debtPost}
                         </p>
                       )}
@@ -1453,7 +1455,7 @@ function CreatorsDashboard() {
                                 {new Date(p.requestedAt).toLocaleDateString("nb-NO")}
                               </span>
                               <span className="payout-history-amount">
-                                {p.payoutAmountNok.toLocaleString("nb-NO")} NOK
+                                {p.payoutAmountNok.toLocaleString("nb-NO")}{DASH.krSuffix}
                               </span>
                               <span className="payout-history-status">{statusLabel}</span>
                               <span className="payout-history-chevron">{isExpanded ? "▲" : "▼"}</span>
@@ -1478,7 +1480,7 @@ function CreatorsDashboard() {
                                       )}
                                       {p.debtAppliedNok > 0 && (
                                         <span className="payout-statement-debt">
-                                          Debt deducted: −{p.debtAppliedNok} NOK
+                                          {DASH.debtDeductedPre}{p.debtAppliedNok}{DASH.krSuffix}
                                         </span>
                                       )}
                                     </div>
@@ -1500,16 +1502,16 @@ function CreatorsDashboard() {
                                             <tr key={item.tipId}>
                                               <td>{new Date(item.tippedAt).toLocaleDateString("nb-NO")}</td>
                                               <td>{item.tipperName || <em>Anonym</em>}</td>
-                                              <td>{item.tipAmountNok} NOK</td>
-                                              <td>{item.platformFeeNok} NOK</td>
-                                              <td><strong>{item.creatorNetNok} NOK</strong></td>
+                                              <td>{item.tipAmountNok}{DASH.krSuffix}</td>
+                                              <td>{item.platformFeeNok}{DASH.krSuffix}</td>
+                                              <td><strong>{item.creatorNetNok}{DASH.krSuffix}</strong></td>
                                             </tr>
                                           ))}
                                         </tbody>
                                         <tfoot>
                                           <tr>
                                             <td colSpan="4"><strong>Utbetalt totalt</strong></td>
-                                            <td><strong>{p.payoutAmountNok.toLocaleString("nb-NO")} NOK</strong></td>
+                                            <td><strong>{p.payoutAmountNok.toLocaleString("nb-NO")}{DASH.krSuffix}</strong></td>
                                           </tr>
                                         </tfoot>
                                       </table>

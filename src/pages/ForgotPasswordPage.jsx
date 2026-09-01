@@ -53,7 +53,7 @@ function ForgotPasswordPage() {
             <form className="creators-profile-form" onSubmit={handleSubmit}>
               <div className="form-field creators-form-group">
                 <label className="creators-label" htmlFor="email">
-                  Email
+                  E-post
                 </label>
                 <input
                   id="email"

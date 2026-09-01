@@ -534,7 +534,7 @@ export function TipWidget({
                   setFunMessage('');
                 }}
               >
-                Send another tip
+                {t.sendAnother}
               </button>
             </div>
           ) : (
@@ -592,7 +592,7 @@ export function TipWidget({
                   className="tip-overlay__button"
                   onClick={requestOverlayClose}
               >
-                Close and continue
+                {t.overlayClose}
               </button>
 
 

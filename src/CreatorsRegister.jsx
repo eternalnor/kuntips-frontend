@@ -313,7 +313,7 @@ function CreatorsRegister() {
           {/* EMAIL */}
           <div className="form-field creators-form-group">
             <label className="creators-label" htmlFor="email">
-              Email
+              E-post
             </label>
             <input
               id="email"
@@ -332,7 +332,7 @@ function CreatorsRegister() {
           {/* USERNAME */}
           <div className="form-field creators-form-group">
             <label className="creators-label" htmlFor="username">
-              Creator username
+              Brukernavn
             </label>
             <input
               id="username"
@@ -355,7 +355,7 @@ function CreatorsRegister() {
           {/* DISPLAY NAME */}
           <div className="form-field creators-form-group">
             <label className="creators-label" htmlFor="displayName">
-              Display name
+              Visningsnavn
             </label>
             <input
               id="displayName"
@@ -377,7 +377,7 @@ function CreatorsRegister() {
           {/* PASSWORD */}
           <div className="form-field creators-form-group">
             <label className="creators-label" htmlFor="password">
-              Password
+              Passord
             </label>
             <input
               id="password"
@@ -397,7 +397,7 @@ function CreatorsRegister() {
           {/* CONFIRM PASSWORD */}
           <div className="form-field creators-form-group">
             <label className="creators-label" htmlFor="confirmPassword">
-              Confirm password
+              Bekreft passord
             </label>
             <input
               id="confirmPassword"
@@ -418,7 +418,7 @@ function CreatorsRegister() {
           {/* REFERRAL USERNAME (OPTIONAL) */}
           <div className="form-field creators-form-group">
             <label className="creators-label" htmlFor="referralUsername">
-              Referral code (optional)
+              Vervekode (valgfritt)
             </label>
             <input
               id="referralUsername"
@@ -443,13 +443,13 @@ function CreatorsRegister() {
                 onChange={handleChange}
               />
               <span>
-                I confirm that I am 18+ and I accept the{" "}
+                Jeg bekrefter at jeg er over 18 år, og godtar{" "}
                 <Link to="/legal/creator-agreement">
-                  Creator Agreement
+                  skaperavtalen
                 </Link>{" "}
-                and{" "}
+                og{" "}
                 <Link to="/legal/terms">
-                  Terms of Service
+                  vilkårene
                 </Link>
                 .
               </span>

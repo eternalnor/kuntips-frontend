@@ -91,6 +91,8 @@ export const TIP_STRINGS = {
     overlayTitle: "Takk for tipset!",
     overlayAutoClose:
       "Dette vinduet lukkes også hvis du blar eller klikker et sted etter noen sekunder.",
+    overlayClose: "Lukk og fortsett",
+    sendAnother: "Send et nytt tips",
     ogTitle: "Støtt {name} på KunTips",
     ogDescTail: "Send et tips til {name} på KunTips.",
     ogDescNoBio: "Send et tips til {name} på KunTips. Ingen konto nødvendig.",
@@ -180,6 +182,8 @@ export const TIP_STRINGS = {
     overlayTitle: "Thank you for your tip!",
     overlayAutoClose:
       "This window will also close if you scroll or click anywhere after a few seconds.",
+    overlayClose: "Close and continue",
+    sendAnother: "Send another tip",
     ogTitle: "Support {name} on KunTips",
     ogDescTail: "Send a tip to {name} on KunTips.",
     ogDescNoBio: "Send a tip to {name} on KunTips. No account needed.",
