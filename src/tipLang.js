@@ -13,7 +13,7 @@
 const KEY = "kuntips_tip_lang";
 export const TIP_LANG_EVENT = "kuntips-tip-lang-change";
 
-/** Norwegian unless the browser says otherwise. Stored choice always wins. */
+/** Stored choice wins; otherwise Norwegian, full stop. */
 export function getTipLang() {
   if (typeof window === "undefined") return "no";
   try {
@@ -22,19 +22,11 @@ export function getTipLang() {
   } catch {
     // ignore
   }
-  try {
-    // nb, nn, no, and no-NO all mean Norwegian. Everything else gets English,
-    // which is the safer default for a stranger: a Norwegian who lands on
-    // English can switch back in one tap, but someone who reads neither is
-    // better served by the more widely understood of the two.
-    const nav = (navigator.language || "").toLowerCase();
-    if (nav.startsWith("nb") || nav.startsWith("nn") || nav.startsWith("no")) {
-      return "no";
-    }
-    return "en";
-  } catch {
-    return "no";
-  }
+  // Norwegian by default (owner decision 1 Sep 2026). The platform is
+  // Norway-only and plenty of Norwegians run English-locale phones, which the
+  // old browser-language sniff misread as foreign visitors. The flag toggle
+  // is prominent enough that an actual English reader switches in one tap.
+  return "no";
 }
 
 export function setTipLang(lang) {

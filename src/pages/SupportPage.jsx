@@ -9,20 +9,12 @@ import LegalLangToggle from '../components/LegalLangToggle.jsx';
 // without printing the street address on every help page.
 
 export default function SupportPage() {
-  const { lang, toggle } = useTipLang();
+  const { lang } = useTipLang();
   usePageTitle(lang === 'no' ? 'Support' : 'Support');
 
   return (
     <main className="page page-legal card">
-      <LegalLangToggle
-        lang={lang}
-        toggle={toggle}
-        labels={
-          lang === 'no'
-            ? { switchTo: 'English', ariaLabel: 'Switch to English' }
-            : { switchTo: 'Norsk', ariaLabel: 'Bytt til norsk' }
-        }
-      />
+      <LegalLangToggle />
       {lang === 'no' ? <NorwegianSupport /> : <EnglishSupport />}
     </main>
   );

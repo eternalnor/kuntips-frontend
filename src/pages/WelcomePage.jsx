@@ -7,8 +7,8 @@ import { getActiveReferral } from "../referral.js";
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
 
 // Effort, risk, discretion — in that order. Deliberately NOT a fee/payout
-// explainer: those numbers live in the facts strip, and repeating them here in
-// sentence form is what made this page read as padded.
+// explainer: the numbers live in the fact line under the steps, and repeating
+// them here in sentence form is what made this page read as padded.
 const OBJECTIONS = [
   {
     q: "Må følgere lage egen konto for å tipse?",
@@ -37,13 +37,6 @@ const STEPS = [
     t: "Del linken din",
     d: "I bio, i beskrivelsen, i en fastpinnet post – hvor du enn har dine følgere.",
   },
-];
-
-const FACTS = [
-  ["95–100 %", "går til deg"],
-  ["50–2 000 kr", "per tips"],
-  ["0 kr", "i månedsavgift"],
-  ["NOK", "til norsk bankkonto"],
 ];
 
 export default function WelcomePage() {
@@ -99,7 +92,7 @@ export default function WelcomePage() {
             Lag din KunTips-side
           </Link>
           <p className="welcome-cta__sub">
-            Gratis, ingen månedsavgift, ingen binding. Du er klar på rundt fem minutter.
+            Gratis, ingen binding, klar på 10 minutter.
           </p>
         </div>
 
@@ -142,16 +135,12 @@ export default function WelcomePage() {
             </li>
           ))}
         </ol>
-      </section>
-
-      {/* FAKTASTRIPE */}
-      <section className="welcome-facts welcome-choices-animate">
-        {FACTS.map(([big, small]) => (
-          <div className="welcome-fact" key={big}>
-            <span className="welcome-fact__big">{big}</span>
-            <span className="welcome-fact__small">{small}</span>
-          </div>
-        ))}
+        {/* The two facts not already stated elsewhere on the page (the h1 has
+            the 95–100 %, the CTA small print has the 0 kr) — as one quiet
+            line, not a section of its own. */}
+        <p className="welcome-steps__facts">
+          50–2 000 kr per tips · utbetaling i kroner til norsk bankkonto
+        </p>
       </section>
 
       {/* OBJECTION BLOCK — the section that has to rescue the Stripe drop-off */}
@@ -171,7 +160,7 @@ export default function WelcomePage() {
             Lag din KunTips-side
           </Link>
           <p className="welcome-cta__sub">
-            Gratis, ingen binding. Tar rundt 5 minutter.
+            Gratis, ingen binding, klar på 10 minutter.
           </p>
         </div>
       </section>

@@ -8,20 +8,12 @@ import LegalLangToggle, { ConvenienceNote } from "../components/LegalLangToggle.
 // between the payment form and the terms it links to.
 
 export default function TermsPage() {
-  const { lang, toggle } = useTipLang();
+  const { lang } = useTipLang();
   usePageTitle(lang === "no" ? "Vilkår" : "Terms of Service");
 
   return (
     <main className="page page-legal card">
-      <LegalLangToggle
-        lang={lang}
-        toggle={toggle}
-        labels={
-          lang === "no"
-            ? { switchTo: "English", ariaLabel: "Switch to English" }
-            : { switchTo: "Norsk", ariaLabel: "Bytt til norsk" }
-        }
-      />
+      <LegalLangToggle />
       {lang === "no" ? <NorwegianTerms /> : <EnglishTerms />}
     </main>
   );

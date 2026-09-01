@@ -1,23 +1,12 @@
 // src/components/LegalLangToggle.jsx
-// Language switch for the legal pages.
-//
-// Shares its language state with the tip page (useTipLang) on purpose: a tipper
-// who switched the tip page to English and taps "Terms of Service" must land on
-// English terms — two separate language choices would let the flow flip
-// language mid-payment.
+// Language switch for the legal and support pages — the shared flag toggle,
+// floated to the top right of the document. Reads and sets the same language
+// state as the tip page (see LangFlagToggle.jsx for why that sharing matters).
 
-export default function LegalLangToggle({ lang, toggle, labels }) {
-  return (
-    <button
-      type="button"
-      className="legal-lang"
-      onClick={toggle}
-      aria-label={labels.ariaLabel}
-      lang={lang === "no" ? "en" : "no"}
-    >
-      {labels.switchTo}
-    </button>
-  );
+import LangFlagToggle from "./LangFlagToggle.jsx";
+
+export default function LegalLangToggle() {
+  return <LangFlagToggle className="lang-flags--legal" />;
 }
 
 /**

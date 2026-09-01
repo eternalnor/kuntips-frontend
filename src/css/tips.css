@@ -25,40 +25,11 @@
   position: relative;
 }
 
-/* Language switch. Deliberately quiet: it must be findable by someone who
-   needs it without competing with the amount buttons, which are the reason
-   the page exists. */
-.tip-card__lang {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 0.2rem 0.55rem;
-  font-family: var(--font-main);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: #c7d2fe;
-  background: rgba(99, 102, 241, 0.12);
-  border: 1px solid rgba(99, 102, 241, 0.28);
-  border-radius: 999px;
-  cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-
-.tip-card__lang:hover {
-  background: rgba(99, 102, 241, 0.22);
-  color: #e0e7ff;
-}
-
-.tip-card__lang:focus-visible {
-  outline: 2px solid rgba(99, 102, 241, 0.9);
-  outline-offset: 2px;
-}
-
-/* Keep the title clear of the switch so a long creator name cannot slide
-   under it. */
-.tip-card__title {
-  padding-right: 4.5rem;
+/* Language switch (shared flag toggle, see LangFlagToggle.jsx) on its own row
+   above the title, so a long creator name never collides with it. */
+.tip-card__lang-flags {
+  align-self: flex-end;
+  margin-bottom: 0.4rem;
 }
 
 .tip-card__title {

@@ -6,20 +6,12 @@ import LegalLangToggle, { ConvenienceNote } from "../components/LegalLangToggle.
 // convenience translation (owner decision 26 Aug 2026).
 
 export default function PrivacyPage() {
-  const { lang, toggle } = useTipLang();
+  const { lang } = useTipLang();
   usePageTitle(lang === "no" ? "Personvern" : "Privacy Policy");
 
   return (
     <main className="page page-legal card">
-      <LegalLangToggle
-        lang={lang}
-        toggle={toggle}
-        labels={
-          lang === "no"
-            ? { switchTo: "English", ariaLabel: "Switch to English" }
-            : { switchTo: "Norsk", ariaLabel: "Bytt til norsk" }
-        }
-      />
+      <LegalLangToggle />
       {lang === "no" ? <NorwegianPrivacy /> : <EnglishPrivacy />}
     </main>
   );

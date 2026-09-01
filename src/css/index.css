@@ -230,24 +230,62 @@ p {
 /* ======================== Legal pages  ======================== */
 
 /* Language switch on legal pages — same quiet pill as the tip card. */
-.legal-lang {
-  float: right;
-  margin: 0 0 0.75rem 1rem;
-  padding: 0.25rem 0.7rem;
+/* Language switch (LangFlagToggle.jsx): a segmented pill showing BOTH
+   languages with their flags, active one highlighted — the point is that
+   nobody should have to discover the other language exists. */
+.lang-flags {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(99, 102, 241, 0.28);
+  border-radius: 999px;
+}
+
+.lang-flags__opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.28rem 0.7rem;
+  font-family: var(--font-main);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #c7d2fe;
-  background: rgba(99, 102, 241, 0.12);
-  border: 1px solid rgba(99, 102, 241, 0.28);
+  color: var(--text-muted, #94a3b8);
+  background: transparent;
+  border: none;
   border-radius: 999px;
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease;
 }
 
-.legal-lang:hover {
-  background: rgba(99, 102, 241, 0.22);
+.lang-flags__opt:hover {
   color: #e0e7ff;
+}
+
+.lang-flags__opt--active {
+  background: rgba(99, 102, 241, 0.3);
+  color: #f1f5f9;
+}
+
+.lang-flags__opt:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.9);
+  outline-offset: 2px;
+}
+
+.lang-flags__flag {
+  width: 17px;
+  height: 12px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18);
+  flex: none;
+}
+
+/* Placement on the legal/support pages. */
+.lang-flags--legal {
+  float: right;
+  margin: 0 0 0.75rem 1rem;
 }
 
 /* "Translation for readability; English prevails" note on Norwegian versions. */

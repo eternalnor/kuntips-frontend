@@ -94,8 +94,6 @@ export const TIP_STRINGS = {
     ogTitle: "Støtt {name} på KunTips",
     ogDescTail: "Send et tips til {name} på KunTips.",
     ogDescNoBio: "Send et tips til {name} på KunTips. Ingen konto nødvendig.",
-    langSwitch: "English",
-    langLabel: "Bytt til engelsk",
   },
 
   en: {
@@ -185,8 +183,6 @@ export const TIP_STRINGS = {
     ogTitle: "Support {name} on KunTips",
     ogDescTail: "Send a tip to {name} on KunTips.",
     ogDescNoBio: "Send a tip to {name} on KunTips. No account needed.",
-    langSwitch: "Norsk",
-    langLabel: "Switch to Norwegian",
   },
 };
 

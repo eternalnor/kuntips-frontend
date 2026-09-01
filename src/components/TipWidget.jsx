@@ -2,6 +2,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { containsBlockedContent } from '../utils/wordFilter.js';
 import { useTipLang } from '../hooks/useTipLang.js';
+import LangFlagToggle from './LangFlagToggle.jsx';
 import { hasMarketingConsent } from '../consent.js';
 import { loadStripe } from '@stripe/stripe-js/pure';
 import {
@@ -43,7 +44,7 @@ export function TipWidget({
   creatorDisplayName,
   creatorKeptPercent = DEFAULT_CREATOR_KEPT_PERCENT,
 }) {
-  const { t, tf, lang, toggle } = useTipLang();
+  const { t, tf } = useTipLang();
 
   // Dynamic tip limits from backend (with safe defaults so the page still works
   // if the fetch fails or hasn't returned yet).
@@ -345,18 +346,7 @@ export function TipWidget({
   return (
     <section aria-label="Tip widget" className="tip-card">
       <div className="tip-card__header">
-        {/* Language switch. The page picks Norwegian or English from the
-            browser, but a Norwegian abroad on an English phone — or the other
-            way round — needs to be able to override it in one tap. */}
-        <button
-          type="button"
-          className="tip-card__lang"
-          onClick={toggle}
-          aria-label={t.langLabel}
-          lang={lang === "no" ? "en" : "no"}
-        >
-          {t.langSwitch}
-        </button>
+        <LangFlagToggle className="tip-card__lang-flags" />
         <h2 className="tip-card__title">{tf('heading', { name: displayName })}</h2>
         <p className="tip-card__subtitle">{t.intro}</p>
       </div>

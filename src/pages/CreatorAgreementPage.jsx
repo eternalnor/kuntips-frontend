@@ -8,20 +8,12 @@ import LegalLangToggle, { ConvenienceNote } from "../components/LegalLangToggle.
 // 50 NOK. Corrected in both languages.
 
 export default function CreatorAgreementPage() {
-  const { lang, toggle } = useTipLang();
+  const { lang } = useTipLang();
   usePageTitle(lang === "no" ? "Skaperavtale" : "Creator Agreement");
 
   return (
     <main className="page page-legal card">
-      <LegalLangToggle
-        lang={lang}
-        toggle={toggle}
-        labels={
-          lang === "no"
-            ? { switchTo: "English", ariaLabel: "Switch to English" }
-            : { switchTo: "Norsk", ariaLabel: "Bytt til norsk" }
-        }
-      />
+      <LegalLangToggle />
       {lang === "no" ? <NorwegianAgreement /> : <EnglishAgreement />}
     </main>
   );
