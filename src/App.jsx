@@ -160,7 +160,7 @@ function AppLayout() {
     // Ad-creative id (last-touch) and the once-per-session landing ping that
     // gives /admin/stats its denominators for every visitor, not only ?ref=.
     captureAdFromSearch(location.search);
-    pingLanding(location.search);
+    pingLanding();
   }, [location.search]);
 
   return (

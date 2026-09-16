@@ -15,6 +15,8 @@
 // second paid click, and the creative that produced the signup is the one that
 // was clicked last. (The referral code stays first-touch; see referral.js.)
 
+import { VANITY_PATHS } from "./vanity.js";
+
 const VISITOR_KEY = "kuntips_visitor_id";
 const AD_KEY = "kuntips_ad";
 const PINGED_KEY = "kuntips_visit_pinged";
@@ -95,8 +97,14 @@ export function getAttributedAd() {
  * Log this landing once per browser session. Fire-and-forget: a failed ping
  * must never affect the page.
  */
-export function pingLanding(search) {
+export function pingLanding() {
   if (typeof window === "undefined" || typeof fetch === "undefined" || !API_BASE_URL) return;
+  // Read the LIVE url, not the router's location for the render that fired
+  // the effect: a vanity path (/tt) redirects during render, so the router's
+  // search is already stale by the time this runs. And never ping from the
+  // vanity path itself — the redirected render pings, carrying the code.
+  const pathname = window.location.pathname;
+  if (VANITY_PATHS[pathname.replace(/^\/+|\/+$/g, "").toLowerCase()]) return;
   try {
     if (window.sessionStorage.getItem(PINGED_KEY) === "1") return;
     window.sessionStorage.setItem(PINGED_KEY, "1");
@@ -104,7 +112,7 @@ export function pingLanding(search) {
     // sessionStorage unavailable — ping anyway rather than lose the visit
   }
   try {
-    const params = new URLSearchParams(search);
+    const params = new URLSearchParams(window.location.search);
     const ref = (params.get("ref") || "").trim();
     fetch(`${API_BASE_URL}/visit`, {
       method: "POST",
@@ -113,7 +121,7 @@ export function pingLanding(search) {
         visitorId: getVisitorId(),
         code: /^[A-Za-z0-9_-]{1,64}$/.test(ref) ? ref : null,
         ad: cleanAdId(params.get("ad")),
-        path: window.location.pathname,
+        path: pathname,
         referrer: typeof document !== "undefined" ? document.referrer || null : null,
       }),
       keepalive: true,
