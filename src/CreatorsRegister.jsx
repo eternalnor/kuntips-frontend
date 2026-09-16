@@ -3,6 +3,7 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import { registerCreator } from "./api";
 import { hasMarketingConsent } from "./consent.js";
 import { getActiveReferral, clearReferral } from "./referral.js";
+import { getVisitorId, getAttributedAd } from "./visit.js";
 import { usePageTitle } from "./hooks/usePageTitle.js";
 import { passwordRequirements, isStrongPassword, PASSWORD_ERROR, PasswordChecklist } from "./utils/passwordUtils.jsx";
 
@@ -139,6 +140,10 @@ function CreatorsRegister() {
         // Consent + event id for server-side conversion tracking (Meta/TikTok)
         marketingConsent,
         eventId,
+        // Which visit (and which ad creative) this signup came from — joins the
+        // signup back to its landing in /admin/stats.
+        visitorId: getVisitorId(),
+        adId: getAttributedAd(),
       };
 
       const data = await registerCreator(payload);

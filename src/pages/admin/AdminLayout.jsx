@@ -67,6 +67,14 @@ export default function AdminLayout() {
             Overview
           </NavLink>
           <NavLink
+            to="/admin/stats"
+            className={({ isActive }) =>
+              "admin-sidebar__link" + (isActive ? " admin-sidebar__link--active" : "")
+            }
+          >
+            Stats
+          </NavLink>
+          <NavLink
             to="/admin/creators"
             className={({ isActive }) =>
               "admin-sidebar__link" + (isActive ? " admin-sidebar__link--active" : "")

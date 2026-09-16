@@ -34,6 +34,9 @@ import AdminSettings from "./pages/admin/AdminSettings.jsx";
 import ConsentBanner from "./components/ConsentBanner.jsx";
 import TrackingScripts from "./components/TrackingScripts.jsx";
 import { captureReferralFromSearch } from "./referral.js";
+import { captureAdFromSearch, pingLanding } from "./visit.js";
+import { VANITY_PATHS } from "./vanity.js";
+import AdminStats from "./pages/admin/AdminStats.jsx";
 
 
 function RedirectToUsername() {
@@ -80,12 +83,21 @@ function AppRoutes({ isAdminRoute }) {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminOverview />} />
+            <Route path="stats" element={<AdminStats />} />
             <Route path="creators" element={<AdminCreators />} />
             <Route path="creators/:id" element={<AdminCreatorDetail />} />
             <Route path="platform-events" element={<AdminPlatformEvents />} />
             <Route path="referral-codes" element={<AdminReferralCodes />} />
             <Route path="settings" element={<AdminSettings />} />
           </Route>
+          {/* Typed campaign links: kuntips.no/tt → /?ref=TIKTOK1 (see vanity.js) */}
+          {Object.entries(VANITY_PATHS).map(([path, code]) => (
+            <Route
+              key={path}
+              path={`/${path}`}
+              element={<Navigate to={`/?ref=${code}`} replace />}
+            />
+          ))}
           <Route path="/u/:username" element={<RedirectToUsername />} />
           <Route path="/:username" element={<CreatorPage />} />
           <Route path="/legal/terms" element={<TermsPage />} />
@@ -145,6 +157,10 @@ function AppLayout() {
   // being forced to point straight at the signup form.
   useEffect(() => {
     captureReferralFromSearch(location.search);
+    // Ad-creative id (last-touch) and the once-per-session landing ping that
+    // gives /admin/stats its denominators for every visitor, not only ?ref=.
+    captureAdFromSearch(location.search);
+    pingLanding(location.search);
   }, [location.search]);
 
   return (

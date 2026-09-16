@@ -155,6 +155,14 @@ export async function registerCreator(payload) {
     body.eventId = payload.eventId;
   }
 
+  // Attribution of the visit that became this signup (see visit.js)
+  if (payload.visitorId) {
+    body.visitorId = payload.visitorId;
+  }
+  if (payload.adId) {
+    body.adId = payload.adId;
+  }
+
   const data = await fetchJson("/auth/register", {
     method: "POST",
     body: JSON.stringify(body),

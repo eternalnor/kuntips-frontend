@@ -145,6 +145,10 @@ export function adminOverview() {
   return adminFetch("/admin/overview", { method: "GET" });
 }
 
+export function adminStats(days = 30) {
+  return adminFetch(`/admin/stats?days=${encodeURIComponent(days)}`, { method: "GET" });
+}
+
 export function adminCreators({ search = "", hasStripe = "", active = "", includeSeeds = false, page = 1 } = {}) {
   const qs = new URLSearchParams();
   if (search) qs.set("search", search);
